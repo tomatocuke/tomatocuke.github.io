@@ -1,13 +1,11 @@
 ### 说明
-- 使用Github Pages 托管个人博客，不需要服务器。
-- 代码源自[mebtte](https://github.com/mebtte/animal-photosynthesis)
-- 博客使用markdown，方便迁移
+- 使用Github Pages 托管个人博客，不需要服务器。内容用markdown，方便迁移
+- 代码作者[mebtte](https://github.com/mebtte/animal-photosynthesis)
 
 
 ### 快速部署
-- 拷贝项目。可直接 fork [我的项目](https://github.com/tomatocuke/tomatocuke.github.io)到你自己的仓库，更
-改为你自己的`<username>.github.io`，否则无法使用。
-- 随便更改一下`article`里的文件并提交，以触发`.github/workflows/gh_pages.yml`，在`Actions`中查看进度。(>须等待约1分钟)
+- 拷贝项目。可直接 fork 此项目到你自己的仓库，更改为你自己的`<username>.github.io`，否则无法使用。
+- 随便更改一下`article`里的文件并提交，以触发`.github/workflows/gh_pages.yml`，在`Actions`中查看进度。(须等待约1分钟)
 - 进入 `Settings` > `Pages`，更改`Branch`为`gh-pages`分支并保存. 此时可以看到你的网站地址 `https://<username>.github.io` (稍等1分钟后可以访问)
 
 ### 自定义域名(可选)
