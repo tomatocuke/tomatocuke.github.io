@@ -1,11 +1,11 @@
 export default {
   author: '作者或备案号',
   author_site: 'http://xxx.com',
-  keywords: [],
+  keywords: ['技术博客', 'golang'],
   title: '网站标题',
-  description: '',
-  origin: 'https://<username>.github.io',
+  description: '描述',
+  origin: 'https://blog.kikia.cc',
   public_path: '',
   github_repository:
-    '', // 仓库地址
+    'https://github.com/tomatocuke/tomatocuke.github.io',
 };
