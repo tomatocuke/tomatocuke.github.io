@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/"
+  xmlns:atom="http://www.w3.org/2005/Atom"
+  version="2.0"
+>
+  <channel>
+    <title>
+      <![CDATA[网站标题]]>
+    </title>
+    <description>
+      <![CDATA[描述]]>
+    </description>
+    <link>https://blog.kikia.cc</link>
+    <lastBuildDate>2023-01-06T11:23:11.575Z</lastBuildDate>
+    
+      <item>
+        <title>
+          <![CDATA[Github部署自定义域名网站]]>
+        </title>
+        <description>
+          <![CDATA[### 准备 - github账号(例：demo)  - 你的域名(例：demo.com)  ### 流程 - 创建github pages。[官方引导](https://pages.github.com/)。(项目需要public，创建后要等一会儿才能访问) - 域名解析。解析demo.com ，...]]>
+        </description>
+        <link>https://blog.kikia.cc/blog</link>
+        <guid isPermaLink="false">blog</guid>
+        <pubDate>2023-01-03T00:00:00.000Z</pubDate>
+      </item>
+    
+  </channel>
+</rss>
