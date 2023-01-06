@@ -5,7 +5,7 @@ date: "2023-01-03"
 ---
 
 ### 说明
-- 使用Github Pages 托管个人博客，不需要服务器。内容用markdown，方便迁移
+- 使用Github Pages托管个人博客，不需要服务器，不需要克隆到本地。内容用markdown，方便迁移。
 - 代码作者[mebtte](https://github.com/mebtte/animal-photosynthesis)
 
 
@@ -22,5 +22,6 @@ date: "2023-01-03"
 
 ### 配置与内容
 - 修改配置。`script/config.js`
-- 写博客。以单独目录形式放在`article`目录下
-- 本地使用node，`npm install && npm run build` 后生成html文件在build目录下
+- 写博客。以单独目录形式放在`article`目录下。
+- 下方Discussions 在 Settings 里开通，可以直接点击博客进行编辑。 小蓝鸟如果不想要在`src/template/article/article_action.ejs`里注释掉。
+- 其实不需要克隆到本地，若本地使用`npm install && npm run build` 后生成html文件在build目录下
