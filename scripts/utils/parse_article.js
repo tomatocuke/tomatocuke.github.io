@@ -121,7 +121,7 @@ export default async (id) => {
       mdBody.substring(0, 150).replace(/\s/gm, ' ') + '...',
     publishTime: attributes.date || '2020-01-01',
     updates: attributes.updates || [],
-    hidden: attributes.hidden || false,
+    hidden: attributes.draft || false,
     content: $.html(),
     mdText,
   };

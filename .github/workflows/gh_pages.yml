@@ -1,8 +1,8 @@
 name: build and deploy gh-pages
 on:
   push:
-    branches:
-      - main
+    branches: [main, dev]
+
 jobs:
   build_and_deploy:
     name: build and deploy gh-pages
