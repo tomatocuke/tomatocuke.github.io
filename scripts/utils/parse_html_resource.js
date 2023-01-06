@@ -34,7 +34,7 @@ export default async (html) => {
       resource = $resourceNode.attr(RESOURCE_TYPE.SRC);
       type = RESOURCE_TYPE.SRC;
     }
-    if (resource[0] !== '/' || !path.parse(resource).ext) {
+    if (resource != undefined && (resource[0] !== '/' || !path.parse(resource).ext)) {
       continue;
     }
     const aPath = `${directory.STATIC}${resource}`;

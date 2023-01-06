@@ -2,20 +2,11 @@
   "name": "animal-photosynthesis",
   "private": true,
   "type": "module",
-  "author": {
-    "name": "mebtte",
-    "email": "hi@mebtte.com",
-    "url": "https://mebtte.com"
-  },
   "scripts": {
     "watch": "node scripts/watch.js",
     "build": "node scripts/build.js",
     "http-server": "http-server build -p 8000 -c=0",
     "preview": "npm run build && npm run http-server"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mebtte/animal-photosynthesis.git"
   },
   "devDependencies": {
     "cheerio": "^1.0.0-rc.6",

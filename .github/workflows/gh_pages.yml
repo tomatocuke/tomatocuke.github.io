@@ -20,11 +20,6 @@ jobs:
           npm install
           npm run build
       
-      # 修改名
-      #- name: create cname file
-      #  run: |
-      #    echo 'blog.kikia.com' > build/CNAME
-      
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:

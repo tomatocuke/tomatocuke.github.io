@@ -119,7 +119,7 @@ export default async (id) => {
     // 取 markdown 内容的前 150 个字符作为页面的 description
     description:
       mdBody.substring(0, 150).replace(/\s/gm, ' ') + '...',
-    publishTime: attributes.publish_time || '2000-01-01',
+    publishTime: attributes.date || '2020-01-01',
     updates: attributes.updates || [],
     hidden: attributes.hidden || false,
     content: $.html(),
