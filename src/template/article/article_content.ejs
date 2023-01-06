@@ -1,0 +1,244 @@
+<style>
+  code {
+    font-family: 'Fira Code' !important;
+  }
+
+  article {
+    --article-space: 30px;
+  }
+
+  article a {
+    color: var(--normal-color);
+    text-decoration-color: var(--primary-color);
+  }
+
+  article h2, article h3, article h4, article h5, article h6 {
+    max-width: var(--content-max-width);
+    padding: 0 30px;
+    margin: 0 auto;
+    line-height: 1.5;
+    color: var(--normal-color);
+  }
+
+  article h2 {
+    margin-top: 28px;
+    font-size: 28px;
+  }
+
+  article h3 {
+    margin-top: 26px;
+    font-size: 25px;
+  }
+
+  article h4 {
+    margin-top: 24px;
+    font-size: 22px;
+  }
+
+  article h5 {
+    margin-top: 22px;
+    font-size: 19px;
+  }
+
+  article h6 {
+    margin-top: 20px;
+    font-size: 16px;
+  }
+
+  article p {
+    max-width: var(--content-max-width);
+
+    margin: 15px auto;
+    padding: 0 30px;
+
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--normal-color);
+    word-break: break-word;
+  }
+
+  article p code, article ul code {
+    padding: 0 4px;
+    border-radius: var(--border-radius);
+    background: rgba(237, 106, 94, 0.3);
+  }
+
+  article pre {
+    max-width: var(--content-max-width) !important;
+    margin: 15px auto !important;
+    font-size: 14px !important;
+    box-sizing: border-box;
+    border-radius: var(--border-radius) !important;
+    tab-size: 2 !important;
+    padding: 0 !important;
+  }
+
+  article pre code {
+    display: block;
+    margin: 20px 30px !important;
+    overflow: auto !important;
+    font-size: inherit !important;
+  }
+
+  article hr {
+    max-width: var(--content-max-width);
+    margin: 40px auto;
+    padding: 0 var(--article-space);
+    border: none;
+  }
+
+  article hr::after{
+    content: '';
+    display: block;
+    height: 1px;
+    background-color:var(--tertiary-color);
+  }
+
+  article blockquote {
+    max-width: var(--content-max-width);
+    padding: 0 var(--article-space);
+    margin: 15px auto;
+    position: relative;
+    font-style: italic;
+    font-size: 16px;
+    color: var(--secondary-color);
+  }
+
+  .table-container {
+    max-width: var(--content-max-width);
+    padding: 0 30px;
+    margin: 15px auto;
+  }
+
+  .table-container table {
+    border-collapse: collapse;
+  }
+
+  .table-container th, .table-container td {
+    font-size: 14px;
+    color: var(--normal-color);
+    border: 1px solid var(--tertiary-color);
+    padding: 10px;
+    text-align: left;
+  }
+
+  .table-container th {
+    font-size: 16px;
+    text-align: left;
+  }
+
+  article blockquote::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 30px;
+    width: 3px;
+    height: 100%;
+    background-color: var(--primary-color);
+  }
+
+  article blockquote p {
+    font-size: 16px;
+    color: inherit;
+    max-width: unset;
+    padding: 0;
+    margin: 0 0 0 30px;
+  }
+
+  article ul,
+  article ol {
+    max-width: var(--content-max-width);
+    padding: 0 30px;
+    margin: 15px auto;
+    color: var(--normal-color);
+    line-height: 1.5;
+  }
+
+  article ol {
+    counter-reset: li-count;
+  }
+  
+  article ul li, article ol li {
+    display: block;
+    margin: 5px 0;
+    position: relative;
+  }
+
+  article ol li {
+    counter-increment: li-count;
+  }
+
+  article ul li::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+
+    margin-right: 10px;
+
+    vertical-align: middle;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+  }
+
+  article ol li::before {
+    content: counter( li-count) '. ';
+    color: var(--primary-color);
+  }
+
+  article figcaption {
+    font-size: 12px;
+    color: var(--secondary-color);
+    text-align: center;
+    margin-top: 5px;
+  }
+
+  .figure-img {
+    max-width: var(--content-max-width);
+    padding: 0 30px;
+    margin: 15px auto;
+  }
+
+  .figure-img img {
+    display: block;
+    max-width: 100%;
+    margin: 0 auto;
+    border-radius: var(--border-radius);
+  }
+  
+  .figure-video {
+    max-width: var(--content-max-width);
+    padding: 0 30px;
+    margin: 15px auto;
+  }
+
+  .figure-video video {
+    display: block;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
+  .figure-iframe {
+    width: 100%;
+    margin: 15px 0;
+  }
+
+  .figure-iframe iframe {
+    display: block;
+    width: 100%;
+    max-width: var(--content-max-width);
+    margin: 0 auto;
+    height: 640px;
+    border: 1px solid var(--tertiary-color);
+    border-radius: var(--border-radius);
+  }
+
+  strong {
+    font-weight: normal;
+    text-decoration: underline;
+  }
+</style>
+
+<section>
+  <%- content %>
+</section>

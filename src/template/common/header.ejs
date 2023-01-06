@@ -1,0 +1,56 @@
+<style>
+  @font-face {
+    font-family: title_font;
+    src: url(<%= config.public_path %>/<%= titleFontPath %>);
+  }
+
+  .page-header {
+    max-width: var(--content-max-width);
+    margin: 50px auto 40px auto;
+    padding: 0 30px;
+    display: flex;
+    align-items: center;
+  }
+
+  .page-header_title {
+    flex: 1;
+    min-width: 0;
+    font-size: min(8vw, 56px);
+    font-family: title_font;
+    margin: 0;
+    color: var(--normal-color);
+  }
+
+  .page-header_title > a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .page-header_icon {
+    margin-left: 16px;
+  }
+
+  .page-header_icon > img {
+    user-select: none;
+    width: 20px;
+    height: 20px;
+  }
+</style>
+
+<header class="page-header">
+  <% if (reverse) { %>
+    <h2 class="page-header_title">
+      <a href="<%= config.public_path %>/"><%= config.title %></a>
+    </h2>
+  <% } else { %>
+    <h1 class="page-header_title">
+      <a href="<%= config.public_path %>/"><%= config.title %></a>
+    </h1>
+  <% } %>
+  <a class="page-header_icon" href="<%= config.public_path %>/rss.xml">
+    <img src="/rss.png" alt="rss" />
+  </a>
+  <a class="page-header_icon" href="<%= config.github_repository %>">
+    <img src="/github.png" alt="github" />
+  </a>
+</header>

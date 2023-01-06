@@ -1,0 +1,28 @@
+<style>
+  @font-face {
+    font-family: common_font;
+    src: url(<%= config.public_path %>/<%= commonFontPath %>);
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    --content-max-width: 840px;
+
+    --primary-color: rgb(237 106 94);
+
+    --normal-color: #333;
+    --secondary-color: #888;
+    --tertiary-color: #ddd;
+    --backgroud: rgb(255 255 255);
+
+    --border-radius: 2px;
+    --transition-duration: 0.3s;
+
+    background-color: var(--backgroud);
+    transition: background-color var(--transition-duration);
+  }
+</style>

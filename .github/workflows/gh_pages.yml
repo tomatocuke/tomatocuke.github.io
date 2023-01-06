@@ -1,0 +1,34 @@
+name: build and deploy gh-pages
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build_and_deploy:
+    name: build and deploy gh-pages
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+
+      - name: use node.js@14
+        uses: actions/setup-node@main
+        with:
+          node-version: 14
+
+      - name: build gh-pages
+        run: |
+          npm install
+          npm run build
+      
+      # 修改名
+      #- name: create cname file
+      #  run: |
+      #    echo 'blog.kikia.com' > build/CNAME
+      
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: build
+

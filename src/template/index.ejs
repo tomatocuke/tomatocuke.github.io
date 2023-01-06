@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+  <%- include('common/head.ejs') %>
+  <%- include('common/global_style.ejs') %>
+
+  <title><%= config.title %></title>
+  <meta name="description" content="<%= config.description %>" />
+
+  <link rel="preload" href="<%= config.public_path %>/<%= allArticleTitleFontPath %>" as="font" crossOrigin="anonymous" />
+  <style>
+    @font-face {
+      font-family: article_title;
+      src: url(<%= config.public_path %>/<%= allArticleTitleFontPath %>);
+    }
+
+    .article-list {
+      max-width: var(--content-max-width);
+      margin: 40px auto;
+      padding: 0 30px;
+    }
+    .article-item {
+      list-style: none;
+      display: block;
+      margin: 15px 0;
+    }
+    .article-title {
+      display: inline;
+      font-weight: normal;
+      margin: 0 10px 0 0;
+      padding: 0;
+      color: var(--primary-color);
+      font-size: 18px;
+      font-family: article_title;
+    }
+    .article-title > a {
+      text-decoration: none;
+      color: inherit;
+    }
+    .article-title > a:hover {
+      text-decoration: underline;
+    }
+    .article-time {
+      display: inline-block;
+      font-size: 12px;
+      font-family: common_font;
+      color: var(--secondary-color);
+    }
+  </style>
+</head>
+
+<body>
+  <%- include('common/header.ejs', { reverse: false }) %>
+  <ul class="article-list">
+    <% articleList.forEach(article => { %>
+      <li class="article-item">
+        <h2 class="article-title">
+          <a href="<%= config.public_path %>/<%= article.id %>"><%= article.title %></a>
+        </h2>
+        <time class="article-time"><%= article.publishTime %></time>
+      </li>
+    <% }) %>
+  </ul>
+  <%- include('common/footer.ejs') %>
+</body>
+
+</html>
