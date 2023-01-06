@@ -7,20 +7,20 @@
 >
   <channel>
     <title>
-      <![CDATA[网站标题]]>
+      <![CDATA[似水流年]]>
     </title>
     <description>
-      <![CDATA[描述]]>
+      <![CDATA[]]>
     </description>
     <link>https://blog.kikia.cc</link>
-    <lastBuildDate>2023-01-06T11:23:11.575Z</lastBuildDate>
+    <lastBuildDate>2023-01-06T13:23:32.957Z</lastBuildDate>
     
       <item>
         <title>
-          <![CDATA[Github部署自定义域名网站]]>
+          <![CDATA[5分钟无服务器部署个人博客]]>
         </title>
         <description>
-          <![CDATA[### 准备 - github账号(例：demo)  - 你的域名(例：demo.com)  ### 流程 - 创建github pages。[官方引导](https://pages.github.com/)。(项目需要public，创建后要等一会儿才能访问) - 域名解析。解析demo.com ，...]]>
+          <![CDATA[### 说明 - 使用Github Pages 托管个人博客，不需要服务器。 - 代码源自[mebtte](https://github.com/mebtte/animal-photosynthesis) - 博客使用markdown，方便迁移   ### 快速部署 - 拷贝项目。可直接 fork ...]]>
         </description>
         <link>https://blog.kikia.cc/blog</link>
         <guid isPermaLink="false">blog</guid>
