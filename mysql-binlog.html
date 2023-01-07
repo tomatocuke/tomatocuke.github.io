@@ -53,18 +53,18 @@
 </style>
 
 
-  <title>5分钟无服务器部署个人博客 - 似水流年</title>
-  <meta name="description" content="### 说明 - 使用Github Pages托管个人博客，不需要服务器，不需要克隆到本地。内容用markdown，方便迁移。 - 代码作者[mebtte](https://github.com/mebtte/animal-photosynthesis)   ### 快速部署 - 拷贝项目。可直接 ......">
-  <meta property="og:description" content="### 说明 - 使用Github Pages托管个人博客，不需要服务器，不需要克隆到本地。内容用markdown，方便迁移。 - 代码作者[mebtte](https://github.com/mebtte/animal-photosynthesis)   ### 快速部署 - 拷贝项目。可直接 ......">
+  <title>binlog开启及数据恢复 - 似水流年</title>
+  <meta name="description" content="binlog的功能这里不再赘述，之前做主从都是在前人的基础上改改配置，突然觉得还是要自己一点点弄一遍才安心。  <!--more-->  #### 一、相关变量查看 1. 是否开启binlog ``show variables like 'log_bin';`` 2. binlog三种模式 ``sh......">
+  <meta property="og:description" content="binlog的功能这里不再赘述，之前做主从都是在前人的基础上改改配置，突然觉得还是要自己一点点弄一遍才安心。  <!--more-->  #### 一、相关变量查看 1. 是否开启binlog ``show variables like 'log_bin';`` 2. binlog三种模式 ``sh......">
 
-  <link rel="preload" href="https://blog.kikia.cc/d25b2382e6cda44869a94197af66e9b7.ttf" as="font" crossorigin="anonymous">
+  <link rel="preload" href="https://blog.kikia.cc/049ed07045b21631da5620219aab361e.ttf" as="font" crossorigin="anonymous">
   <style>
     @font-face {
-      font-family: article_font_blog;
-      src: url(https://blog.kikia.cc/d25b2382e6cda44869a94197af66e9b7.ttf);
+      font-family: article_font_mysql-binlog;
+      src: url(https://blog.kikia.cc/049ed07045b21631da5620219aab361e.ttf);
     }
     article {
-      font-family: article_font_blog;
+      font-family: article_font_mysql-binlog;
     }
   </style>
   
@@ -156,9 +156,9 @@
 
 <section class="article-header">
   <h1 class="article-title">
-    <a href="https://blog.kikia.cc/blog">5分钟无服务器部署个人博客</a>
+    <a href="https://blog.kikia.cc/mysql-binlog">binlog开启及数据恢复</a>
   </h1>
-  <time class="article-publish-time">2023-01-03</time>
+  <time class="article-publish-time">2020-01-05</time>
 </section>
 
     <style>
@@ -403,31 +403,135 @@
 </style>
 
 <section>
-  <h3 id="">说明</h3>
-<ul>
-<li>使用Github Pages托管个人博客，不需要服务器，不需要克隆到本地。内容用markdown，方便迁移。</li>
-<li>代码作者<a href="https://github.com/mebtte/animal-photosynthesis">mebtte</a></li>
-</ul>
-<h3 id="-1">快速部署</h3>
-<ul>
-<li>拷贝项目。可直接 fork <a href="https://github.com/tomatocuke/tomatocuke.github.io">此项目</a>到你自己的仓库，更改为你自己的<code>&lt;username&gt;.github.io</code>，否则无法使用。</li>
-<li>随便更改一下<code>article</code>里的文件并提交(加个句号之类)，以触发<code>.github/workflows/gh_pages.yml</code>，在<code>Actions</code>中查看进度。</li>
-<li>查看是否多出一个分支<code>gh-pages</code>，如果没有，再更改一下文件提交。（没搞懂为什么第一次不会触发，之后就OK了)</li>
-<li>进入 <code>Settings</code> &gt; <code>Pages</code>，更改<code>Branch</code>为<code>gh-pages</code>分支并保存. 此时可以看到你的网站地址 <code>https://&lt;username&gt;.github.io</code> (默认是markdown内容，等一会刷新)</li>
-</ul>
-<h3 id="-2">自定义域名(可选)</h3>
-<ul>
-<li>github的用户名及其难起，托管域名也就不好记，所以改为自定义域名。</li>
-<li>在云平台解析你所拥有的域名，记录类型为CNAME，记录值为你的托管域名<code>&lt;username&gt;.github.io</code>。</li>
-<li>进入 <code>Settings</code> &gt; <code>Pages</code>，更改<code>Custom domain</code> 为你所解析的域名，系统自动检查DNS解析。</li>
-<li>等待片刻后可以访问。若不成功有其他问题请参考<a href="https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site">官方文档</a></li>
-</ul>
-<h3 id="-3">配置与内容</h3>
-<ul>
-<li>修改配置文件<code>script/config.js</code></li>
-<li>写博客。以单独目录形式放在<code>article</code>目录下。 前置数据字段参考本文，如果之前已有markdown文章，字段不匹配，修改<code>scripts/utils/parse_article.js</code>底部</li>
-<li>下方Discussions 在 Settings 里开通。 小蓝鸟如果不想要在<code>src/template/article/article_action.ejs</code>里注释掉。</li>
-</ul>
+  <p>binlog的功能这里不再赘述，之前做主从都是在前人的基础上改改配置，突然觉得还是要自己一点点弄一遍才安心。</p>
+<!--more-->
+<h4 id="">一、相关变量查看</h4>
+<ol>
+<li>是否开启binlog <code>show variables like 'log_bin';</code></li>
+<li>binlog三种模式 <code>show variables like '%binlog_format%';</code></li>
+</ol>
+<h4 id="-1">二、配置</h4>
+<ol>
+<li>配置my.conf
+<code>conf
+[mysqld]
+server-id = 1
+log-bin = /var/log/mysql/mysql-bin.log #设置log-bin文件自动会开启binlog
+binlog_format = ROW  #格式
+expire-logs-days = 14  #14天内
+max-binlog-size = 500M #每个binlog文件最大值
+</code></li>
+<li>重启mysql</li>
+<li>/var/log/mysql/ 文件夹下 mysql-bin.000001 日志文件 和 mysql-bin.index 索引文件，binlog是二进制文件</li>
+</ol>
+<h4 id="sql">三、日志SQL操作</h4>
+<ol>
+<li>查看日志文件列表 <code>show master logs;</code></li>
+<li>产生新日志文件 <code>flush logs;</code></li>
+<li>清除日志文件  <code>reset master;</code></li>
+</ol>
+<h4 id="-2">三、数据测试及备份</h4>
+<p>备份不是实时的，数据发生错误的恢复会有很多状态</p>
+<ol>
+<li>最新备份状态</li>
+<li>备份后到错误操作前</li>
+<li>错误操作后的用户正常操作</li>
+</ol>
+<p>我们需要先恢复备份再通过binlog找回并跳过错误的操作</p>
+<pre><code class="sql language-sql">create database test_binlog;
+
+use test_binlog;
+
+create table t1 (
+    id int unsigned not null auto_increment primary key,
+    uname varchar(10) not null default ''
+);
+
+insert into t1(uname) values('a');
+flush logs;
+insert into t1(uname) values('b');
+flush logs;
+insert into t1(uname) values('c');
+flush logs;
+# 此时binlog最新为mysql-bin.000004
+</code></pre>
+<pre><code class="shell language-shell"># 备份数据库 test_binlog，  模拟定时备份
+mysqldump -uroot -p test_binlog &gt; /tmp/backup.sql
+</code></pre>
+<pre><code class="sql language-sql"># 备份后的数据修改
+insert into t1(uname) values('d');
+</code></pre>
+
+      <figure class="figure-img">
+        <a href="https://img-blog.csdnimg.cn/20210105151221851.png" target="_blank">
+          <img src="https://img-blog.csdnimg.cn/20210105151221851.png" alt="在这里插入图片描述" title="在这里插入图片描述" loading="lazy">
+        </a>
+        <figcaption>在这里插入图片描述</figcaption>
+      </figure>
+    
+<pre><code class="sql language-sql"># 啊呀!没带条件把所有数据都改了，这是错误的！
+update t1 set uname = '哈哈哈';
+</code></pre>
+
+      <figure class="figure-img">
+        <a href="https://img-blog.csdnimg.cn/20210105162636952.png" target="_blank">
+          <img src="https://img-blog.csdnimg.cn/20210105162636952.png" alt="在这里插入图片描述" title="在这里插入图片描述" loading="lazy">
+        </a>
+        <figcaption>在这里插入图片描述</figcaption>
+      </figure>
+    
+<pre><code class="sql language-sql"># 用户正常操作-删除
+delete from t1 where id = 2;
+# 用户正常操作-发现数据怎么不读，我自己改回去吧
+update t1 set uname = 'c' where id = 3;
+</code></pre>
+
+      <figure class="figure-img">
+        <a href="https://img-blog.csdnimg.cn/20210105162655549.png" target="_blank">
+          <img src="https://img-blog.csdnimg.cn/20210105162655549.png" alt="在这里插入图片描述" title="在这里插入图片描述" loading="lazy">
+        </a>
+        <figcaption>在这里插入图片描述</figcaption>
+      </figure>
+    
+<h4 id="-3">五、备份恢复</h4>
+<pre><code class="sql language-sql">1. 系统停止服务 show master status; 得到最新日志 mysql-bin.000004 , position=3099
+2. 保护车祸现场，flush logs; 生成新的日志文件 mysql-bin.000005 ， 防止 mysql-bin.000004 被修改
+3. 登录SQL，use test_binlog;
+4. 恢复备份 source /tmp/backup.sql;
+5. 我们测试只有最开始的小a。  如果是正常的话应该是大部分数据都回来了，好开心
+6. 接下来就需要通过binlog恢复备份之后的数据了
+</code></pre>
+
+      <figure class="figure-img">
+        <a href="https://img-blog.csdnimg.cn/20210105141542953.png" target="_blank">
+          <img src="https://img-blog.csdnimg.cn/20210105141542953.png" alt="在这里插入图片描述" title="在这里插入图片描述" loading="lazy">
+        </a>
+        <figcaption>在这里插入图片描述</figcaption>
+      </figure>
+    
+<h3 id="binlog">三、binlog恢复</h3>
+<ol>
+
+      <figure class="figure-img">
+        <a href="https://img-blog.csdnimg.cn/20210105162334960.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3o3NzI1MzI1MjY=,size_16,color_FFFFFF,t_70" target="_blank">
+          <img src="https://img-blog.csdnimg.cn/20210105162334960.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3o3NzI1MzI1MjY=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" title="在这里插入图片描述" loading="lazy">
+        </a>
+        <figcaption>在这里插入图片描述</figcaption>
+      </figure>
+    
+<li>提取并翻译binlog  <code>mysqlbinlog --no-defaults  --base64-output=decode-rows -v --start-datetime='2021-01-05 15:00:00' --stop-datetime='2021-01-05 15:25:00' /var/log/mysql/mysql-bin.000004 &gt; /tmp/binlog.sql</code>
+<code>-v</code> 执行
+<code>--start-datetime</code>截取开始时间
+<code>--stop-datetime</code>截取结束时间</li>
+
+      <figure class="figure-img">
+        <a href="https://img-blog.csdnimg.cn/20210105161242887.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3o3NzI1MzI1MjY=,size_16,color_FFFFFF,t_70" target="_blank">
+          <img src="https://img-blog.csdnimg.cn/20210105161242887.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3o3NzI1MzI1MjY=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" title="在这里插入图片描述" loading="lazy">
+        </a>
+        <figcaption>在这里插入图片描述</figcaption>
+      </figure>
+    
+</ol>
 </section>
 
     
@@ -477,10 +581,10 @@
     使用 <a href="https://github.com/tomatocuke/tomatocuke.github.io/discussions">Discussions</a> 讨论
   </span>
   <span class="article-actions_action">
-    在 <a href="https://github.com/tomatocuke/tomatocuke.github.io/edit/main/articles/blog/index.md">Github</a> 上编辑
+    在 <a href="https://github.com/tomatocuke/tomatocuke.github.io/edit/main/articles/mysql-binlog/index.md">Github</a> 上编辑
   </span>
   <span class="article-actions_action">
-    分享到 <a href="https://www.twitter.com/share?text=5%E5%88%86%E9%92%9F%E6%97%A0%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2&amp;url=%2Fblog">Twitter</a>
+    分享到 <a href="https://www.twitter.com/share?text=binlog%E5%BC%80%E5%90%AF%E5%8F%8A%E6%95%B0%E6%8D%AE%E6%81%A2%E5%A4%8D&amp;url=%2Fmysql-binlog">Twitter</a>
   </span>
 </div>
 

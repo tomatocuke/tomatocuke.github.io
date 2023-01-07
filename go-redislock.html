@@ -53,18 +53,18 @@
 </style>
 
 
-  <title>5分钟无服务器部署个人博客 - 似水流年</title>
-  <meta name="description" content="### 说明 - 使用Github Pages托管个人博客，不需要服务器，不需要克隆到本地。内容用markdown，方便迁移。 - 代码作者[mebtte](https://github.com/mebtte/animal-photosynthesis)   ### 快速部署 - 拷贝项目。可直接 ......">
-  <meta property="og:description" content="### 说明 - 使用Github Pages托管个人博客，不需要服务器，不需要克隆到本地。内容用markdown，方便迁移。 - 代码作者[mebtte](https://github.com/mebtte/animal-photosynthesis)   ### 快速部署 - 拷贝项目。可直接 ......">
+  <title>go+redis分布式锁 - 似水流年</title>
+  <meta name="description" content="1. Redis怎么做分布式锁是老生常谈，但是之前没有注意一些细节，存在小隐患。  - 可重入。必须使用脚本原子性执行，先通过key获取，如果没有正常加锁`（set + ex + nx)`，如果存在，则刷新`ttl`。  - 误删问题。超时是不可预知的，试想，当A获取到锁，进行业务逻辑，再解锁，但是......">
+  <meta property="og:description" content="1. Redis怎么做分布式锁是老生常谈，但是之前没有注意一些细节，存在小隐患。  - 可重入。必须使用脚本原子性执行，先通过key获取，如果没有正常加锁`（set + ex + nx)`，如果存在，则刷新`ttl`。  - 误删问题。超时是不可预知的，试想，当A获取到锁，进行业务逻辑，再解锁，但是......">
 
-  <link rel="preload" href="https://blog.kikia.cc/d25b2382e6cda44869a94197af66e9b7.ttf" as="font" crossorigin="anonymous">
+  <link rel="preload" href="https://blog.kikia.cc/f7008ce458baf93c24d5e5a4a3dd5c2a.ttf" as="font" crossorigin="anonymous">
   <style>
     @font-face {
-      font-family: article_font_blog;
-      src: url(https://blog.kikia.cc/d25b2382e6cda44869a94197af66e9b7.ttf);
+      font-family: article_font_go-redislock;
+      src: url(https://blog.kikia.cc/f7008ce458baf93c24d5e5a4a3dd5c2a.ttf);
     }
     article {
-      font-family: article_font_blog;
+      font-family: article_font_go-redislock;
     }
   </style>
   
@@ -156,9 +156,9 @@
 
 <section class="article-header">
   <h1 class="article-title">
-    <a href="https://blog.kikia.cc/blog">5分钟无服务器部署个人博客</a>
+    <a href="https://blog.kikia.cc/go-redislock">go+redis分布式锁</a>
   </h1>
-  <time class="article-publish-time">2023-01-03</time>
+  <time class="article-publish-time">2022-11-23</time>
 </section>
 
     <style>
@@ -403,31 +403,181 @@
 </style>
 
 <section>
-  <h3 id="">说明</h3>
+  <ol>
+<li>Redis怎么做分布式锁是老生常谈，但是之前没有注意一些细节，存在小隐患。<ul>
+<li>可重入。必须使用脚本原子性执行，先通过key获取，如果没有正常加锁<code>（set + ex + nx)</code>，如果存在，则刷新<code>ttl</code>。</li>
+<li>误删问题。超时是不可预知的，试想，当A获取到锁，进行业务逻辑，再解锁，但是业务逻辑超时了，锁已经自动解除，并且被B获得，那么A解锁就会把B的锁删掉。   所以，需要一个id来保证只解除自己的锁。</li></ul></li>
+<li>使用Go来实现。</li>
+</ol>
 <ul>
-<li>使用Github Pages托管个人博客，不需要服务器，不需要克隆到本地。内容用markdown，方便迁移。</li>
-<li>代码作者<a href="https://github.com/mebtte/animal-photosynthesis">mebtte</a></li>
+<li>重试机制。网上能找到的例子多是不带重试机制的，即尝试加锁，失败直接返回。</li>
+<li>超时控制。用go写第一个项目的时候，我在重试里使用for循环，给timeout参数。但是其实有个问题的，A加锁后处理业务时出现了不可控的问题，之后的BCD..仍然会重新加锁尝试，这大概是不必要的。 所以这版使用了<code>context.Context</code>来进行协程控制，A出现问题，直接调用<code>cancel()</code> 去掉不必要的重试。</li>
 </ul>
-<h3 id="-1">快速部署</h3>
-<ul>
-<li>拷贝项目。可直接 fork <a href="https://github.com/tomatocuke/tomatocuke.github.io">此项目</a>到你自己的仓库，更改为你自己的<code>&lt;username&gt;.github.io</code>，否则无法使用。</li>
-<li>随便更改一下<code>article</code>里的文件并提交(加个句号之类)，以触发<code>.github/workflows/gh_pages.yml</code>，在<code>Actions</code>中查看进度。</li>
-<li>查看是否多出一个分支<code>gh-pages</code>，如果没有，再更改一下文件提交。（没搞懂为什么第一次不会触发，之后就OK了)</li>
-<li>进入 <code>Settings</code> &gt; <code>Pages</code>，更改<code>Branch</code>为<code>gh-pages</code>分支并保存. 此时可以看到你的网站地址 <code>https://&lt;username&gt;.github.io</code> (默认是markdown内容，等一会刷新)</li>
-</ul>
-<h3 id="-2">自定义域名(可选)</h3>
-<ul>
-<li>github的用户名及其难起，托管域名也就不好记，所以改为自定义域名。</li>
-<li>在云平台解析你所拥有的域名，记录类型为CNAME，记录值为你的托管域名<code>&lt;username&gt;.github.io</code>。</li>
-<li>进入 <code>Settings</code> &gt; <code>Pages</code>，更改<code>Custom domain</code> 为你所解析的域名，系统自动检查DNS解析。</li>
-<li>等待片刻后可以访问。若不成功有其他问题请参考<a href="https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site">官方文档</a></li>
-</ul>
-<h3 id="-3">配置与内容</h3>
-<ul>
-<li>修改配置文件<code>script/config.js</code></li>
-<li>写博客。以单独目录形式放在<code>article</code>目录下。 前置数据字段参考本文，如果之前已有markdown文章，字段不匹配，修改<code>scripts/utils/parse_article.js</code>底部</li>
-<li>下方Discussions 在 Settings 里开通。 小蓝鸟如果不想要在<code>src/template/article/article_action.ejs</code>里注释掉。</li>
-</ul>
+<!--more-->
+<h3 id="">代码</h3>
+<pre><code class="go language-go">package rds
+
+import (
+    "context"
+    "errors"
+    "math/rand"
+    "strconv"
+    "time"
+
+    "github.com/go-redis/redis"
+)
+
+const (
+
+    // 先get获取，如果有就刷新ttl，没有再set。 这种是可重入锁，防止在同一线程中多次获取锁而导致死锁发生。
+    lockCommand = `if redis.call("GET", KEYS[1]) == ARGV[1] then
+    redis.call("SET", KEYS[1], ARGV[1], "PX", ARGV[2])
+    return "OK"
+else
+    return redis.call("SET", KEYS[1], ARGV[1], "NX", "PX", ARGV[2])
+end`
+
+    // 删除。必须先匹配id值，防止A超时后，B马上获取到锁，A的解锁把B的锁删了
+    delCommand = `if redis.call("GET", KEYS[1]) == ARGV[1] then
+    return redis.call("DEL", KEYS[1])
+else
+    return 0
+end`
+
+    letters   = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    randomLen = 10
+)
+
+var (
+    redisDb *redis.Client
+    // 默认超时时间
+    defaultTimeout = 500 * time.Millisecond
+    // 重试间隔
+    retryInterval = 10 * time.Millisecond
+    // 上下文取消
+    ErrContextCancel = errors.New("context cancel")
+)
+
+func init() {
+    rand.Seed(time.Now().UnixNano())
+    if err := initClient(); err != nil {
+        panic(err)
+    }
+}
+
+// 根据redis配置初始化一个客户端
+func initClient() (err error) {
+    redisDb = redis.NewClient(&amp;redis.Options{
+        Addr:     "localhost:6379", // redis地址
+        Password: "",               // redis密码，没有则留空
+        DB:       0,                // 默认数据库，默认是0
+    })
+
+    _, err = redisDb.Ping().Result()
+    return err
+}
+
+type RedisLock struct {
+    ctx       context.Context
+    timeoutMs int
+    key       string
+    id        string
+}
+
+func NewRedisLock(ctx context.Context, key string) *RedisLock {
+    timeout := defaultTimeout
+    if deadline, ok := ctx.Deadline(); ok {
+        timeout = deadline.Sub(time.Now())
+    }
+    rl := &amp;RedisLock{
+        ctx:       ctx,
+        timeoutMs: int(timeout.Milliseconds()),
+        key:       key,
+        id:        randomStr(randomLen),
+    }
+
+    return rl
+}
+
+func (rl *RedisLock) TryLock() (bool, error) {
+    t := strconv.Itoa(rl.timeoutMs)
+    resp, err := redisDb.Eval(lockCommand, []string{rl.key}, []string{rl.id, t}).Result()
+    if err != nil || resp == nil {
+        return false, nil
+    }
+
+    reply, ok := resp.(string)
+    return ok &amp;&amp; reply == "OK", nil
+}
+
+func (rl *RedisLock) Lock() error {
+    for {
+        select {
+        case &lt;-rl.ctx.Done():
+            return ErrContextCancel
+        default:
+            b, err := rl.TryLock()
+            if err != nil {
+                return err
+            }
+            if b {
+                return nil
+            }
+            time.Sleep(retryInterval)
+        }
+    }
+}
+
+func (rl *RedisLock) Unlock() {
+    redisDb.Eval(delCommand, []string{rl.key}, []string{rl.id}).Result()
+}
+
+func randomStr(n int) string {
+    b := make([]byte, n)
+    for i := range b {
+        b[i] = letters[rand.Intn(len(letters))]
+    }
+    return string(b)
+}
+</code></pre>
+<h3 id="-1">测试</h3>
+<pre><code class="go language-go">package rds
+
+import (
+    "context"
+    "fmt"
+    "sync"
+    "sync/atomic"
+    "testing"
+    "time"
+)
+
+// 测试
+func BenchmarkRedisLock1(b *testing.B) {
+    x := b.N
+    wg := sync.WaitGroup{}
+    wg.Add(x)
+    now := time.Now()
+
+    var n int64
+    ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
+    defer cancel()
+    for i := 0; i &lt; x; i++ {
+        go func() {
+            defer wg.Done()
+            rl := NewRedisLock(ctx, "testLock")
+            if err := rl.Lock(); err != nil {
+                cancel() // 这里cancel，可以在第一个超时或者发生错误后，后边的不再尝试加锁。
+                return
+            }
+            defer rl.Unlock()
+            atomic.AddInt64(&amp;n, 1)
+        }()
+    }
+    wg.Wait()
+    fmt.Printf("测试数:%d\t成功数:%d\t结果:%t\t耗时： %d \n", x, n, x == int(n), time.Since(now).Milliseconds())
+}
+</code></pre>
 </section>
 
     
@@ -477,10 +627,10 @@
     使用 <a href="https://github.com/tomatocuke/tomatocuke.github.io/discussions">Discussions</a> 讨论
   </span>
   <span class="article-actions_action">
-    在 <a href="https://github.com/tomatocuke/tomatocuke.github.io/edit/main/articles/blog/index.md">Github</a> 上编辑
+    在 <a href="https://github.com/tomatocuke/tomatocuke.github.io/edit/main/articles/go-redislock/index.md">Github</a> 上编辑
   </span>
   <span class="article-actions_action">
-    分享到 <a href="https://www.twitter.com/share?text=5%E5%88%86%E9%92%9F%E6%97%A0%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2&amp;url=%2Fblog">Twitter</a>
+    分享到 <a href="https://www.twitter.com/share?text=go%2Bredis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81&amp;url=%2Fgo-redislock">Twitter</a>
   </span>
 </div>
 

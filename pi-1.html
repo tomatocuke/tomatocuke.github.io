@@ -53,18 +53,18 @@
 </style>
 
 
-  <title>5分钟无服务器部署个人博客 - 似水流年</title>
-  <meta name="description" content="### 说明 - 使用Github Pages托管个人博客，不需要服务器，不需要克隆到本地。内容用markdown，方便迁移。 - 代码作者[mebtte](https://github.com/mebtte/animal-photosynthesis)   ### 快速部署 - 拷贝项目。可直接 ......">
-  <meta property="og:description" content="### 说明 - 使用Github Pages托管个人博客，不需要服务器，不需要克隆到本地。内容用markdown，方便迁移。 - 代码作者[mebtte](https://github.com/mebtte/animal-photosynthesis)   ### 快速部署 - 拷贝项目。可直接 ......">
+  <title>树莓派(一): 联网、固定ip、改为64位、内网穿透 - 似水流年</title>
+  <meta name="description" content="折腾一下，云服务器和nas都偏贵.  买的4B版 4G内存树莓派，包括主板、电源、外壳、散热片。自己外接鼠标、键盘、HDMI线（它这个是小头，最好买机器的时候直接附带买了）  <!--more-->  #####  一、WIFI联网 1. 树莓派连接显示器直接连接 2. 树莓派网线连接电脑登录 ``......">
+  <meta property="og:description" content="折腾一下，云服务器和nas都偏贵.  买的4B版 4G内存树莓派，包括主板、电源、外壳、散热片。自己外接鼠标、键盘、HDMI线（它这个是小头，最好买机器的时候直接附带买了）  <!--more-->  #####  一、WIFI联网 1. 树莓派连接显示器直接连接 2. 树莓派网线连接电脑登录 ``......">
 
-  <link rel="preload" href="https://blog.kikia.cc/d25b2382e6cda44869a94197af66e9b7.ttf" as="font" crossorigin="anonymous">
+  <link rel="preload" href="https://blog.kikia.cc/9d8000a4beefd6130b30b8dd8d8642ac.ttf" as="font" crossorigin="anonymous">
   <style>
     @font-face {
-      font-family: article_font_blog;
-      src: url(https://blog.kikia.cc/d25b2382e6cda44869a94197af66e9b7.ttf);
+      font-family: article_font_pi-1;
+      src: url(https://blog.kikia.cc/9d8000a4beefd6130b30b8dd8d8642ac.ttf);
     }
     article {
-      font-family: article_font_blog;
+      font-family: article_font_pi-1;
     }
   </style>
   
@@ -156,9 +156,9 @@
 
 <section class="article-header">
   <h1 class="article-title">
-    <a href="https://blog.kikia.cc/blog">5分钟无服务器部署个人博客</a>
+    <a href="https://blog.kikia.cc/pi-1">树莓派(一): 联网、固定ip、改为64位、内网穿透</a>
   </h1>
-  <time class="article-publish-time">2023-01-03</time>
+  <time class="article-publish-time">2021-02-06</time>
 </section>
 
     <style>
@@ -403,31 +403,90 @@
 </style>
 
 <section>
-  <h3 id="">说明</h3>
+  <p>折腾一下，云服务器和nas都偏贵.</p>
+<p>买的4B版 4G内存树莓派，包括主板、电源、外壳、散热片。自己外接鼠标、键盘、HDMI线（它这个是小头，最好买机器的时候直接附带买了）</p>
+<!--more-->
+<h5 id="wifi">一、WIFI联网</h5>
+<ol>
+<li><p>树莓派连接显示器直接连接</p></li>
+<li><p>树莓派网线连接电脑登录 <code>vim /etc/wpa_supplicant/wpa_supplicant.conf</code></p>
+<pre><code class="conf language-conf">ctrl_interface=DIR=/var/run/wap_supplicant GROUP=netdev
+update_config=1
+#country=GB
+
+network={
+    ssid="WIFI名"
+    psk="密码"
+    key_mgmt=WPA-PSK # 这里不用改
+}
+</code></pre></li>
+<li><p>以上配置在树莓派默认桌面版重启后即可连接wifi。 但是我刷了官方提供的0.4G的lite版却不可以。新方式：把 <code>wpa_supplicant.conf</code>恢复原样，使用提示的<code>sudo raspi-config</code> -&gt; <code>System Options</code> -&gt; <code>Wireless LAN</code>配置。（另外说一下这个版本默认不开启ssh）</p></li>
+</ol>
+<h5 id="ip">二、固定IP</h5>
+<p><code>vim /etc/dhcpcd.conf</code></p>
+<pre><code class="conf language-conf">static ip_address=192.168.0.101/24 #自己设置，注意别冲突，可以事先ping一下
+static ip6_address=fd51:42f8:caae:d92e::ff/64
+static routers=192.168.0.1
+static domain_name_servers=192.168.0.1 8.8.8.8 fd51:42f8:caae:d92e::1
+</code></pre>
+<h5 id="ssh">三、SSH连接</h5>
+<p>忘记是否自带ssh了， 账号：<code>pi</code> , 密码：<code>raspberry</code> 。 root可以登录上后直接切。</p>
+<h5 id="64">四、更改为64位</h5>
+
+      <figure class="figure-img">
+        <a href="https://img-blog.csdnimg.cn/20210206142713647.png" target="_blank">
+          <img src="https://img-blog.csdnimg.cn/20210206142713647.png" alt="在这里插入图片描述" title="在这里插入图片描述" loading="lazy">
+        </a>
+        <figcaption>在这里插入图片描述</figcaption>
+      </figure>
+    
+<h5 id="">五、内网穿透</h5>
+<p>树莓派放在家里不费电，做自己的小型服务器很棒，但是问题在于不能直接连入公网。有兴趣的话你再查查有什么好的方式。我是因为本来有一个腾讯云服务器，两端都下载frp，通过配置，使树莓派接入公网。参考：<a href="https://blog.csdn.net/weixin_40973138/article/details/103222901">树莓派 + frp</a></p>
+<ol>
+<li><p>包下载：<a href="https://github.com/fatedier/frp/releases">https://github.com/fatedier/frp/releases</a>，注意两边系统不同，下载的包也不同，树莓派下载arm的，云服务器一般下载amd64的。配置文档 <a href="https://gofrp.org/docs">https://gofrp.org/docs/</a></p></li>
+<li><p>公网服务器解压后启动frps <code>./frps -c ./frps.ini</code> （要先启动服务端）</p></li>
+<li><p>树莓派配置 <code>frpc.ini</code> 更改 <code>server_addr</code>为公网ip后启动frpc <code>./frpc -c ./frpc.ini</code></p></li>
+<li><p>使用任何一台电脑，<code>ssh -oPort=6000 pi@公网ip</code> 输入树莓派密码就能ssh登录树莓派啦 (如果端口被拒绝检查公网防火墙端口限制)</p></li>
+<li><p>frp挂起，可以使用nohup，也可以加入systemctl(建议)，拿服务端举例。</p>
 <ul>
-<li>使用Github Pages托管个人博客，不需要服务器，不需要克隆到本地。内容用markdown，方便迁移。</li>
-<li>代码作者<a href="https://github.com/mebtte/animal-photosynthesis">mebtte</a></li>
-</ul>
-<h3 id="-1">快速部署</h3>
-<ul>
-<li>拷贝项目。可直接 fork <a href="https://github.com/tomatocuke/tomatocuke.github.io">此项目</a>到你自己的仓库，更改为你自己的<code>&lt;username&gt;.github.io</code>，否则无法使用。</li>
-<li>随便更改一下<code>article</code>里的文件并提交(加个句号之类)，以触发<code>.github/workflows/gh_pages.yml</code>，在<code>Actions</code>中查看进度。</li>
-<li>查看是否多出一个分支<code>gh-pages</code>，如果没有，再更改一下文件提交。（没搞懂为什么第一次不会触发，之后就OK了)</li>
-<li>进入 <code>Settings</code> &gt; <code>Pages</code>，更改<code>Branch</code>为<code>gh-pages</code>分支并保存. 此时可以看到你的网站地址 <code>https://&lt;username&gt;.github.io</code> (默认是markdown内容，等一会刷新)</li>
-</ul>
-<h3 id="-2">自定义域名(可选)</h3>
-<ul>
-<li>github的用户名及其难起，托管域名也就不好记，所以改为自定义域名。</li>
-<li>在云平台解析你所拥有的域名，记录类型为CNAME，记录值为你的托管域名<code>&lt;username&gt;.github.io</code>。</li>
-<li>进入 <code>Settings</code> &gt; <code>Pages</code>，更改<code>Custom domain</code> 为你所解析的域名，系统自动检查DNS解析。</li>
-<li>等待片刻后可以访问。若不成功有其他问题请参考<a href="https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site">官方文档</a></li>
-</ul>
-<h3 id="-3">配置与内容</h3>
-<ul>
-<li>修改配置文件<code>script/config.js</code></li>
-<li>写博客。以单独目录形式放在<code>article</code>目录下。 前置数据字段参考本文，如果之前已有markdown文章，字段不匹配，修改<code>scripts/utils/parse_article.js</code>底部</li>
-<li>下方Discussions 在 Settings 里开通。 小蓝鸟如果不想要在<code>src/template/article/article_action.ejs</code>里注释掉。</li>
-</ul>
+<li><p><code>nohup ./frps -c ./frps.ini &amp;</code> ，日志会输入到 <code>nohup.out</code>里，这种方式遇到端点没办法自启动了</p></li>
+<li><p><code>vim /lib/systemd/system/frps.service</code></p>
+<pre><code class="conf language-conf">[Unit]
+Description=frps service
+After=network.target syslog.target
+Wants=network.target
+
+[Service]
+Type=simple
+#启动服务的命令（此处写你的frp的实际安装目录）
+ExecStart=/usr/share/frp/frps -c /usr/share/frp/frps.ini
+
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+<p><code>systemctl start frps</code>启动
+<code>systemctl enable frps</code>开机自启动</p></li></ul></li>
+<li>
+      <figure class="figure-img">
+        <a href="https://img-blog.csdnimg.cn/2021022313310765.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3o3NzI1MzI1MjY=,size_16,color_FFFFFF,t_70#pic_center" target="_blank">
+          <img src="https://img-blog.csdnimg.cn/2021022313310765.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3o3NzI1MzI1MjY=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述" title="在这里插入图片描述" loading="lazy">
+        </a>
+        <figcaption>在这里插入图片描述</figcaption>
+      </figure>
+    </li>
+</ol>
+<h5 id="-1">六、使用</h5>
+<ol>
+<li>
+      <figure class="figure-img">
+        <a href="https://img-blog.csdnimg.cn/20210205150135747.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3o3NzI1MzI1MjY=,size_16,color_FFFFFF,t_70" target="_blank">
+          <img src="https://img-blog.csdnimg.cn/20210205150135747.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3o3NzI1MzI1MjY=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" title="在这里插入图片描述" loading="lazy">
+        </a>
+        <figcaption>在这里插入图片描述</figcaption>
+      </figure>
+    </li>
+<li><p>高级玩法： <a href="https://shumeipai.nxez.com/">树莓派实验室</a></p></li>
+</ol>
 </section>
 
     
@@ -477,10 +536,10 @@
     使用 <a href="https://github.com/tomatocuke/tomatocuke.github.io/discussions">Discussions</a> 讨论
   </span>
   <span class="article-actions_action">
-    在 <a href="https://github.com/tomatocuke/tomatocuke.github.io/edit/main/articles/blog/index.md">Github</a> 上编辑
+    在 <a href="https://github.com/tomatocuke/tomatocuke.github.io/edit/main/articles/pi-1/index.md">Github</a> 上编辑
   </span>
   <span class="article-actions_action">
-    分享到 <a href="https://www.twitter.com/share?text=5%E5%88%86%E9%92%9F%E6%97%A0%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2&amp;url=%2Fblog">Twitter</a>
+    分享到 <a href="https://www.twitter.com/share?text=%E6%A0%91%E8%8E%93%E6%B4%BE(%E4%B8%80)%3A%20%E8%81%94%E7%BD%91%E3%80%81%E5%9B%BA%E5%AE%9Aip%E3%80%81%E6%94%B9%E4%B8%BA64%E4%BD%8D%E3%80%81%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F&amp;url=%2Fpi-1">Twitter</a>
   </span>
 </div>
 

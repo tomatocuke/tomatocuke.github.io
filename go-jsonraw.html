@@ -53,18 +53,18 @@
 </style>
 
 
-  <title>5分钟无服务器部署个人博客 - 似水流年</title>
-  <meta name="description" content="### 说明 - 使用Github Pages托管个人博客，不需要服务器，不需要克隆到本地。内容用markdown，方便迁移。 - 代码作者[mebtte](https://github.com/mebtte/animal-photosynthesis)   ### 快速部署 - 拷贝项目。可直接 ......">
-  <meta property="og:description" content="### 说明 - 使用Github Pages托管个人博客，不需要服务器，不需要克隆到本地。内容用markdown，方便迁移。 - 代码作者[mebtte](https://github.com/mebtte/animal-photosynthesis)   ### 快速部署 - 拷贝项目。可直接 ......">
+  <title>从json.RawMessage学到的东西 - 似水流年</title>
+  <meta name="description" content="`json`包中有个`json.RawMessage`其实就是`[]byte`的别名。 其主要是实现了`Marshaler`和`Unmarshaler`两个接口....  <!--more--> #### 一、应用 `json.RawMessage` 应用在判断情况是否解析，以及解析到什么结构上。例......">
+  <meta property="og:description" content="`json`包中有个`json.RawMessage`其实就是`[]byte`的别名。 其主要是实现了`Marshaler`和`Unmarshaler`两个接口....  <!--more--> #### 一、应用 `json.RawMessage` 应用在判断情况是否解析，以及解析到什么结构上。例......">
 
-  <link rel="preload" href="https://blog.kikia.cc/d25b2382e6cda44869a94197af66e9b7.ttf" as="font" crossorigin="anonymous">
+  <link rel="preload" href="https://blog.kikia.cc/603360f5311421c37af0e7699aa000cb.ttf" as="font" crossorigin="anonymous">
   <style>
     @font-face {
-      font-family: article_font_blog;
-      src: url(https://blog.kikia.cc/d25b2382e6cda44869a94197af66e9b7.ttf);
+      font-family: article_font_go-jsonraw;
+      src: url(https://blog.kikia.cc/603360f5311421c37af0e7699aa000cb.ttf);
     }
     article {
-      font-family: article_font_blog;
+      font-family: article_font_go-jsonraw;
     }
   </style>
   
@@ -156,9 +156,9 @@
 
 <section class="article-header">
   <h1 class="article-title">
-    <a href="https://blog.kikia.cc/blog">5分钟无服务器部署个人博客</a>
+    <a href="https://blog.kikia.cc/go-jsonraw">从json.RawMessage学到的东西</a>
   </h1>
-  <time class="article-publish-time">2023-01-03</time>
+  <time class="article-publish-time">2022-03-18</time>
 </section>
 
     <style>
@@ -403,30 +403,88 @@
 </style>
 
 <section>
-  <h3 id="">说明</h3>
+  <p><code>json</code>包中有个<code>json.RawMessage</code>其实就是<code>[]byte</code>的别名。
+其主要是实现了<code>Marshaler</code>和<code>Unmarshaler</code>两个接口….</p>
+<!--more-->
+<h4 id="">一、应用</h4>
+<p><code>json.RawMessage</code> 应用在判断情况是否解析，以及解析到什么结构上。例如：</p>
+<pre><code class="go language-go">type People struct {
+    Age     uint8           `json:"age"`
+    Source  uint8           `json:"source"`
+    Journey json.RawMessage `json:"journey"`
+}
+</code></pre>
+<p>情境一：不解析。查看18岁及以上的人，行程里是否去过北京。那么对于<code>Age &lt; 18</code> 岁的人就不必解析<code>Journey</code>
+情景二：解析到异构。国家要统一行程数据，但是之前各省都开发了自己的软件，字段不统一。那汇总的时候<code>Journey</code>应该是根据<code>Source</code>来源去分别解析到几个不同的结构体上去判别，而那些不需要的字段，不必从里边解析出来。</p>
+<h4 id="-1">二、源码</h4>
+<pre><code class="go language-go">// RawMessage is a raw encoded JSON value.
+// It implements Marshaler and Unmarshaler and can
+// be used to delay JSON decoding or precompute a JSON encoding.
+type RawMessage []byte
+
+// MarshalJSON returns m as the JSON encoding of m.
+func (m RawMessage) MarshalJSON() ([]byte, error) {
+    if m == nil {
+        return []byte("null"), nil
+    }
+    return m, nil
+}
+
+// UnmarshalJSON sets *m to a copy of data.
+func (m *RawMessage) UnmarshalJSON(data []byte) error {
+    if m == nil {
+        return errors.New("json.RawMessage: UnmarshalJSON on nil pointer")
+    }
+    *m = append((*m)[0:0], data...)
+    return nil
+}
+
+var _ Marshaler = (*RawMessage)(nil)
+var _ Unmarshaler = (*RawMessage)(nil)
+</code></pre>
+<p>可以看出<code>json.RawMessage</code>是<code>[]byte</code>的重定义，分别实现了<code>Marshaler</code>接口和<code>Unmarshaler</code>接口，在json化的时候什么都不做，在反json化的时候只对源数据拷贝，也不做什么。</p>
+<h5 id="-2">我觉得特别值得学习的有两点 ：</h5>
 <ul>
-<li>使用Github Pages托管个人博客，不需要服务器，不需要克隆到本地。内容用markdown，方便迁移。</li>
-<li>代码作者<a href="https://github.com/mebtte/animal-photosynthesis">mebtte</a></li>
-</ul>
-<h3 id="-1">快速部署</h3>
-<ul>
-<li>拷贝项目。可直接 fork <a href="https://github.com/tomatocuke/tomatocuke.github.io">此项目</a>到你自己的仓库，更改为你自己的<code>&lt;username&gt;.github.io</code>，否则无法使用。</li>
-<li>随便更改一下<code>article</code>里的文件并提交(加个句号之类)，以触发<code>.github/workflows/gh_pages.yml</code>，在<code>Actions</code>中查看进度。</li>
-<li>查看是否多出一个分支<code>gh-pages</code>，如果没有，再更改一下文件提交。（没搞懂为什么第一次不会触发，之后就OK了)</li>
-<li>进入 <code>Settings</code> &gt; <code>Pages</code>，更改<code>Branch</code>为<code>gh-pages</code>分支并保存. 此时可以看到你的网站地址 <code>https://&lt;username&gt;.github.io</code> (默认是markdown内容，等一会刷新)</li>
-</ul>
-<h3 id="-2">自定义域名(可选)</h3>
-<ul>
-<li>github的用户名及其难起，托管域名也就不好记，所以改为自定义域名。</li>
-<li>在云平台解析你所拥有的域名，记录类型为CNAME，记录值为你的托管域名<code>&lt;username&gt;.github.io</code>。</li>
-<li>进入 <code>Settings</code> &gt; <code>Pages</code>，更改<code>Custom domain</code> 为你所解析的域名，系统自动检查DNS解析。</li>
-<li>等待片刻后可以访问。若不成功有其他问题请参考<a href="https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site">官方文档</a></li>
-</ul>
-<h3 id="-3">配置与内容</h3>
-<ul>
-<li>修改配置文件<code>script/config.js</code></li>
-<li>写博客。以单独目录形式放在<code>article</code>目录下。 前置数据字段参考本文，如果之前已有markdown文章，字段不匹配，修改<code>scripts/utils/parse_article.js</code>底部</li>
-<li>下方Discussions 在 Settings 里开通。 小蓝鸟如果不想要在<code>src/template/article/article_action.ejs</code>里注释掉。</li>
+<li><p>编译期检测写法。<code>var _ Marshaler = (*RawMessage)(nil)</code>  ，断言 <code>*RawMessage</code>实现了<code>Marshaler</code>接口</p></li>
+<li><p>空间重利用。<code>*m = append((*m)[0:0], data ...)</code> 。这个其实大多数情况下没什么用，是说对<code>RawMessage</code>重新反Json化的时候，从底层数组原地址开始重写。 举例：</p>
+<pre><code class="go language-go">type People struct {
+    Journey json.RawMessage `json:"journey"`
+}
+
+func main() {
+    var p People<pre><code>var bts1 = []byte(`{
+    "journey":["杭州","上海"]
+}`)
+var bts2 = []byte(`{
+    "journey":["北京"]
+}`)
+var bts3 = []byte(`{
+    "journey":["上海","杭州","北京"]
+}`)
+
+json.Unmarshal(bts1, &amp;amp;p)
+fmt.Printf("%p 初始化地址\n", &amp;amp;p.Journey[0])
+// 第一次解析后记录拷贝一下p.Journey
+a := p.Journey
+fmt.Println(string(a))
+
+json.Unmarshal(bts2, &amp;amp;p)
+fmt.Printf("%p 在原内存空间上重写，地址不变\n", &amp;amp;p.Journey[0])
+fmt.Println(string(a))
+
+json.Unmarshal(bts3, &amp;amp;p)
+fmt.Printf("%p 需要扩容，地址变化\n", &amp;amp;p.Journey[0])
+fmt.Println(string(a))
+</code></pre>}
+</code></pre>
+<pre><code class="shell language-shell">0xc00015e168 初始化地址
+["杭州","上海"]
+0xc00015e168 在原内存空间上重写，地址不变
+["北京"]"上海"]
+0xc000126360 需要扩容，地址变化
+["北京"]"上海"]
+</code></pre>
+<p>如果不这么写，可以试着把源码复制过来，修改<code>*m = append((*m)[0:0], data...)</code> 为 <code>*m = append([]byte{}, data...)</code> ，修改 <code>Journey json.RawMessage</code>为 <code>Journey RawMessage</code>，可以发现地址一直是变化的，a是不变的。</p></li>
 </ul>
 </section>
 
@@ -477,10 +535,10 @@
     使用 <a href="https://github.com/tomatocuke/tomatocuke.github.io/discussions">Discussions</a> 讨论
   </span>
   <span class="article-actions_action">
-    在 <a href="https://github.com/tomatocuke/tomatocuke.github.io/edit/main/articles/blog/index.md">Github</a> 上编辑
+    在 <a href="https://github.com/tomatocuke/tomatocuke.github.io/edit/main/articles/go-jsonraw/index.md">Github</a> 上编辑
   </span>
   <span class="article-actions_action">
-    分享到 <a href="https://www.twitter.com/share?text=5%E5%88%86%E9%92%9F%E6%97%A0%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2&amp;url=%2Fblog">Twitter</a>
+    分享到 <a href="https://www.twitter.com/share?text=%E4%BB%8Ejson.RawMessage%E5%AD%A6%E5%88%B0%E7%9A%84%E4%B8%9C%E8%A5%BF&amp;url=%2Fgo-jsonraw">Twitter</a>
   </span>
 </div>
 

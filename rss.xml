@@ -7,13 +7,13 @@
 >
   <channel>
     <title>
-      <![CDATA[满船清梦压星河]]>
+      <![CDATA[似水流年]]>
     </title>
     <description>
       <![CDATA[]]>
     </description>
     <link>https://blog.kikia.cc</link>
-    <lastBuildDate>2023-01-07T13:00:15.608Z</lastBuildDate>
+    <lastBuildDate>2023-01-07T13:58:04.046Z</lastBuildDate>
     
       <item>
         <title>
@@ -25,6 +25,234 @@
         <link>https://blog.kikia.cc/blog</link>
         <guid isPermaLink="false">blog</guid>
         <pubDate>2023-01-03T00:00:00.000Z</pubDate>
+      </item>
+    
+      <item>
+        <title>
+          <![CDATA[用OpenAI实现公众号自动回复]]>
+        </title>
+        <description>
+          <![CDATA[感觉`ChatGPT`很好玩，尝试逆向调用放到公众号上。 一方面OpenAI还未开放这个接口，最近几天它们也在不断增加安全策略；另一方面，结果响应速度太慢，大多数都会超出公众号被动回复的时间限制。 退而求其次，在OpenAI官网找到了之前版本的公开接口，代码发布在 [https://github.c...]]>
+        </description>
+        <link>https://blog.kikia.cc/chatgpt-item</link>
+        <guid isPermaLink="false">chatgpt-item</guid>
+        <pubDate>2022-12-10T00:00:00.000Z</pubDate>
+      </item>
+    
+      <item>
+        <title>
+          <![CDATA[我和ChatGPT掰扯GoGC这件事]]>
+        </title>
+        <description>
+          <![CDATA[最近`ChatGPT`很火，我也在尝鲜，探求它能解决那些问题，以及它的局限性。  我发现它在小段特定功能代码的生成是很出色的，但是它不能预测，不能对复杂问题有效把握重点。甚至有时候像小学生一样嘴犟。   &lt;!--more--&gt;   以下是我们的对话：  ![在这里插入图片描述](https://im...]]>
+        </description>
+        <link>https://blog.kikia.cc/chatgpt-gogc</link>
+        <guid isPermaLink="false">chatgpt-gogc</guid>
+        <pubDate>2022-12-08T00:00:00.000Z</pubDate>
+      </item>
+    
+      <item>
+        <title>
+          <![CDATA[go+redis分布式锁]]>
+        </title>
+        <description>
+          <![CDATA[1. Redis怎么做分布式锁是老生常谈，但是之前没有注意一些细节，存在小隐患。  - 可重入。必须使用脚本原子性执行，先通过key获取，如果没有正常加锁`（set + ex + nx)`，如果存在，则刷新`ttl`。  - 误删问题。超时是不可预知的，试想，当A获取到锁，进行业务逻辑，再解锁，但是...]]>
+        </description>
+        <link>https://blog.kikia.cc/go-redislock</link>
+        <guid isPermaLink="false">go-redislock</guid>
+        <pubDate>2022-11-23T00:00:00.000Z</pubDate>
+      </item>
+    
+      <item>
+        <title>
+          <![CDATA[Go优雅关闭http服务]]>
+        </title>
+        <description>
+          <![CDATA[**优雅退出**：指HTTP服务在接到用户的退出指令后，停止接受新请求，对进行中的请求处理完成后再退出。  &lt;!--more--&gt;  如下代码，`main`中启动`http.ListenAndServe`，在`goroutine`中`signal.Notify`监听退出信号，接口里sleep n秒模...]]>
+        </description>
+        <link>https://blog.kikia.cc/go-shutdown</link>
+        <guid isPermaLink="false">go-shutdown</guid>
+        <pubDate>2022-05-09T00:00:00.000Z</pubDate>
+      </item>
+    
+      <item>
+        <title>
+          <![CDATA[从json.RawMessage学到的东西]]>
+        </title>
+        <description>
+          <![CDATA[`json`包中有个`json.RawMessage`其实就是`[]byte`的别名。 其主要是实现了`Marshaler`和`Unmarshaler`两个接口....  &lt;!--more--&gt; #### 一、应用 `json.RawMessage` 应用在判断情况是否解析，以及解析到什么结构上。例...]]>
+        </description>
+        <link>https://blog.kikia.cc/go-jsonraw</link>
+        <guid isPermaLink="false">go-jsonraw</guid>
+        <pubDate>2022-03-18T00:00:00.000Z</pubDate>
+      </item>
+    
+      <item>
+        <title>
+          <![CDATA[Go内存逃逸测试]]>
+        </title>
+        <description>
+          <![CDATA[&lt;!--more--&gt;  ### 代码 ```go package main  import (  &#34;fmt&#34;  &#34;time&#34; )  type TM1 struct {  array [1024 * 64]byte }  type TM2 struct {  array [1024*64 + 1]b...]]>
+        </description>
+        <link>https://blog.kikia.cc/go-run</link>
+        <guid isPermaLink="false">go-run</guid>
+        <pubDate>2021-11-09T00:00:00.000Z</pubDate>
+      </item>
+    
+      <item>
+        <title>
+          <![CDATA[区分binlog、redolog、undolog、change buffer]]>
+        </title>
+        <description>
+          <![CDATA[阅读本文前前需要大概明白MySQL的数据结构，内存和磁盘、server层、engine层、页、索引结构、事务、MVCC等。  &lt;!--more--&gt;    #### WAL  Write Ahead Log 预写日志，用于保证数据操作的原子性和持久性，所有的修改在提交之前都要先写入 log 文件中。...]]>
+        </description>
+        <link>https://blog.kikia.cc/mysql-log</link>
+        <guid isPermaLink="false">mysql-log</guid>
+        <pubDate>2021-06-08T00:00:00.000Z</pubDate>
+      </item>
+    
+      <item>
+        <title>
+          <![CDATA[计算机信息系统结构]]>
+        </title>
+        <description>
+          <![CDATA[学习笔记: 概论、指令、寻址、存储、中断、I/O、处理机  &lt;!--more--&gt;  #### 一、概论 - 计算机结构层次(低-&gt;高): 微程序机器级(0级)、传统机器语言机器级(1级)、操作系统机器级(2级)、汇编语言机器级、高级语言机器级、应用语言机器级 - M0微程序由 「硬件」实现，M1传...]]>
+        </description>
+        <link>https://blog.kikia.cc/doc-jisuanji</link>
+        <guid isPermaLink="false">doc-jisuanji</guid>
+        <pubDate>2021-03-31T00:00:00.000Z</pubDate>
+      </item>
+    
+      <item>
+        <title>
+          <![CDATA[树莓派(三): 更换ubuntu系统、ubuntu server系统wifi连接]]>
+        </title>
+        <description>
+          <![CDATA[&lt;!--more--&gt;  #### 一、准备 1. 树莓派（支持WIFI） 2. 读卡器 3. 一台电脑（就是看我的这台）  ##### 一、刻录系统 1. ubuntu官网已经提供树莓派的系统 [https://ubuntu.com/tutorials/how-to-install-ubuntu-...]]>
+        </description>
+        <link>https://blog.kikia.cc/pi-3</link>
+        <guid isPermaLink="false">pi-3</guid>
+        <pubDate>2021-02-09T00:00:00.000Z</pubDate>
+      </item>
+    
+      <item>
+        <title>
+          <![CDATA[树莓派(一): 联网、固定ip、改为64位、内网穿透]]>
+        </title>
+        <description>
+          <![CDATA[折腾一下，云服务器和nas都偏贵.  买的4B版 4G内存树莓派，包括主板、电源、外壳、散热片。自己外接鼠标、键盘、HDMI线（它这个是小头，最好买机器的时候直接附带买了）  &lt;!--more--&gt;  #####  一、WIFI联网 1. 树莓派连接显示器直接连接 2. 树莓派网线连接电脑登录 ``...]]>
+        </description>
+        <link>https://blog.kikia.cc/pi-1</link>
+        <guid isPermaLink="false">pi-1</guid>
+        <pubDate>2021-02-06T00:00:00.000Z</pubDate>
+      </item>
+    
+      <item>
+        <title>
+          <![CDATA[树莓派(二): 扩展SD卡剩余空间]]>
+        </title>
+        <description>
+          <![CDATA[&lt;!--more--&gt;  我也不是很懂磁盘挂载相关知识，待之后补充， 这里只贴出自己东拼西凑操作成功的记录。 我是16G的内存卡，但是查看磁盘，只有差不多一半可用。  ### 操作前磁盘占用情况 ```shell local ) df -h 文件系统        容量  已用  可用 已用% 挂载...]]>
+        </description>
+        <link>https://blog.kikia.cc/pi-2</link>
+        <guid isPermaLink="false">pi-2</guid>
+        <pubDate>2021-02-06T00:00:00.000Z</pubDate>
+      </item>
+    
+      <item>
+        <title>
+          <![CDATA[线性表C实现]]>
+        </title>
+        <description>
+          <![CDATA[线性表的顺序存储结构是指用一组地址连续的存储单元依次存放线性表的元素。为了使用顺序结构实现线性表，程序通常会采用数组来保存线性表中的数据元素。  &lt;!--more--&gt;   ```c #define ListSize 100    // 自定义长度100 #define DataType int  ...]]>
+        </description>
+        <link>https://blog.kikia.cc/study-line</link>
+        <guid isPermaLink="false">study-line</guid>
+        <pubDate>2020-11-30T00:00:00.000Z</pubDate>
+      </item>
+    
+      <item>
+        <title>
+          <![CDATA[Ubuntu搭建LNMP]]>
+        </title>
+        <description>
+          <![CDATA[本文介绍Linux环境下Nginx+MySQL+Redis+PHP的环境搭建。  其中Nginx和Redis的搭建比较简单，MySQL在配置连接上有点不同，区分8.0和8.0以下，问题主要原因在于默认密码加密方式的更换。 PHP的槽点较多，当你看到这篇文章时，PHP不一定在哪个版本了，仅供参考。  ...]]>
+        </description>
+        <link>https://blog.kikia.cc/linux-lnmp</link>
+        <guid isPermaLink="false">linux-lnmp</guid>
+        <pubDate>2020-08-06T00:00:00.000Z</pubDate>
+      </item>
+    
+      <item>
+        <title>
+          <![CDATA[生命游戏-Vue版]]>
+        </title>
+        <description>
+          <![CDATA[普林斯顿大学数学系教授 约翰•康威 近日因新冠病毒去世。其因发明生命游戏被孰知。  生命游戏有趣的是，有的会周期性震荡，有的会像宇宙飞船一样到处飞，有的像机关枪一样发射。有的呈现出某种循环，有的演化了很久都没有发现什么规律，有的还能在演化了几千万步后，消灭掉母版，复制出一个子版来。  生命游戏规则：...]]>
+        </description>
+        <link>https://blog.kikia.cc/web-vuegame</link>
+        <guid isPermaLink="false">web-vuegame</guid>
+        <pubDate>2020-04-15T00:00:00.000Z</pubDate>
+      </item>
+    
+      <item>
+        <title>
+          <![CDATA[binlog开启及数据恢复]]>
+        </title>
+        <description>
+          <![CDATA[binlog的功能这里不再赘述，之前做主从都是在前人的基础上改改配置，突然觉得还是要自己一点点弄一遍才安心。  &lt;!--more--&gt;  #### 一、相关变量查看 1. 是否开启binlog ``show variables like &#39;log_bin&#39;;`` 2. binlog三种模式 ``sh...]]>
+        </description>
+        <link>https://blog.kikia.cc/mysql-binlog</link>
+        <guid isPermaLink="false">mysql-binlog</guid>
+        <pubDate>2020-01-05T00:00:00.000Z</pubDate>
+      </item>
+    
+      <item>
+        <title>
+          <![CDATA[mysql8远程连接报错]]>
+        </title>
+        <description>
+          <![CDATA[报错：``Authentication plugin &#39;caching_sha2_password&#39; cannot be loaded`` 原因: MySQL从8.0开始更改了密码的加密方式为`caching_sha2_password`，而一般远程连接软件使用`mysql_native_passw...]]>
+        </description>
+        <link>https://blog.kikia.cc/mysql-connect</link>
+        <guid isPermaLink="false">mysql-connect</guid>
+        <pubDate>2019-09-21T00:00:00.000Z</pubDate>
+      </item>
+    
+      <item>
+        <title>
+          <![CDATA[Golang学习-数据类型]]>
+        </title>
+        <description>
+          <![CDATA[&lt;!--more--&gt;  ### 一、数字、字符串、常量 ```go func main(){  fmt.Println(&#34;----数字----&#34;)  fmt.Println(&#34;不同数字类型不可算数运算，别名可以&#34;)  // 定义类型别名 type New = Old  // 定义新类型  type...]]>
+        </description>
+        <link>https://blog.kikia.cc/go-datatype</link>
+        <guid isPermaLink="false">go-datatype</guid>
+        <pubDate>2019-02-13T00:00:00.000Z</pubDate>
+      </item>
+    
+      <item>
+        <title>
+          <![CDATA[SQL拆解]]>
+        </title>
+        <description>
+          <![CDATA[&lt;!--more--&gt;  ### 一、顺序 SQL语句的顺序不是解析的顺序，实际为 ```sql FROM &lt;left_table&gt; ON &lt;join_condition&gt; &lt;join_type&gt; JOIN &lt;right_table&gt; WHERE &lt;where_condition&gt; GROUP BY...]]>
+        </description>
+        <link>https://blog.kikia.cc/mysql-remark</link>
+        <guid isPermaLink="false">mysql-remark</guid>
+        <pubDate>2019-01-10T00:00:00.000Z</pubDate>
+      </item>
+    
+      <item>
+        <title>
+          <![CDATA[MySQL的explain解释器探索]]>
+        </title>
+        <description>
+          <![CDATA[在SQL的执行前，会对SQL语句进行拆解分析，通过在SQL语句前加`explain`能将这一信息提现出来，且不进行真正的查询。  索引是SQL语句执行的重中之重，作为程序员必须要足够了解。怎么建立索引？走哪个索引？为什么？...   ### 一、字段基本解读  ```sql +-----+-----...]]>
+        </description>
+        <link>https://blog.kikia.cc/mysql-explain</link>
+        <guid isPermaLink="false">mysql-explain</guid>
+        <pubDate>2018-12-04T00:00:00.000Z</pubDate>
       </item>
     
       <item>
