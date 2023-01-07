@@ -1,8 +1,8 @@
 export default {
-  author: '浙ICP备2021005082号-2',
+  author: '浙ICP备2021005082号-3',
   author_site: 'https://beian.miit.gov.cn',
   keywords: ['技术博客', 'golang'],
-  title: '满船清梦压星河',
+  title: '似水流年',
   description: '',
   origin: '',
   public_path: 'https://blog.kikia.cc', // 你的域名
