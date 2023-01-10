@@ -1,0 +1,936 @@
+<!DOCTYPE html><html lang="zh-cn"><head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="浙ICP备2021005082号-3">
+<meta name="keywords" content="技术博客,golang">
+
+<!-- Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-CESZTRKM96"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CESZTRKM96');
+</script>
+
+<!-- open graph -->
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://blog.kikia.cc/6ed5faa0573b2a5a9d47232c9a71fb88.png">
+
+<link rel="shortcut icon" type="image/png" href="https://blog.kikia.cc/6ed5faa0573b2a5a9d47232c9a71fb88.png">
+<link rel="sitemap" type="application/xml" href="https://blog.kikia.cc/sitemap.xml">
+
+<link rel="preload" href="https://blog.kikia.cc/8abf19ae28b548ba26f507772583c29e.ttf" as="font" crossorigin="anonymous">
+<link rel="preload" href="https://blog.kikia.cc/d4a92dfd9184cda50258a23b09ff4256.ttf" as="font" crossorigin="anonymous">
+
+  <style>
+  @font-face {
+    font-family: common_font;
+    src: url(https://blog.kikia.cc/d4a92dfd9184cda50258a23b09ff4256.ttf);
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    --content-max-width: 840px;
+
+    --primary-color: rgb(237 106 94);
+
+    --normal-color: #333;
+    --secondary-color: #888;
+    --tertiary-color: #ddd;
+    --backgroud: rgb(255 255 255);
+
+    --border-radius: 2px;
+    --transition-duration: 0.3s;
+
+    background-color: var(--backgroud);
+    transition: background-color var(--transition-duration);
+  }
+</style>
+
+
+  <title>Golang学习-数据类型 - 似水流年</title>
+  <meta name="description" content="<!--more-->  ### 一、数字、字符串、常量 ```go func main(){  fmt.Println(&quot;----数字----&quot;)  fmt.Println(&quot;不同数字类型不可算数运算，别名可以&quot;)  // 定义类型别名 type New = Old  // 定义新类型  type......">
+  <meta property="og:description" content="<!--more-->  ### 一、数字、字符串、常量 ```go func main(){  fmt.Println(&quot;----数字----&quot;)  fmt.Println(&quot;不同数字类型不可算数运算，别名可以&quot;)  // 定义类型别名 type New = Old  // 定义新类型  type......">
+
+  <link rel="preload" href="https://blog.kikia.cc/b9d7ed5613dac1140b8bbedf82515ca1.ttf" as="font" crossorigin="anonymous">
+  <style>
+    @font-face {
+      font-family: article_font_go-datatype;
+      src: url(https://blog.kikia.cc/b9d7ed5613dac1140b8bbedf82515ca1.ttf);
+    }
+    article {
+      font-family: article_font_go-datatype;
+    }
+  </style>
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/firacode@5.2.0/distr/fira_code.min.css">
+  <link rel="stylesheet" href="https://blog.kikia.cc/ece570de77ba673c17121d06fc929bd9.css">
+</head>
+
+<body>
+  <style>
+  @font-face {
+    font-family: title_font;
+    src: url(https://blog.kikia.cc/8abf19ae28b548ba26f507772583c29e.ttf);
+  }
+
+  .page-header {
+    max-width: var(--content-max-width);
+    margin: 50px auto 40px auto;
+    padding: 0 30px;
+    display: flex;
+    align-items: center;
+  }
+
+  .page-header_title {
+    flex: 1;
+    min-width: 0;
+    font-size: min(8vw, 56px);
+    font-family: title_font;
+    margin: 0;
+    color: var(--normal-color);
+  }
+
+  .page-header_title > a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .page-header_icon {
+    margin-left: 16px;
+  }
+
+  .page-header_icon > img {
+    user-select: none;
+    width: 20px;
+    height: 20px;
+  }
+</style>
+
+<header class="page-header">
+  
+    <h2 class="page-header_title">
+      <a href="https://blog.kikia.cc/">似水流年</a>
+    </h2>
+  
+  <a class="page-header_icon" href="https://blog.kikia.cc/rss.xml">
+    <img src="https://blog.kikia.cc/e31ad23031e5bcb34e8d4a424ba0c100.png" alt="rss">
+  </a>
+  <a class="page-header_icon" href="https://github.com/tomatocuke/tomatocuke.github.io">
+    <img src="https://blog.kikia.cc/184c800e11079b13904f308161071b62.png" alt="github">
+  </a>
+</header>
+
+  <article>
+    <style>
+.article-header {
+  max-width: var(--content-max-width);
+  margin: 40px auto;
+  padding: 0 30px;
+}
+
+.article-title {
+  color: var(--primary-color);
+  font-size: 32px;
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+}
+
+.article-title a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.article-publish-time {
+  color: var(--secondary-color);
+  font-size: 14px;
+  font-family: common_font;
+}
+</style>
+
+<section class="article-header">
+  <h1 class="article-title">
+    <a href="https://blog.kikia.cc/go-datatype">Golang学习-数据类型</a>
+  </h1>
+  <time class="article-publish-time">2019-02-13</time>
+</section>
+
+    <style>
+  code {
+    font-family: 'Fira Code' !important;
+  }
+
+  article {
+    --article-space: 30px;
+  }
+
+  article a {
+    color: var(--normal-color);
+    text-decoration-color: var(--primary-color);
+  }
+
+  article h2, article h3, article h4, article h5, article h6 {
+    max-width: var(--content-max-width);
+    padding: 0 30px;
+    margin: 0 auto;
+    line-height: 1.5;
+    color: var(--normal-color);
+  }
+
+  article h2 {
+    margin-top: 28px;
+    font-size: 28px;
+  }
+
+  article h3 {
+    margin-top: 26px;
+    font-size: 25px;
+  }
+
+  article h4 {
+    margin-top: 24px;
+    font-size: 22px;
+  }
+
+  article h5 {
+    margin-top: 22px;
+    font-size: 19px;
+  }
+
+  article h6 {
+    margin-top: 20px;
+    font-size: 16px;
+  }
+
+  article p {
+    max-width: var(--content-max-width);
+
+    margin: 15px auto;
+    padding: 0 30px;
+
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--normal-color);
+    word-break: break-word;
+  }
+
+  article p code, article ul code {
+    padding: 0 4px;
+    border-radius: var(--border-radius);
+    background: rgba(237, 106, 94, 0.3);
+  }
+
+  article pre {
+    max-width: var(--content-max-width) !important;
+    margin: 15px auto !important;
+    font-size: 14px !important;
+    box-sizing: border-box;
+    border-radius: var(--border-radius) !important;
+    tab-size: 2 !important;
+    padding: 0 !important;
+  }
+
+  article pre code {
+    display: block;
+    margin: 20px 30px !important;
+    overflow: auto !important;
+    font-size: inherit !important;
+  }
+
+  article hr {
+    max-width: var(--content-max-width);
+    margin: 40px auto;
+    padding: 0 var(--article-space);
+    border: none;
+  }
+
+  article hr::after{
+    content: '';
+    display: block;
+    height: 1px;
+    background-color:var(--tertiary-color);
+  }
+
+  article blockquote {
+    max-width: var(--content-max-width);
+    padding: 0 var(--article-space);
+    margin: 15px auto;
+    position: relative;
+    font-style: italic;
+    font-size: 16px;
+    color: var(--secondary-color);
+  }
+
+  .table-container {
+    max-width: var(--content-max-width);
+    padding: 0 30px;
+    margin: 15px auto;
+  }
+
+  .table-container table {
+    border-collapse: collapse;
+  }
+
+  .table-container th, .table-container td {
+    font-size: 14px;
+    color: var(--normal-color);
+    border: 1px solid var(--tertiary-color);
+    padding: 10px;
+    text-align: left;
+  }
+
+  .table-container th {
+    font-size: 16px;
+    text-align: left;
+  }
+
+  article blockquote::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 30px;
+    width: 3px;
+    height: 100%;
+    background-color: var(--primary-color);
+  }
+
+  article blockquote p {
+    font-size: 16px;
+    color: inherit;
+    max-width: unset;
+    padding: 0;
+    margin: 0 0 0 30px;
+  }
+
+  article ul,
+  article ol {
+    max-width: var(--content-max-width);
+    padding: 0 30px;
+    margin: 15px auto;
+    color: var(--normal-color);
+    line-height: 1.5;
+  }
+
+  article ol {
+    counter-reset: li-count;
+  }
+  
+  article ul li, article ol li {
+    display: block;
+    margin: 5px 0;
+    position: relative;
+  }
+
+  article ol li {
+    counter-increment: li-count;
+  }
+
+  article ul li::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+
+    margin-right: 10px;
+
+    vertical-align: middle;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+  }
+
+  article ol li::before {
+    content: counter( li-count) '. ';
+    color: var(--primary-color);
+  }
+
+  article figcaption {
+    font-size: 12px;
+    color: var(--secondary-color);
+    text-align: center;
+    margin-top: 5px;
+  }
+
+  .figure-img {
+    max-width: var(--content-max-width);
+    padding: 0 30px;
+    margin: 15px auto;
+  }
+
+  .figure-img img {
+    display: block;
+    max-width: 100%;
+    margin: 0 auto;
+    border-radius: var(--border-radius);
+  }
+  
+  .figure-video {
+    max-width: var(--content-max-width);
+    padding: 0 30px;
+    margin: 15px auto;
+  }
+
+  .figure-video video {
+    display: block;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
+  .figure-iframe {
+    width: 100%;
+    margin: 15px 0;
+  }
+
+  .figure-iframe iframe {
+    display: block;
+    width: 100%;
+    max-width: var(--content-max-width);
+    margin: 0 auto;
+    height: 640px;
+    border: 1px solid var(--tertiary-color);
+    border-radius: var(--border-radius);
+  }
+
+  strong {
+    font-weight: normal;
+    text-decoration: underline;
+  }
+</style>
+
+<section>
+  <!--more--><h3 id="">一、数字、字符串、常量</h3>
+<pre><code class="go language-go">func main(){
+    fmt.Println("----数字----")
+    fmt.Println("不同数字类型不可算数运算，别名可以")
+    // 定义类型别名 type New = Old
+    // 定义新类型  type New Old
+
+    // 默认的数字类型是int，int不是int32或int64的别名
+    n := 123
+    fmt.Printf("%T \n", n)
+
+    //uint8(别名"byte",0-255), uint16, uint32, uint64
+    var n1 uint8 = 11
+    var n2 byte = 22
+    // 别名相当于同一类型可以运算
+    fmt.Printf("%T %T %T \n", n1, n2, n1+n2)
+
+    //int8, int16, int32(别名"rune"), int(默认), int64
+    var n3 rune = 11
+    var n4 int32 = 22
+    fmt.Printf("%T %T %T \n", n3, n4, n3+n4)
+
+    //float32, float64(默认)
+    var f = 3.14
+    i := int(f) // 可以强制转换类型
+    fmt.Printf("%T %T %d \n", f, i, i)
+
+    // 关于溢出
+    var x int8 = -128
+    fmt.Println(x - 1)
+    fmt.Println(x / -1)
+    fmt.Println(x/-1 - 10)
+    fmt.Println(x/-1 + 10)
+
+
+    fmt.Println("----字符串----")
+    str := "hallo "
+    str += "world"//使用“+”拼接字符串
+    //不能直接更改单个字符，拆成字节切片，修改后转回字符串
+    s := []byte(str)
+    fmt.Println(s)
+    s[1] = 'e'
+    str = string(s)
+    fmt.Println(str)
+    //字符串可以切割，字符串切片在底层上并不创建新的内存，是在原有的基础上偏移
+    str = "I like the " + str[6:]
+    fmt.Println(str)
+    // 字符串长度，len()无法计算中文长度，可以利用utf8包，也可以使用[]rune
+    str2 := "hello中国"
+    fmt.Println(len(str2), len([]rune(str2)))
+
+
+    fmt.Println("----常量----")
+    //特殊常量iota,在 const关键字出现时将被重置为 0,const 中每新增一行常量声明将使 iota 计数一次
+    const (
+        A = iota
+        B
+        C string = "C"
+        D
+        E = iota
+    )
+    const F = iota
+    fmt.Println(A, B, C, D, E, F)
+}
+</code></pre>
+<h3 id="-1">二、指针</h3>
+<pre><code class="go language-go">package main
+import "fmt"
+func main() {
+   var a int = 4
+   //一个指针变量通常缩写为ptr,空指针为nil
+   var ptr *int
+   fmt.Println(ptr == nil)
+   ptr = &amp;a
+   fmt.Printf("ptr类型为%T\n", ptr)
+   fmt.Println("ptr值为", ptr)
+   fmt.Printf("*ptr值为%d\n", *ptr)
+}
+</code></pre>
+<h3 id="-2">三、数组和切片</h3>
+<pre><code class="go language-go">package main
+import (
+    "fmt"
+)
+func main() {
+    fmt.Println("----数组----")
+    //数组是具有相同唯一类型的一组已编号且长度固定的数据项序列
+    arr1 := [3]byte{'a','b'}
+    //也可以自行统计[...]byte{'a','b'}，但此时固定长度为2，则不能进行下边赋值
+    arr1[2] = 'c'
+    //二维数组
+    arr2 := [2][2]int{{1,2},{3}}
+    arr2[1][1] = 4
+    fmt.Println(arr1, arr2)
+
+
+    fmt.Println("----切片----")
+    //切片("动态数组",引用类型),与数组相比切片的长度是不固定的，可以追加元素
+    //像一个结构体，包含了指针，长度，最大长度
+    slice1 := []int{1,2}
+    slice2 := append(slice1, 3)
+    slice3 := slice2[1:]
+    fmt.Println(slice1,slice2,slice3)
+    fmt.Println(cap(slice1))
+    //使用make形式,第二个参数代表初始化2个默认成员，第三个参数表示最大成员数（可省略）。
+    slice4 := make([]int, 2, 3)//2个成员
+    slice5 := append(slice4, 67373)//3个成员，地址和slice4相同
+    slice6 := append(slice5, 67373)//超出，重新分配地址
+    fmt.Println(len(slice4),cap(slice4),slice4,slice5)
+    fmt.Printf("%p %p %p \n",slice4,slice5, slice6)
+    //未指定长度的切片等于nil
+    var slice7 []int
+    fmt.Println(slice7 == nil)
+}
+</code></pre>
+<p>切片cap容量增长原理：append函数执行时会判断切片容量是否能够存放新增元素，如果不能，则会重新申请存储空间，新存储空间将是原来的2倍或1.25倍</p>
+<pre><code class="go language-go">package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    var slice []int
+    slice = append(slice, 1)
+    fmt.Println(&amp;slice[0], cap(slice))
+
+    slice = append(slice, 2)
+    fmt.Println(&amp;slice[0], cap(slice))
+
+    slice = append(slice, 3)
+    fmt.Println(&amp;slice[0], cap(slice))
+
+    slice = append(slice, 4)
+    fmt.Println(&amp;slice[0], cap(slice))
+
+    slice = append(slice, 5)
+    fmt.Println(&amp;slice[0], cap(slice))
+
+    for i := 0; i &lt; 256; i++ {
+        slice = append(slice, i)
+    }
+    fmt.Println(&amp;slice[0], cap(slice))
+
+    for i := 0; i &lt; 256; i++ {
+        slice = append(slice, i)
+    }
+    fmt.Println(&amp;slice[0], cap(slice))
+
+    for i := 0; i &lt; 256; i++ {
+        slice = append(slice, i)
+    }
+    fmt.Println(&amp;slice[0], cap(slice))
+
+    for i := 0; i &lt; 256; i++ {
+        slice = append(slice, i)
+    }
+    fmt.Println(&amp;slice[0], cap(slice))
+
+}
+</code></pre>
+<h3 id="map">四、Map集合</h3>
+<pre><code class="go language-go">package main
+import "fmt"
+func main() {
+    // 声明map时，是个空指针
+    var m0 map[int]int
+    // m0[0] = 0 不可以
+    fmt.Println(m0, m0 == nil)
+
+    //初始化, 正确姿势是使用make分配内存
+    m1 := map[string]int{"a": 1}
+    //添加键
+    key := "b"
+    m1[key] = 2
+    //map为引用类型，m1和m2同一个地址
+    m2 := m1
+    m2["c"] = 3
+    fmt.Println(m1)
+    //遍历，注意是无序的！随机的！
+    for key, val := range m1 {
+        fmt.Printf("key=%s,val=%d\n", key, val)
+    }
+    //删除，不存在不会报错
+    delete(m1, "c")
+    fmt.Println(m2)
+}
+</code></pre>
+<h3 id="struct">五、Struct结构体</h3>
+<pre><code class="go language-go">package main
+import "fmt"
+type Human struct{
+    Name string
+    Age int
+}
+//组合，相当于类继承
+type Student struct{
+    Human
+    Number int
+}
+func main(){
+    me := Student{
+        Human : Human{ Name: "abc"},
+        Number: 67373,//换行结束时此处必须有逗号
+    }
+    //两种形式皆可获得，未赋值Age数字类型默认为0
+    me.Age = 1
+    me.Human.Age = 2
+    fmt.Println(me)
+
+    // 可以使用 new 去创建，但是返回的是指针类型
+    you := new(Student)
+    you.Number = 18 //指针类型不能.属性，这里做了语法糖，其实是(*you).Number 
+    fmt.Printf("%T\n", you)
+
+    //匿名结构体，临时使用
+    his := struct{
+        name string
+        age uint8
+    }{"his", 34} // 可以不指定key，值列表形式
+    fmt.Println(his)
+
+}
+</code></pre>
+<h3 id="-3">六、函数</h3>
+<pre><code class="go language-go">package main
+import "fmt"
+
+//多个返回值
+func fn1(c int) (d int,e int){
+    d,e = c + 1, c + 2
+    return 
+}
+func fn2(c int) (int, int){
+    return c + 1, c + 2
+}
+//不定参数生成反转数组
+func fn3(arg ...int) []int{
+    length := len(arg)
+    s := make([]int, length)
+    for i := 0; i &lt; length; i++ {
+        s[i] = arg[length - i - 1]
+    }
+    return s
+}
+
+// 专有函数,也就是方法，作用于特定类型，需要有接收者
+// 举例先声明一个结构体
+type Me struct{
+    name string
+}
+// 这里的变量名应使用结构体首字母小写，不要用this或者self
+func (m *Me) say () {
+    fmt.Println("我是" + m.name)
+}
+
+func main() {
+    c := 1
+    //多返回值
+    d,e := fn1(c)
+    f,g := fn2(c)
+    fmt.Println(d, e, f, g)
+    //不定参数
+    s := fn3(1,2,3,4)
+    fmt.Println(s)
+    //say不能直接调用
+    me := Me{"张三"}//new(Me)
+    me.say()
+}
+</code></pre>
+<h3 id="-4">七、接口</h3>
+<pre><code class="go language-go">package main
+import "fmt"
+func main() {
+    //空接口可以传任何类型
+    type Element interface{}
+    //一个空接口类型的切片的值可以是任意类型
+    list := []Element{1,"Hello",'e'}
+    fmt.Println(list)
+    //断言类型
+    val,ok := list[0].(int)
+    fmt.Println(val,ok)
+
+    //使用接口类型
+    var phone Phone = new(Huawei)//这里必须取址,等同&amp;Huawei{}
+    phone.call()
+}
+
+//定义接口
+type Phone interface {
+    call()
+}
+//定义结构体
+type Huawei struct {
+
+}
+//接口实现方法
+func (huawei *Huawei) call() {
+    fmt.Println("我用华为打电话")
+}
+</code></pre>
+<h3 id="goruntine">八、并发goruntine</h3>
+<pre><code class="go language-go">package main 
+import (
+    "fmt"
+    "runtime"
+)
+func main() {
+    fmt.Printf("CPU数量%d \n",runtime.NumCPU())  // 注意，这里返回的是逻辑核数，非物理核心数
+    runtime.GOMAXPROCS(2)//设置可以并行计算的CPU核数，返回之前的值
+
+    for i := 0; i &lt; 10; i++ {
+        //固定顺序
+        fmt.Println(i)
+        //非固定顺序，且不一定有机会输出，程序就结束了
+        go func(i int){
+            fmt.Printf("goruntine%d\n", i)
+        }(i)
+    }
+
+}
+</code></pre>
+<p>使用 <code>sync.WaitGroup</code>保证goroutine都正常执行</p>
+<pre><code class="go language-go">package main
+
+import (
+    "fmt"
+    "runtime"
+    "sync"
+)
+
+func main() {
+    fmt.Printf("CPU数量%d \n", runtime.NumCPU()) // 注意，这里返回的是逻辑核数，非物理核心数
+    runtime.GOMAXPROCS(2)                      //设置可以并行计算的CPU核数，返回之前的值
+
+    wg := sync.WaitGroup{}
+
+    for i := 0; i &lt; 10; i++ {
+        wg.Add(1) // +1
+        //固定顺序
+        fmt.Println(i)
+        //非固定顺序，且不一定有机会输出，程序就结束了
+        go func(i int) {
+            fmt.Printf("goruntine%d\n", i)
+            wg.Done() // -1
+        }(i)
+    }
+
+    wg.Wait() // 等待
+}
+</code></pre>
+<h3 id="chan">九、chan通道</h3>
+<pre><code class="go language-go">package main
+import (
+    "fmt"
+    "time"
+)
+//通道可以声明接收或者发送类型
+// type Sender chan&lt;- int
+// type Receiver &lt;-chan int
+func main() {
+    //默认非缓存阻塞的，即第二个参数默认0.
+    //设置缓存数量，可以直接写入，（再直接写入会报错），其后的可以通过goruntine写入
+    c := make(chan int, 2)
+    c &lt;- 1
+    c &lt;- 2
+    go func(c chan&lt;- int) {
+        for i := 3; i &lt; 6; i++ {
+            c &lt;- i
+            fmt.Println("发送",i)
+        }
+        close(c)
+    }(c)
+    //1,2可以直接读取，goruntine不一定这时候有没有发送，所以此时等待，接收到便读取，直到close
+    for i := range c {
+        fmt.Println("接收", i)
+    }
+    // 让main函数执行结束的时间延迟1秒，不然goroutine大概率没机会输出。
+    // 以使上面两个代码块有机会被执行。这不是正确姿势，应该使用sync.WaitGroup包，或者通过非缓存阻塞的
+    time.Sleep(time.Second)
+}
+</code></pre>
+<p>非缓存阻塞的channel，select用于监听IO</p>
+<pre><code class="go language-go">package main
+
+import (
+    "fmt"
+    "time"
+)
+
+func fibonacci(c, quit chan int) {
+    x, y := 0, 1
+    for {
+        select {
+        case c &lt;- x:
+            x, y = y, x+y
+        case &lt;-quit:
+            fmt.Println("quit")
+            return
+        }
+    }
+}
+
+func main() {
+    c := make(chan int)
+    quit := make(chan int)
+    go func() {
+        for i := 0; i &lt; 10; i++ {
+            fmt.Println(&lt;-c)
+        }
+        quit &lt;- 0
+    }()
+    fibonacci(c, quit)
+
+    ticker := time.NewTicker(time.Millisecond * 500)
+    go func() {
+        for t := range ticker.C {
+            fmt.Println("Tick at", t)
+        }
+    }()
+}
+</code></pre>
+<p>理解 select ， 可以再尝试去掉 c = nil 查看一下输出。 （这个range空对象数组妙啊）</p>
+<pre><code class="go language-go">var o = fmt.Print
+
+func main() {
+    c := make(chan int, 1)
+    for range [4]struct{}{} {
+        select {
+        default:
+            o(1)
+        case &lt;-c:
+            o(2)
+            c = nil
+        case c &lt;- 1:
+            o(3)
+        }
+    }
+}
+</code></pre>
+</section>
+
+    
+  </article>
+  
+<style>
+  .article-actions {
+    max-width: var(--content-max-width);
+
+    display: flex;
+    align-items: center;
+
+    margin: 40px auto;
+    padding: 0 30px;
+
+    font-family: common_font;
+    color: var(--normal-color);
+  }
+
+  .article-actions_action:not(:last-child)::after {
+    content: '·\00a0';
+  }
+
+  .article-actions_action > a {
+    color: inherit;
+    text-decoration-color: var(--primary-color);
+  }
+
+  @media (max-width: 520px) {
+    .article-actions {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .article-actions_action::before {
+      content: '·';
+    }
+
+    .article-actions_action:not(:last-child)::after {
+      content: '';
+    }
+  }
+</style>
+
+<div class="article-actions">
+  <span class="article-actions_action">
+    使用 <a href="https://github.com/tomatocuke/tomatocuke.github.io/discussions">Discussions</a> 讨论
+  </span>
+  <span class="article-actions_action">
+    在 <a href="https://github.com/tomatocuke/tomatocuke.github.io/edit/main/articles/go-datatype/index.md">Github</a> 上编辑
+  </span>
+  <span class="article-actions_action">
+    分享到 <a href="https://www.twitter.com/share?text=Golang%E5%AD%A6%E4%B9%A0-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B&amp;url=%2Fgo-datatype">Twitter</a>
+  </span>
+</div>
+
+  <style>
+.page-footer {
+  font-size: 12px;
+  max-width: var(--content-max-width);
+  margin: 40px auto;
+  padding: 0 30px;
+  font-family: common_font;
+  color: var(--secondary-color);
+}
+
+.page-footer > a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.page-footer > .author {
+  text-decoration: underline;
+}
+
+.page-footer > a:hover {
+  color: var(--primary-color);
+}
+</style>
+
+<footer class="page-footer">
+  <a href="https://github.com/tomatocuke/tomatocuke.github.io/blob/master/LICENSE">©</a> 2023
+  <a class="author" href="https://beian.miit.gov.cn">浙ICP备2021005082号-3</a>
+</footer>
+
+
+  <script src="https://blog.kikia.cc/39c97c2884c3a2b5e64c8f085b843d4e.js"></script>
+
+
+
+</body></html>

@@ -53,18 +53,18 @@
 </style>
 
 
-  <title>Markdown语法 - 似水流年</title>
-  <meta name="description" content="## 目录  - [横线](#横线) - [文本](#文本) - [图片](#图片) - [链接](#链接) - [列表](#列表) - [表格](#表格) - [块引用](#块引用) - [代码高亮](#代码高亮)    ### 横线   横线 | 写法 ---|--- 1 | *** 2 | -......">
-  <meta property="og:description" content="## 目录  - [横线](#横线) - [文本](#文本) - [图片](#图片) - [链接](#链接) - [列表](#列表) - [表格](#表格) - [块引用](#块引用) - [代码高亮](#代码高亮)    ### 横线   横线 | 写法 ---|--- 1 | *** 2 | -......">
+  <title>树莓派(一): 联网、固定ip、改为64位、内网穿透 - 似水流年</title>
+  <meta name="description" content="折腾一下，云服务器和nas都偏贵.  买的4B版 4G内存树莓派，包括主板、电源、外壳、散热片。自己外接鼠标、键盘、HDMI线（它这个是小头，最好买机器的时候直接附带买了）  <!--more-->  #####  一、WIFI联网 1. 树莓派连接显示器直接连接 2. 树莓派网线连接电脑登录 ``......">
+  <meta property="og:description" content="折腾一下，云服务器和nas都偏贵.  买的4B版 4G内存树莓派，包括主板、电源、外壳、散热片。自己外接鼠标、键盘、HDMI线（它这个是小头，最好买机器的时候直接附带买了）  <!--more-->  #####  一、WIFI联网 1. 树莓派连接显示器直接连接 2. 树莓派网线连接电脑登录 ``......">
 
-  <link rel="preload" href="https://blog.kikia.cc/b0fc4c4d6523e4e068cb05e2bd148842.ttf" as="font" crossorigin="anonymous">
+  <link rel="preload" href="https://blog.kikia.cc/9d8000a4beefd6130b30b8dd8d8642ac.ttf" as="font" crossorigin="anonymous">
   <style>
     @font-face {
-      font-family: article_font_markdown;
-      src: url(https://blog.kikia.cc/b0fc4c4d6523e4e068cb05e2bd148842.ttf);
+      font-family: article_font_pi-1;
+      src: url(https://blog.kikia.cc/9d8000a4beefd6130b30b8dd8d8642ac.ttf);
     }
     article {
-      font-family: article_font_markdown;
+      font-family: article_font_pi-1;
     }
   </style>
   
@@ -156,9 +156,9 @@
 
 <section class="article-header">
   <h1 class="article-title">
-    <a href="https://blog.kikia.cc/markdown">Markdown语法</a>
+    <a href="https://blog.kikia.cc/pi-1">树莓派(一): 联网、固定ip、改为64位、内网穿透</a>
   </h1>
-  <time class="article-publish-time">2018-03-14</time>
+  <time class="article-publish-time">2021-02-06</time>
 </section>
 
     <style>
@@ -403,374 +403,90 @@
 </style>
 
 <section>
-  <h2 id="-1">目录</h2>
-<ul>
-<li><a href="#横线">横线</a></li>
-<li><a href="#文本">文本</a></li>
-<li><a href="#图片">图片</a></li>
-<li><a href="#链接">链接</a></li>
-<li><a href="#列表">列表</a></li>
-<li><a href="#表格">表格</a></li>
-<li><a href="#块引用">块引用</a></li>
-<li><a href="#代码高亮">代码高亮</a></li>
-</ul>
-<h3 id="-2">横线</h3>
+  <p>折腾一下，云服务器和nas都偏贵.</p>
+<p>买的4B版 4G内存树莓派，包括主板、电源、外壳、散热片。自己外接鼠标、键盘、HDMI线（它这个是小头，最好买机器的时候直接附带买了）</p>
+<!--more-->
+<h5 id="wifi">一、WIFI联网</h5>
+<ol>
+<li><p>树莓派连接显示器直接连接</p></li>
+<li><p>树莓派网线连接电脑登录 <code>vim /etc/wpa_supplicant/wpa_supplicant.conf</code></p>
+<pre><code class="conf language-conf">ctrl_interface=DIR=/var/run/wap_supplicant GROUP=netdev
+update_config=1
+#country=GB
 
-      <div class="table-container">
-        <table>
-          
-<thead>
-<tr>
-<th>横线</th>
-<th>写法</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>***</td>
-</tr>
-<tr>
-<td>2</td>
-<td>---</td>
-</tr>
-<tr>
-<td>3</td>
-<td>___</td>
-</tr>
-</tbody>
-
-        </table>
-      </div>
-    
-<p>效果依次为(没多大区别)</p>
-<h2 id="">***</h2>
-<hr>
-<h3 id="-3">文本</h3>
-
-      <div class="table-container">
-        <table>
-          
-<thead>
-<tr>
-<th>文本</th>
-<th>写法</th>
-<th>效果</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>普通文本</td>
-<td>文本</td>
-<td>hello world</td>
-</tr>
-<tr>
-<td>单行文本</td>
-<td>（tab或4空格）+文本</td>
-<td>见下面效果</td>
-</tr>
-<tr>
-<td>文本块1</td>
-<td>每行（tab或4空格）+文本</td>
-<td>见下面效果</td>
-</tr>
-<tr>
-<td>文本块2</td>
-<td>用 ``` 把文本包起来</td>
-<td>见下面效果</td>
-</tr>
-<tr>
-<td>文字高亮</td>
-<td>用`把文字包起来</td>
-<td>见下面效果</td>
-</tr>
-<tr>
-<td>换行</td>
-<td>文本间加两个空格或者空行</td>
-<td>见下面效果</td>
-</tr>
-<tr>
-<td>斜体1</td>
-<td><code>*hello*</code></td>
-<td><em>hello</em></td>
-</tr>
-<tr>
-<td>斜体2</td>
-<td><code>_hello_</code></td>
-<td><em>hello</em></td>
-</tr>
-<tr>
-<td>粗体1</td>
-<td><code>**hello**</code></td>
-<td><strong>hello</strong></td>
-</tr>
-<tr>
-<td>粗体2</td>
-<td><code>__hello__</code></td>
-<td><strong>hello</strong></td>
-</tr>
-<tr>
-<td>删除线</td>
-<td><code>~~hello~~</code></td>
-<td>~~hello~~</td>
-</tr>
-<tr>
-<td>斜粗体1</td>
-<td><code>***hello***</code></td>
-<td><strong><em>hello</em></strong></td>
-</tr>
-<tr>
-<td>斜粗体2</td>
-<td><code>___hello___</code></td>
-<td><strong><em>hello</em></strong></td>
-</tr>
-<tr>
-<td>斜粗体删除线1</td>
-<td><code>***~~hello~~***</code></td>
-<td><strong><em>~~hello~~</em></strong></td>
-</tr>
-<tr>
-<td>斜粗体删除线2</td>
-<td><code>~~***hello***~~</code></td>
-<td>~~<strong><em>hello</em></strong>~~</td>
-</tr>
-</tbody>
-
-        </table>
-      </div>
-    
-<p>效果如下</p>
-<ul>
-<li><p>普通文本</p>
-<p>hello world</p></li>
-<li><p>单行文本</p>
-<p>hello world</p></li>
-<li><p>文本块1</p>
-<p>hello !
-welcome to beijing.</p></li>
-<li><p>文本块2</p></li>
-</ul>
-<pre><code>hello !
-welcome to beijing.
+network={
+    ssid="WIFI名"
+    psk="密码"
+    key_mgmt=WPA-PSK # 这里不用改
+}
+</code></pre></li>
+<li><p>以上配置在树莓派默认桌面版重启后即可连接wifi。 但是我刷了官方提供的0.4G的lite版却不可以。新方式：把 <code>wpa_supplicant.conf</code>恢复原样，使用提示的<code>sudo raspi-config</code> -&gt; <code>System Options</code> -&gt; <code>Wireless LAN</code>配置。（另外说一下这个版本默认不开启ssh）</p></li>
+</ol>
+<h5 id="ip">二、固定IP</h5>
+<p><code>vim /etc/dhcpcd.conf</code></p>
+<pre><code class="conf language-conf">static ip_address=192.168.0.101/24 #自己设置，注意别冲突，可以事先ping一下
+static ip6_address=fd51:42f8:caae:d92e::ff/64
+static routers=192.168.0.1
+static domain_name_servers=192.168.0.1 8.8.8.8 fd51:42f8:caae:d92e::1
 </code></pre>
-<ul>
-<li>文字高亮</li>
-</ul>
-<p><code>3333</code>
-<code>hello</code>
-<code>你好</code></p>
-<ul>
-<li>换行</li>
-</ul>
-<p>hello<br>
-world</p>
-<h3 id="-4">图片</h3>
-
-      <div class="table-container">
-        <table>
-          
-<thead>
-<tr>
-<th>图片</th>
-<th>写法</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td><code>![image](URL title)</code></td>
-</tr>
-</tbody>
-
-        </table>
-      </div>
-    
-<p>效果</p>
+<h5 id="ssh">三、SSH连接</h5>
+<p>忘记是否自带ssh了， 账号：<code>pi</code> , 密码：<code>raspberry</code> 。 root可以登录上后直接切。</p>
+<h5 id="64">四、更改为64位</h5>
 
       <figure class="figure-img">
-        <a href="https://avatars1.githubusercontent.com/u/9919?v=4&amp;s=200" target="_blank">
-          <img src="https://avatars1.githubusercontent.com/u/9919?v=4&amp;s=200" alt="image" title="image" loading="lazy">
+        <a href="https://img-blog.csdnimg.cn/20210206142713647.png" target="_blank">
+          <img src="https://img-blog.csdnimg.cn/20210206142713647.png" alt="在这里插入图片描述" title="在这里插入图片描述" loading="lazy">
         </a>
-        <figcaption>image</figcaption>
+        <figcaption>在这里插入图片描述</figcaption>
       </figure>
     
-<h3 id="-5">链接</h3>
-
-      <div class="table-container">
-        <table>
-          
-<thead>
-<tr>
-<th>链接</th>
-<th>写法</th>
-<th>效果</th>
-<th>备注</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>外部链接</td>
-<td><code>[百度一下](https://www.baidu.com/)</code></td>
-<td><a href="https://www.baidu.com/">百度一下</a></td>
-<td>--</td>
-</tr>
-<tr>
-<td>文件内锚点链接（中文）</td>
-<td><code>[返回顶部](#目录)</code></td>
-<td><a href="#目录">返回顶部</a></td>
-<td>--</td>
-</tr>
-<tr>
-<td>文件内锚点链接（英文）</td>
-<td><code>[返回底部](#bottom-out)</code></td>
-<td><a href="#bottom-out">返回底部</a></td>
-<td>标题大写用小写代替，空格用-代替</td>
-</tr>
-</tbody>
-
-        </table>
-      </div>
-    
-<h3 id="-6">列表</h3>
-<h5 id="-7">无序列表</h5>
-<h6 id="-8">写法</h6>
-<pre><code>- 小明
-- 小红
-- 小刚
-</code></pre>
-<h6 id="-9">效果</h6>
-<ul>
-<li>小明</li>
-<li>小红</li>
-<li>小刚</li>
-</ul>
-<h5 id="-10">多行无序列表</h5>
-<h6 id="-11">写法</h6>
-<pre><code>- 第一章
-  - 第一节
-    - 第一小节
-  - 第二节
-- 第二章
-</code></pre>
-<h6 id="-12">效果</h6>
-<ul>
-<li>第一章<ul>
-<li>第一节<ul>
-<li>第一小节</li></ul></li>
-<li>第二节</li></ul></li>
-<li>第二章</li>
-</ul>
-<h5 id="-13">有序列表</h5>
-<h6 id="-14">写法</h6>
-<pre><code>1. 第一步
-1. 第二步
-1. 第三步
-</code></pre>
-<p>或</p>
-<pre><code>1. 第一步
-2. 第二步
-2. 第三步
-</code></pre>
-<h6 id="-15">效果</h6>
+<h5 id="">五、内网穿透</h5>
+<p>树莓派放在家里不费电，做自己的小型服务器很棒，但是问题在于不能直接连入公网。有兴趣的话你再查查有什么好的方式。我是因为本来有一个腾讯云服务器，两端都下载frp，通过配置，使树莓派接入公网。参考：<a href="https://blog.csdn.net/weixin_40973138/article/details/103222901">树莓派 + frp</a></p>
 <ol>
-<li>第一步</li>
-<li>第二步</li>
-<li>第三步</li>
-</ol>
-<h5 id="-16">多级有序列表</h5>
-<h6 id="-17">写法</h6>
-<pre><code>1. 第一步
-   1. 第一小步
-        1. 第一小小步
-        2. 第二小小步
-   2. 第二小步
-1. 第二步
-</code></pre>
-<h6 id="-18">效果（二级罗马数字，三级英文字母）</h6>
-<ol>
-<li>第一步</li>
-<li>第一小步
-    1. 第一小小步
-    2. 第二小小步</li>
-<li>第二小步</li>
-<li>第二步</li>
-</ol>
-<h5 id="-19">复选框</h5>
-<h6 id="-20">写法</h6>
-<pre><code>- [x] 任务一
-- [x] 任务二
-- [x] 任务三
-- [ ] 任务四
-- [ ] 任务五
-- [ ] 任务六
-</code></pre>
-<h6 id="-21">效果</h6>
+<li><p>包下载：<a href="https://github.com/fatedier/frp/releases">https://github.com/fatedier/frp/releases</a>，注意两边系统不同，下载的包也不同，树莓派下载arm的，云服务器一般下载amd64的。配置文档 <a href="https://gofrp.org/docs">https://gofrp.org/docs/</a></p></li>
+<li><p>公网服务器解压后启动frps <code>./frps -c ./frps.ini</code> （要先启动服务端）</p></li>
+<li><p>树莓派配置 <code>frpc.ini</code> 更改 <code>server_addr</code>为公网ip后启动frpc <code>./frpc -c ./frpc.ini</code></p></li>
+<li><p>使用任何一台电脑，<code>ssh -oPort=6000 pi@公网ip</code> 输入树莓派密码就能ssh登录树莓派啦 (如果端口被拒绝检查公网防火墙端口限制)</p></li>
+<li><p>frp挂起，可以使用nohup，也可以加入systemctl(建议)，拿服务端举例。</p>
 <ul>
-<li>[x] 任务一</li>
-<li>[x] 任务二</li>
-<li>[x] 任务三</li>
-<li>[ ] 任务四</li>
-<li>[ ] 任务五</li>
-<li>[ ] 任务六</li>
-</ul>
-<h3 id="-22">表格</h3>
-<h6 id="-23">写法</h6>
-<pre><code>| 标题一  | 标题2 | 标题三 |  
-| :--- | :---: | ---: |
-| 左对齐  | 居中  | 右对齐 |
-</code></pre>
-<h6 id="-24">效果</h6>
+<li><p><code>nohup ./frps -c ./frps.ini &amp;</code> ，日志会输入到 <code>nohup.out</code>里，这种方式遇到端点没办法自启动了</p></li>
+<li><p><code>vim /lib/systemd/system/frps.service</code></p>
+<pre><code class="conf language-conf">[Unit]
+Description=frps service
+After=network.target syslog.target
+Wants=network.target
 
-      <div class="table-container">
-        <table>
-          
-<thead>
-<tr>
-<th style="text-align:left;">标题1</th>
-<th style="text-align:center;">标题2</th>
-<th style="text-align:right;">标题三</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">左对齐</td>
-<td style="text-align:center;">居中</td>
-<td style="text-align:right;">右对齐</td>
-</tr>
-<tr>
-<td style="text-align:left;">1324235463545675685</td>
-<td style="text-align:center;">452334657465767856787879</td>
-<td style="text-align:right;">dfsdfgdfhfgh</td>
-</tr>
-</tbody>
+[Service]
+Type=simple
+#启动服务的命令（此处写你的frp的实际安装目录）
+ExecStart=/usr/share/frp/frps -c /usr/share/frp/frps.ini
 
-        </table>
-      </div>
-    
-<h3 id="-25">块引用</h3>
-<h6 id="-26">写法</h6>
-<pre><code>&gt; 文本
+[Install]
+WantedBy=multi-user.target
 </code></pre>
-<h6 id="-27">效果</h6>
-<blockquote>
-  <p>I have a dream that my four little children will one day live in a nation where they will not be judged by the color of their skin but by the content of their character.<br>
-  I have a dream today!<br>
-   --马丁·路德·金</p>
-</blockquote>
-<h3 id="-28">代码高亮</h3>
-<h6 id="-29">写法</h6>
-<p>json</p>
-<pre><code class="json language-json">  {
-    "id":"1",
-    "name":"小明"
-  }
-</code></pre>
-<h6 id="-30">效果</h6>
-<pre><code class="json language-json">{
-    "id":"1",
-    "name":"小明"
-}
-</code></pre>
+<p><code>systemctl start frps</code>启动
+<code>systemctl enable frps</code>开机自启动</p></li></ul></li>
+<li>
+      <figure class="figure-img">
+        <a href="https://img-blog.csdnimg.cn/2021022313310765.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3o3NzI1MzI1MjY=,size_16,color_FFFFFF,t_70#pic_center" target="_blank">
+          <img src="https://img-blog.csdnimg.cn/2021022313310765.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3o3NzI1MzI1MjY=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述" title="在这里插入图片描述" loading="lazy">
+        </a>
+        <figcaption>在这里插入图片描述</figcaption>
+      </figure>
+    </li>
+</ol>
+<h5 id="-1">六、使用</h5>
+<ol>
+<li>
+      <figure class="figure-img">
+        <a href="https://img-blog.csdnimg.cn/20210205150135747.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3o3NzI1MzI1MjY=,size_16,color_FFFFFF,t_70" target="_blank">
+          <img src="https://img-blog.csdnimg.cn/20210205150135747.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3o3NzI1MzI1MjY=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" title="在这里插入图片描述" loading="lazy">
+        </a>
+        <figcaption>在这里插入图片描述</figcaption>
+      </figure>
+    </li>
+<li><p>高级玩法： <a href="https://shumeipai.nxez.com/">树莓派实验室</a></p></li>
+</ol>
 </section>
 
     
@@ -820,10 +536,10 @@ world</p>
     使用 <a href="https://github.com/tomatocuke/tomatocuke.github.io/discussions">Discussions</a> 讨论
   </span>
   <span class="article-actions_action">
-    在 <a href="https://github.com/tomatocuke/tomatocuke.github.io/edit/main/articles/markdown/index.md">Github</a> 上编辑
+    在 <a href="https://github.com/tomatocuke/tomatocuke.github.io/edit/main/articles/pi-1/index.md">Github</a> 上编辑
   </span>
   <span class="article-actions_action">
-    分享到 <a href="https://www.twitter.com/share?text=Markdown%E8%AF%AD%E6%B3%95&amp;url=%2Fmarkdown">Twitter</a>
+    分享到 <a href="https://www.twitter.com/share?text=%E6%A0%91%E8%8E%93%E6%B4%BE(%E4%B8%80)%3A%20%E8%81%94%E7%BD%91%E3%80%81%E5%9B%BA%E5%AE%9Aip%E3%80%81%E6%94%B9%E4%B8%BA64%E4%BD%8D%E3%80%81%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F&amp;url=%2Fpi-1">Twitter</a>
   </span>
 </div>
 

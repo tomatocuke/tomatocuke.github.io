@@ -53,18 +53,18 @@
 </style>
 
 
-  <title>Markdown语法 - 似水流年</title>
-  <meta name="description" content="## 目录  - [横线](#横线) - [文本](#文本) - [图片](#图片) - [链接](#链接) - [列表](#列表) - [表格](#表格) - [块引用](#块引用) - [代码高亮](#代码高亮)    ### 横线   横线 | 写法 ---|--- 1 | *** 2 | -......">
-  <meta property="og:description" content="## 目录  - [横线](#横线) - [文本](#文本) - [图片](#图片) - [链接](#链接) - [列表](#列表) - [表格](#表格) - [块引用](#块引用) - [代码高亮](#代码高亮)    ### 横线   横线 | 写法 ---|--- 1 | *** 2 | -......">
+  <title>go+redis分布式锁 - 似水流年</title>
+  <meta name="description" content="1. Redis怎么做分布式锁是老生常谈，但是之前没有注意一些细节，存在小隐患。  - 可重入。必须使用脚本原子性执行，先通过key获取，如果没有正常加锁`（set + ex + nx)`，如果存在，则刷新`ttl`。  - 误删问题。超时是不可预知的，试想，当A获取到锁，进行业务逻辑，再解锁，但是......">
+  <meta property="og:description" content="1. Redis怎么做分布式锁是老生常谈，但是之前没有注意一些细节，存在小隐患。  - 可重入。必须使用脚本原子性执行，先通过key获取，如果没有正常加锁`（set + ex + nx)`，如果存在，则刷新`ttl`。  - 误删问题。超时是不可预知的，试想，当A获取到锁，进行业务逻辑，再解锁，但是......">
 
-  <link rel="preload" href="https://blog.kikia.cc/b0fc4c4d6523e4e068cb05e2bd148842.ttf" as="font" crossorigin="anonymous">
+  <link rel="preload" href="https://blog.kikia.cc/f7008ce458baf93c24d5e5a4a3dd5c2a.ttf" as="font" crossorigin="anonymous">
   <style>
     @font-face {
-      font-family: article_font_markdown;
-      src: url(https://blog.kikia.cc/b0fc4c4d6523e4e068cb05e2bd148842.ttf);
+      font-family: article_font_go-redislock;
+      src: url(https://blog.kikia.cc/f7008ce458baf93c24d5e5a4a3dd5c2a.ttf);
     }
     article {
-      font-family: article_font_markdown;
+      font-family: article_font_go-redislock;
     }
   </style>
   
@@ -156,9 +156,9 @@
 
 <section class="article-header">
   <h1 class="article-title">
-    <a href="https://blog.kikia.cc/markdown">Markdown语法</a>
+    <a href="https://blog.kikia.cc/go-redislock">go+redis分布式锁</a>
   </h1>
-  <time class="article-publish-time">2018-03-14</time>
+  <time class="article-publish-time">2022-11-23</time>
 </section>
 
     <style>
@@ -403,372 +403,179 @@
 </style>
 
 <section>
-  <h2 id="-1">目录</h2>
-<ul>
-<li><a href="#横线">横线</a></li>
-<li><a href="#文本">文本</a></li>
-<li><a href="#图片">图片</a></li>
-<li><a href="#链接">链接</a></li>
-<li><a href="#列表">列表</a></li>
-<li><a href="#表格">表格</a></li>
-<li><a href="#块引用">块引用</a></li>
-<li><a href="#代码高亮">代码高亮</a></li>
-</ul>
-<h3 id="-2">横线</h3>
-
-      <div class="table-container">
-        <table>
-          
-<thead>
-<tr>
-<th>横线</th>
-<th>写法</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>***</td>
-</tr>
-<tr>
-<td>2</td>
-<td>---</td>
-</tr>
-<tr>
-<td>3</td>
-<td>___</td>
-</tr>
-</tbody>
-
-        </table>
-      </div>
-    
-<p>效果依次为(没多大区别)</p>
-<h2 id="">***</h2>
-<hr>
-<h3 id="-3">文本</h3>
-
-      <div class="table-container">
-        <table>
-          
-<thead>
-<tr>
-<th>文本</th>
-<th>写法</th>
-<th>效果</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>普通文本</td>
-<td>文本</td>
-<td>hello world</td>
-</tr>
-<tr>
-<td>单行文本</td>
-<td>（tab或4空格）+文本</td>
-<td>见下面效果</td>
-</tr>
-<tr>
-<td>文本块1</td>
-<td>每行（tab或4空格）+文本</td>
-<td>见下面效果</td>
-</tr>
-<tr>
-<td>文本块2</td>
-<td>用 ``` 把文本包起来</td>
-<td>见下面效果</td>
-</tr>
-<tr>
-<td>文字高亮</td>
-<td>用`把文字包起来</td>
-<td>见下面效果</td>
-</tr>
-<tr>
-<td>换行</td>
-<td>文本间加两个空格或者空行</td>
-<td>见下面效果</td>
-</tr>
-<tr>
-<td>斜体1</td>
-<td><code>*hello*</code></td>
-<td><em>hello</em></td>
-</tr>
-<tr>
-<td>斜体2</td>
-<td><code>_hello_</code></td>
-<td><em>hello</em></td>
-</tr>
-<tr>
-<td>粗体1</td>
-<td><code>**hello**</code></td>
-<td><strong>hello</strong></td>
-</tr>
-<tr>
-<td>粗体2</td>
-<td><code>__hello__</code></td>
-<td><strong>hello</strong></td>
-</tr>
-<tr>
-<td>删除线</td>
-<td><code>~~hello~~</code></td>
-<td>~~hello~~</td>
-</tr>
-<tr>
-<td>斜粗体1</td>
-<td><code>***hello***</code></td>
-<td><strong><em>hello</em></strong></td>
-</tr>
-<tr>
-<td>斜粗体2</td>
-<td><code>___hello___</code></td>
-<td><strong><em>hello</em></strong></td>
-</tr>
-<tr>
-<td>斜粗体删除线1</td>
-<td><code>***~~hello~~***</code></td>
-<td><strong><em>~~hello~~</em></strong></td>
-</tr>
-<tr>
-<td>斜粗体删除线2</td>
-<td><code>~~***hello***~~</code></td>
-<td>~~<strong><em>hello</em></strong>~~</td>
-</tr>
-</tbody>
-
-        </table>
-      </div>
-    
-<p>效果如下</p>
-<ul>
-<li><p>普通文本</p>
-<p>hello world</p></li>
-<li><p>单行文本</p>
-<p>hello world</p></li>
-<li><p>文本块1</p>
-<p>hello !
-welcome to beijing.</p></li>
-<li><p>文本块2</p></li>
-</ul>
-<pre><code>hello !
-welcome to beijing.
-</code></pre>
-<ul>
-<li>文字高亮</li>
-</ul>
-<p><code>3333</code>
-<code>hello</code>
-<code>你好</code></p>
-<ul>
-<li>换行</li>
-</ul>
-<p>hello<br>
-world</p>
-<h3 id="-4">图片</h3>
-
-      <div class="table-container">
-        <table>
-          
-<thead>
-<tr>
-<th>图片</th>
-<th>写法</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td><code>![image](URL title)</code></td>
-</tr>
-</tbody>
-
-        </table>
-      </div>
-    
-<p>效果</p>
-
-      <figure class="figure-img">
-        <a href="https://avatars1.githubusercontent.com/u/9919?v=4&amp;s=200" target="_blank">
-          <img src="https://avatars1.githubusercontent.com/u/9919?v=4&amp;s=200" alt="image" title="image" loading="lazy">
-        </a>
-        <figcaption>image</figcaption>
-      </figure>
-    
-<h3 id="-5">链接</h3>
-
-      <div class="table-container">
-        <table>
-          
-<thead>
-<tr>
-<th>链接</th>
-<th>写法</th>
-<th>效果</th>
-<th>备注</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>外部链接</td>
-<td><code>[百度一下](https://www.baidu.com/)</code></td>
-<td><a href="https://www.baidu.com/">百度一下</a></td>
-<td>--</td>
-</tr>
-<tr>
-<td>文件内锚点链接（中文）</td>
-<td><code>[返回顶部](#目录)</code></td>
-<td><a href="#目录">返回顶部</a></td>
-<td>--</td>
-</tr>
-<tr>
-<td>文件内锚点链接（英文）</td>
-<td><code>[返回底部](#bottom-out)</code></td>
-<td><a href="#bottom-out">返回底部</a></td>
-<td>标题大写用小写代替，空格用-代替</td>
-</tr>
-</tbody>
-
-        </table>
-      </div>
-    
-<h3 id="-6">列表</h3>
-<h5 id="-7">无序列表</h5>
-<h6 id="-8">写法</h6>
-<pre><code>- 小明
-- 小红
-- 小刚
-</code></pre>
-<h6 id="-9">效果</h6>
-<ul>
-<li>小明</li>
-<li>小红</li>
-<li>小刚</li>
-</ul>
-<h5 id="-10">多行无序列表</h5>
-<h6 id="-11">写法</h6>
-<pre><code>- 第一章
-  - 第一节
-    - 第一小节
-  - 第二节
-- 第二章
-</code></pre>
-<h6 id="-12">效果</h6>
-<ul>
-<li>第一章<ul>
-<li>第一节<ul>
-<li>第一小节</li></ul></li>
-<li>第二节</li></ul></li>
-<li>第二章</li>
-</ul>
-<h5 id="-13">有序列表</h5>
-<h6 id="-14">写法</h6>
-<pre><code>1. 第一步
-1. 第二步
-1. 第三步
-</code></pre>
-<p>或</p>
-<pre><code>1. 第一步
-2. 第二步
-2. 第三步
-</code></pre>
-<h6 id="-15">效果</h6>
-<ol>
-<li>第一步</li>
-<li>第二步</li>
-<li>第三步</li>
+  <ol>
+<li>Redis怎么做分布式锁是老生常谈，但是之前没有注意一些细节，存在小隐患。<ul>
+<li>可重入。必须使用脚本原子性执行，先通过key获取，如果没有正常加锁<code>（set + ex + nx)</code>，如果存在，则刷新<code>ttl</code>。</li>
+<li>误删问题。超时是不可预知的，试想，当A获取到锁，进行业务逻辑，再解锁，但是业务逻辑超时了，锁已经自动解除，并且被B获得，那么A解锁就会把B的锁删掉。   所以，需要一个id来保证只解除自己的锁。</li></ul></li>
+<li>使用Go来实现。</li>
 </ol>
-<h5 id="-16">多级有序列表</h5>
-<h6 id="-17">写法</h6>
-<pre><code>1. 第一步
-   1. 第一小步
-        1. 第一小小步
-        2. 第二小小步
-   2. 第二小步
-1. 第二步
-</code></pre>
-<h6 id="-18">效果（二级罗马数字，三级英文字母）</h6>
-<ol>
-<li>第一步</li>
-<li>第一小步
-    1. 第一小小步
-    2. 第二小小步</li>
-<li>第二小步</li>
-<li>第二步</li>
-</ol>
-<h5 id="-19">复选框</h5>
-<h6 id="-20">写法</h6>
-<pre><code>- [x] 任务一
-- [x] 任务二
-- [x] 任务三
-- [ ] 任务四
-- [ ] 任务五
-- [ ] 任务六
-</code></pre>
-<h6 id="-21">效果</h6>
 <ul>
-<li>[x] 任务一</li>
-<li>[x] 任务二</li>
-<li>[x] 任务三</li>
-<li>[ ] 任务四</li>
-<li>[ ] 任务五</li>
-<li>[ ] 任务六</li>
+<li>重试机制。网上能找到的例子多是不带重试机制的，即尝试加锁，失败直接返回。</li>
+<li>超时控制。用go写第一个项目的时候，我在重试里使用for循环，给timeout参数。但是其实有个问题的，A加锁后处理业务时出现了不可控的问题，之后的BCD..仍然会重新加锁尝试，这大概是不必要的。 所以这版使用了<code>context.Context</code>来进行协程控制，A出现问题，直接调用<code>cancel()</code> 去掉不必要的重试。</li>
 </ul>
-<h3 id="-22">表格</h3>
-<h6 id="-23">写法</h6>
-<pre><code>| 标题一  | 标题2 | 标题三 |  
-| :--- | :---: | ---: |
-| 左对齐  | 居中  | 右对齐 |
-</code></pre>
-<h6 id="-24">效果</h6>
+<!--more-->
+<h3 id="">代码</h3>
+<pre><code class="go language-go">package rds
 
-      <div class="table-container">
-        <table>
-          
-<thead>
-<tr>
-<th style="text-align:left;">标题1</th>
-<th style="text-align:center;">标题2</th>
-<th style="text-align:right;">标题三</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">左对齐</td>
-<td style="text-align:center;">居中</td>
-<td style="text-align:right;">右对齐</td>
-</tr>
-<tr>
-<td style="text-align:left;">1324235463545675685</td>
-<td style="text-align:center;">452334657465767856787879</td>
-<td style="text-align:right;">dfsdfgdfhfgh</td>
-</tr>
-</tbody>
+import (
+    "context"
+    "errors"
+    "math/rand"
+    "strconv"
+    "time"
 
-        </table>
-      </div>
-    
-<h3 id="-25">块引用</h3>
-<h6 id="-26">写法</h6>
-<pre><code>&gt; 文本
+    "github.com/go-redis/redis"
+)
+
+const (
+
+    // 先get获取，如果有就刷新ttl，没有再set。 这种是可重入锁，防止在同一线程中多次获取锁而导致死锁发生。
+    lockCommand = `if redis.call("GET", KEYS[1]) == ARGV[1] then
+    redis.call("SET", KEYS[1], ARGV[1], "PX", ARGV[2])
+    return "OK"
+else
+    return redis.call("SET", KEYS[1], ARGV[1], "NX", "PX", ARGV[2])
+end`
+
+    // 删除。必须先匹配id值，防止A超时后，B马上获取到锁，A的解锁把B的锁删了
+    delCommand = `if redis.call("GET", KEYS[1]) == ARGV[1] then
+    return redis.call("DEL", KEYS[1])
+else
+    return 0
+end`
+
+    letters   = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    randomLen = 10
+)
+
+var (
+    redisDb *redis.Client
+    // 默认超时时间
+    defaultTimeout = 500 * time.Millisecond
+    // 重试间隔
+    retryInterval = 10 * time.Millisecond
+    // 上下文取消
+    ErrContextCancel = errors.New("context cancel")
+)
+
+func init() {
+    rand.Seed(time.Now().UnixNano())
+    if err := initClient(); err != nil {
+        panic(err)
+    }
+}
+
+// 根据redis配置初始化一个客户端
+func initClient() (err error) {
+    redisDb = redis.NewClient(&amp;redis.Options{
+        Addr:     "localhost:6379", // redis地址
+        Password: "",               // redis密码，没有则留空
+        DB:       0,                // 默认数据库，默认是0
+    })
+
+    _, err = redisDb.Ping().Result()
+    return err
+}
+
+type RedisLock struct {
+    ctx       context.Context
+    timeoutMs int
+    key       string
+    id        string
+}
+
+func NewRedisLock(ctx context.Context, key string) *RedisLock {
+    timeout := defaultTimeout
+    if deadline, ok := ctx.Deadline(); ok {
+        timeout = deadline.Sub(time.Now())
+    }
+    rl := &amp;RedisLock{
+        ctx:       ctx,
+        timeoutMs: int(timeout.Milliseconds()),
+        key:       key,
+        id:        randomStr(randomLen),
+    }
+
+    return rl
+}
+
+func (rl *RedisLock) TryLock() (bool, error) {
+    t := strconv.Itoa(rl.timeoutMs)
+    resp, err := redisDb.Eval(lockCommand, []string{rl.key}, []string{rl.id, t}).Result()
+    if err != nil || resp == nil {
+        return false, nil
+    }
+
+    reply, ok := resp.(string)
+    return ok &amp;&amp; reply == "OK", nil
+}
+
+func (rl *RedisLock) Lock() error {
+    for {
+        select {
+        case &lt;-rl.ctx.Done():
+            return ErrContextCancel
+        default:
+            b, err := rl.TryLock()
+            if err != nil {
+                return err
+            }
+            if b {
+                return nil
+            }
+            time.Sleep(retryInterval)
+        }
+    }
+}
+
+func (rl *RedisLock) Unlock() {
+    redisDb.Eval(delCommand, []string{rl.key}, []string{rl.id}).Result()
+}
+
+func randomStr(n int) string {
+    b := make([]byte, n)
+    for i := range b {
+        b[i] = letters[rand.Intn(len(letters))]
+    }
+    return string(b)
+}
 </code></pre>
-<h6 id="-27">效果</h6>
-<blockquote>
-  <p>I have a dream that my four little children will one day live in a nation where they will not be judged by the color of their skin but by the content of their character.<br>
-  I have a dream today!<br>
-   --马丁·路德·金</p>
-</blockquote>
-<h3 id="-28">代码高亮</h3>
-<h6 id="-29">写法</h6>
-<p>json</p>
-<pre><code class="json language-json">  {
-    "id":"1",
-    "name":"小明"
-  }
-</code></pre>
-<h6 id="-30">效果</h6>
-<pre><code class="json language-json">{
-    "id":"1",
-    "name":"小明"
+<h3 id="-1">测试</h3>
+<pre><code class="go language-go">package rds
+
+import (
+    "context"
+    "fmt"
+    "sync"
+    "sync/atomic"
+    "testing"
+    "time"
+)
+
+// 测试
+func BenchmarkRedisLock1(b *testing.B) {
+    x := b.N
+    wg := sync.WaitGroup{}
+    wg.Add(x)
+    now := time.Now()
+
+    var n int64
+    ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
+    defer cancel()
+    for i := 0; i &lt; x; i++ {
+        go func() {
+            defer wg.Done()
+            rl := NewRedisLock(ctx, "testLock")
+            if err := rl.Lock(); err != nil {
+                cancel() // 这里cancel，可以在第一个超时或者发生错误后，后边的不再尝试加锁。
+                return
+            }
+            defer rl.Unlock()
+            atomic.AddInt64(&amp;n, 1)
+        }()
+    }
+    wg.Wait()
+    fmt.Printf("测试数:%d\t成功数:%d\t结果:%t\t耗时： %d \n", x, n, x == int(n), time.Since(now).Milliseconds())
 }
 </code></pre>
 </section>
@@ -820,10 +627,10 @@ world</p>
     使用 <a href="https://github.com/tomatocuke/tomatocuke.github.io/discussions">Discussions</a> 讨论
   </span>
   <span class="article-actions_action">
-    在 <a href="https://github.com/tomatocuke/tomatocuke.github.io/edit/main/articles/markdown/index.md">Github</a> 上编辑
+    在 <a href="https://github.com/tomatocuke/tomatocuke.github.io/edit/main/articles/go-redislock/index.md">Github</a> 上编辑
   </span>
   <span class="article-actions_action">
-    分享到 <a href="https://www.twitter.com/share?text=Markdown%E8%AF%AD%E6%B3%95&amp;url=%2Fmarkdown">Twitter</a>
+    分享到 <a href="https://www.twitter.com/share?text=go%2Bredis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81&amp;url=%2Fgo-redislock">Twitter</a>
   </span>
 </div>
 
