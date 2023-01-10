@@ -13,14 +13,14 @@
       <![CDATA[]]>
     </description>
     <link>https://blog.kikia.cc</link>
-    <lastBuildDate>2023-01-10T01:46:54.607Z</lastBuildDate>
+    <lastBuildDate>2023-01-10T02:00:07.490Z</lastBuildDate>
     
       <item>
         <title>
           <![CDATA[5分钟无服务器部署个人博客]]>
         </title>
         <description>
-          <![CDATA[### 说明 - 使用Github Pages托管个人博客，不需要服务器，不需要克隆到本地。内容用markdown，方便迁移。 - 代码作者[mebtte](https://github.com/mebtte/animal-photosynthesis)   ### 快速部署 - 拷贝项目。可直接 ...]]>
+          <![CDATA[### 说明 - 使用Github Pages托管个人博客，不需要服务器，不需要克隆到本地。内容用markdown，方便迁移。 - 代码作者[mebtte](https://github.com/mebtte/animal-photosynthesis) - [Demo](https://tomat...]]>
         </description>
         <link>https://blog.kikia.cc/blog</link>
         <guid isPermaLink="false">blog</guid>
