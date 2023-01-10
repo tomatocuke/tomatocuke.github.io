@@ -1,6 +1,7 @@
 ### 说明
 - 使用Github Pages托管个人博客，不需要服务器，不需要克隆到本地。内容用markdown，方便迁移。
 - 代码作者[mebtte](https://github.com/mebtte/animal-photosynthesis)
+- [Demo](https://tomatocuke.github.io)
 
 
 ### 快速部署
