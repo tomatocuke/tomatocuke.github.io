@@ -8,7 +8,7 @@ hidden: false
 ### 说明
 - 使用Github Pages托管个人博客，不需要服务器，不需要克隆到本地。内容用markdown，方便迁移。
 - 代码作者[mebtte](https://github.com/mebtte/animal-photosynthesis)
-
+- [Demo](https://tomatocuke.github.io)
 
 ### 快速部署
 - 拷贝项目。可直接 fork [此项目](https://github.com/tomatocuke/tomatocuke.github.io)到你自己的仓库，更改为你自己的`<username>.github.io`，否则无法使用。
@@ -24,6 +24,6 @@ hidden: false
 
 ### 配置与内容
 - 修改配置文件`script/config.js`
-- 写博客。以单独目录形式放在`article`目录下。 前置数据字段参考本文，如果之前已有markdown文章，字段不匹配，修改`scripts/utils/parse_article.js`底部
-- 下方Discussions 在 Settings 里开通。 小蓝鸟如果不想要在`src/template/article/article_action.ejs`里注释掉。
+- 写博客。以单独目录形式放在`article`目录下。 markdown博客的[前置写法参考](https://github.com/tomatocuke/tomatocuke.github.io/edit/main/articles/blog/index.md)。如果之前已有markdown文章，字段不匹配，修改`scripts/utils/parse_article.js`底部
+- 下方Discussions 在 Settings 里开通。 小蓝鸟如果不想要在`src/template/article/article_action.ejs`里注释掉
 
