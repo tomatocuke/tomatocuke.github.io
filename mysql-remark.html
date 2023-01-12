@@ -53,18 +53,18 @@
 </style>
 
 
-  <title>5分钟无服务器部署markdown博客 - 似水流年</title>
-  <meta name="description" content="### 说明 - 使用Github Pages托管个人博客，不需要服务器，不需要克隆到本地。内容用markdown，方便迁移。 - 代码作者[mebtte](https://github.com/mebtte/animal-photosynthesis) - [Demo](https://tomat......">
-  <meta property="og:description" content="### 说明 - 使用Github Pages托管个人博客，不需要服务器，不需要克隆到本地。内容用markdown，方便迁移。 - 代码作者[mebtte](https://github.com/mebtte/animal-photosynthesis) - [Demo](https://tomat......">
+  <title>SQL拆解 - 似水流年</title>
+  <meta name="description" content="<!--more-->  ### 一、顺序 SQL语句的顺序不是解析的顺序，实际为 ```sql FROM <left_table> ON <join_condition> <join_type> JOIN <right_table> WHERE <where_condition> GROUP BY......">
+  <meta property="og:description" content="<!--more-->  ### 一、顺序 SQL语句的顺序不是解析的顺序，实际为 ```sql FROM <left_table> ON <join_condition> <join_type> JOIN <right_table> WHERE <where_condition> GROUP BY......">
 
-  <link rel="preload" href="https://blog.kikia.cc/e692a84ce3f40b569d1dd4341094430d.ttf" as="font" crossorigin="anonymous">
+  <link rel="preload" href="https://blog.kikia.cc/ad2d10edb4425264fa52d8067ed4d023.ttf" as="font" crossorigin="anonymous">
   <style>
     @font-face {
-      font-family: article_font_blog;
-      src: url(https://blog.kikia.cc/e692a84ce3f40b569d1dd4341094430d.ttf);
+      font-family: article_font_mysql-remark;
+      src: url(https://blog.kikia.cc/ad2d10edb4425264fa52d8067ed4d023.ttf);
     }
     article {
-      font-family: article_font_blog;
+      font-family: article_font_mysql-remark;
     }
   </style>
   
@@ -156,9 +156,9 @@
 
 <section class="article-header">
   <h1 class="article-title">
-    <a href="https://blog.kikia.cc/blog">5分钟无服务器部署markdown博客</a>
+    <a href="https://blog.kikia.cc/mysql-remark">SQL拆解</a>
   </h1>
-  <time class="article-publish-time">2023-01-03</time>
+  <time class="article-publish-time">2019-01-10</time>
 </section>
 
     <style>
@@ -403,49 +403,66 @@
 </style>
 
 <section>
-  <h3 id="">说明</h3>
-<ul>
-<li>使用Github Pages托管个人博客，不需要服务器，不需要克隆到本地。内容用markdown，方便迁移。</li>
-<li>代码作者<a href="https://github.com/mebtte/animal-photosynthesis">mebtte</a></li>
-<li><a href="https://tomatocuke.github.io">Demo</a></li>
-</ul>
-<h3 id="-1">快速部署</h3>
-<ul>
-<li>拷贝项目。可直接 fork <a href="https://github.com/tomatocuke/tomatocuke.github.io">此项目</a>到你自己的仓库，更改为你自己的<code>&lt;username&gt;.github.io</code>，否则无法使用。</li>
-<li>随便更改一下<code>article</code>里的文件并提交(加个句号之类)，以触发<code>.github/workflows/gh_pages.yml</code>，在<code>Actions</code>中查看进度。</li>
-<li>查看是否多出一个分支<code>gh-pages</code>，如果没有，再更改一下文件提交。（没搞懂为什么第一次不会触发，之后就OK了)</li>
-<li>进入 <code>Settings</code> &gt; <code>Pages</code>，更改<code>Branch</code>为<code>gh-pages</code>分支并保存. 此时可以看到你的网站地址 <code>https://&lt;username&gt;.github.io</code> (默认是markdown内容，等一会刷新)</li>
-</ul>
-<h3 id="-2">自定义域名(可选)</h3>
-<ul>
-<li>github的用户名及其难起，托管域名也就不好记，所以改为自定义域名。</li>
-<li>在云平台解析你所拥有的域名，记录类型为CNAME，记录值为你的托管域名<code>&lt;username&gt;.github.io</code>。</li>
-<li>进入 <code>Settings</code> &gt; <code>Pages</code>，更改<code>Custom domain</code> 为你所解析的域名，系统自动检查DNS解析。</li>
-<li>等待片刻后可以访问。若不成功有其他问题请参考<a href="https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site">官方文档</a></li>
-</ul>
-<h3 id="-3">配置与内容</h3>
-<ul>
-<li>配置。修改文件<code>script/config.js</code></li>
-<li>博客。以单独目录形式放在<code>article</code>目录下，直接添加文件<code>目录名/index.md</code>。</li>
-<li>写法。markdown博客的<a href="https://github.com/tomatocuke/tomatocuke.github.io/edit/main/articles/blog/index.md">前置写法参考</a>。如果之前已有markdown文章，字段不匹配，修改<code>scripts/utils/parse_article.js</code>底部。</li>
-<li>下方Discussions 在 Settings 里开通。 小蓝鸟如果不想要在<code>src/template/article/article_action.ejs</code>里注释掉</li>
-</ul>
+  <!--more--><h3 id="">一、顺序</h3>
+<p>SQL语句的顺序不是解析的顺序，实际为</p>
+<pre><code class="sql language-sql">FROM &lt;left_table&gt;
+ON &lt;join_condition&gt;
+&lt;join_type&gt; JOIN &lt;right_table&gt;
+WHERE &lt;where_condition&gt;
+GROUP BY &lt;group_by_list&gt;
+HAVING &lt;having_condition&gt;
+SELECT
+DISTINCT &lt;select_list&gt;
+ORDER BY &lt;order_by_condition&gt;
+LIMIT &lt;limit_number&gt;
+</code></pre>
+<h3 id="-1">二、语句</h3>
+<ol>
+<li>尽量不使用<code>SELECT *</code></li>
+<li>统计使用<code>SELECT COUNT(*)</code></li>
+<li>尽量不使用内置函数，不对字段进行计算</li>
+<li>减少<code>JOIN</code>，适当字段冗余</li>
+<li>适当使用<code>UNION</code>代替<code>OR</code>条件查询</li>
+<li><code>WHERE</code>条件须使用到索引，符合左前缀</li>
+<li><code>WHERE</code>条件为非索引查找一条数据时应使用<code>LIMIT 1</code>避免找到一条后继续查找</li>
+<li><code>AND</code>除索引外的条件，筛选力度大的优先（优化器会自动优化，但是你应该知道）</li>
+<li><code>LIKE</code>模糊查询注意符合左前缀</li>
+<li><code>IN</code>后数组不宜过大，注意使用<code>EXISTS</code>代替</li>
+<li><code>ORDER BY</code>适当建立联合索引，注意<code>SELECT</code>字段不使用索引问题</li>
+<li>注意<code>OFFSET</code>过大效率低问题</li>
+<li>多使用<code>EXPLAIN</code>才是关键</li>
+</ol>
+<h3 id="-2">三、表</h3>
+<ol>
+<li>表名必须使用单数小写加下划线形式</li>
+<li>对于布尔型字段命名<code>is_</code>,<code>has_</code>,<code>can_</code>等，<code>unsigned tinyint</code>，0否1是</li>
+<li><code>InnoDB</code>中推荐<code>varchar</code>代替<code>char</code>  <a href="https://blog.csdn.net/yunhua_lee/article/details/7038780">引文</a> (但是固定表效率更高？)</li>
+<li>小数使用<code>decimal</code>存储,<code>double</code>、<code>float</code>会精度丢失</li>
+<li><code>text</code>类型应单独建立表分离出来</li>
+<li>主键索引名<code>pk_</code>，唯一索引名<code>uk_</code>，普通索引名<code>idx_</code></li>
+<li>具有唯一性字段必须建立唯一索引</li>
+<li>字符型索引的建立一般没必要全长度索引</li>
+<li>字段名不该使用<code>desc</code>,<code>range</code>等保留字</li>
+<li>字段尽量<code>not null</code></li>
+<li>应该写属性<code>comment</code></li>
+<li>实际应用中不使用外键.</li>
+<li>一张表只能有一个<code>AUTO_IN CREMENT</code>字段且该字段必须为<code>KEY</code></li>
+</ol>
+<h3 id="-3">四、配置</h3>
+<ol>
+<li><code>max_connections</code>最大连接数。</li>
+<li><code>back_log</code>超过最大连接数存放在堆栈中的等待数</li>
+<li><code>wait-timeout</code>连接闲置最大时间值</li>
+<li><code>thread_concurrency</code>应设为CPU核数的2倍，cup数*核数*2</li>
+<li><code>skip-name-resolve</code>禁用DNS解析</li>
+<li><code>key_buffer_size</code>索引块的缓冲区大小</li>
+<li><code>innodb_buffer_pool_size</code>针对InnoDB的参数</li>
+<li><code>sort_buffer_size</code>排序缓冲区大小</li>
+<li><code>set global slow_query_log=1;</code>开启慢查询日志</li>
+</ol>
 </section>
 
-    <section>
-  <h2>更新记录</h2>
-  <div class="table-container">
-    <table>
-      
-        <tbody><tr>
-          <td></td>
-          <td></td>
-        </tr>
-       
-    </tbody></table>
-  </div>
-</section>
-
+    
   </article>
   
 <style>
@@ -492,10 +509,10 @@
     使用 <a href="https://github.com/tomatocuke/tomatocuke.github.io/discussions">Discussions</a> 讨论
   </span>
   <span class="article-actions_action">
-    在 <a href="https://github.com/tomatocuke/tomatocuke.github.io/edit/main/articles/blog/index.md">Github</a> 上编辑
+    在 <a href="https://github.com/tomatocuke/tomatocuke.github.io/edit/main/articles/mysql-remark/index.md">Github</a> 上编辑
   </span>
   <span class="article-actions_action">
-    分享到 <a href="https://www.twitter.com/share?text=5%E5%88%86%E9%92%9F%E6%97%A0%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2markdown%E5%8D%9A%E5%AE%A2&amp;url=%2Fblog">Twitter</a>
+    分享到 <a href="https://www.twitter.com/share?text=SQL%E6%8B%86%E8%A7%A3&amp;url=%2Fmysql-remark">Twitter</a>
   </span>
 </div>
 

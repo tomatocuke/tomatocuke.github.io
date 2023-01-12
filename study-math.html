@@ -1,0 +1,668 @@
+<!DOCTYPE html><html lang="zh-cn"><head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="浙ICP备2021005082号-3">
+<meta name="keywords" content="技术博客,golang">
+
+<!-- Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-CESZTRKM96"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CESZTRKM96');
+</script>
+
+<!-- open graph -->
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://blog.kikia.cc/6ed5faa0573b2a5a9d47232c9a71fb88.png">
+
+<link rel="shortcut icon" type="image/png" href="https://blog.kikia.cc/6ed5faa0573b2a5a9d47232c9a71fb88.png">
+<link rel="sitemap" type="application/xml" href="https://blog.kikia.cc/sitemap.xml">
+
+<link rel="preload" href="https://blog.kikia.cc/8abf19ae28b548ba26f507772583c29e.ttf" as="font" crossorigin="anonymous">
+<link rel="preload" href="https://blog.kikia.cc/d4a92dfd9184cda50258a23b09ff4256.ttf" as="font" crossorigin="anonymous">
+
+  <style>
+  @font-face {
+    font-family: common_font;
+    src: url(https://blog.kikia.cc/d4a92dfd9184cda50258a23b09ff4256.ttf);
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    --content-max-width: 840px;
+
+    --primary-color: rgb(237 106 94);
+
+    --normal-color: #333;
+    --secondary-color: #888;
+    --tertiary-color: #ddd;
+    --backgroud: rgb(255 255 255);
+
+    --border-radius: 2px;
+    --transition-duration: 0.3s;
+
+    background-color: var(--backgroud);
+    transition: background-color var(--transition-duration);
+  }
+</style>
+
+
+  <title>高数工本笔记 - 似水流年</title>
+  <meta name="description" content="学习笔记: 空间几何与向量代数、多元函数微分学、重积分  <!--more--> ### 一、空间几何与向量代数  - 分清八个卦限 （略） - 空间两点距离公式: d = $\sqrt{(x1-x2)^2 + (y1-y2)^2 + (z1-z2)^2}$ ##### 向量   - 向量的长度称为......">
+  <meta property="og:description" content="学习笔记: 空间几何与向量代数、多元函数微分学、重积分  <!--more--> ### 一、空间几何与向量代数  - 分清八个卦限 （略） - 空间两点距离公式: d = $\sqrt{(x1-x2)^2 + (y1-y2)^2 + (z1-z2)^2}$ ##### 向量   - 向量的长度称为......">
+
+  <link rel="preload" href="https://blog.kikia.cc/954ae862b0702c5b92c2c293d2753a3b.ttf" as="font" crossorigin="anonymous">
+  <style>
+    @font-face {
+      font-family: article_font_study-math;
+      src: url(https://blog.kikia.cc/954ae862b0702c5b92c2c293d2753a3b.ttf);
+    }
+    article {
+      font-family: article_font_study-math;
+    }
+  </style>
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/firacode@5.2.0/distr/fira_code.min.css">
+  <link rel="stylesheet" href="https://blog.kikia.cc/ece570de77ba673c17121d06fc929bd9.css">
+</head>
+
+<body>
+  <style>
+  @font-face {
+    font-family: title_font;
+    src: url(https://blog.kikia.cc/8abf19ae28b548ba26f507772583c29e.ttf);
+  }
+
+  .page-header {
+    max-width: var(--content-max-width);
+    margin: 50px auto 40px auto;
+    padding: 0 30px;
+    display: flex;
+    align-items: center;
+  }
+
+  .page-header_title {
+    flex: 1;
+    min-width: 0;
+    font-size: min(8vw, 56px);
+    font-family: title_font;
+    margin: 0;
+    color: var(--normal-color);
+  }
+
+  .page-header_title > a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .page-header_icon {
+    margin-left: 16px;
+  }
+
+  .page-header_icon > img {
+    user-select: none;
+    width: 20px;
+    height: 20px;
+  }
+</style>
+
+<header class="page-header">
+  
+    <h2 class="page-header_title">
+      <a href="https://blog.kikia.cc/">似水流年</a>
+    </h2>
+  
+  <a class="page-header_icon" href="https://blog.kikia.cc/rss.xml">
+    <img src="https://blog.kikia.cc/e31ad23031e5bcb34e8d4a424ba0c100.png" alt="rss">
+  </a>
+  <a class="page-header_icon" href="https://github.com/tomatocuke/tomatocuke.github.io">
+    <img src="https://blog.kikia.cc/184c800e11079b13904f308161071b62.png" alt="github">
+  </a>
+</header>
+
+  <article>
+    <style>
+.article-header {
+  max-width: var(--content-max-width);
+  margin: 40px auto;
+  padding: 0 30px;
+}
+
+.article-title {
+  color: var(--primary-color);
+  font-size: 32px;
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+}
+
+.article-title a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.article-publish-time {
+  color: var(--secondary-color);
+  font-size: 14px;
+  font-family: common_font;
+}
+</style>
+
+<section class="article-header">
+  <h1 class="article-title">
+    <a href="https://blog.kikia.cc/study-math">高数工本笔记</a>
+  </h1>
+  <time class="article-publish-time">2022-08-12</time>
+</section>
+
+    <style>
+  code {
+    font-family: 'Fira Code' !important;
+  }
+
+  article {
+    --article-space: 30px;
+  }
+
+  article a {
+    color: var(--normal-color);
+    text-decoration-color: var(--primary-color);
+  }
+
+  article h2, article h3, article h4, article h5, article h6 {
+    max-width: var(--content-max-width);
+    padding: 0 30px;
+    margin: 0 auto;
+    line-height: 1.5;
+    color: var(--normal-color);
+  }
+
+  article h2 {
+    margin-top: 28px;
+    font-size: 28px;
+  }
+
+  article h3 {
+    margin-top: 26px;
+    font-size: 25px;
+  }
+
+  article h4 {
+    margin-top: 24px;
+    font-size: 22px;
+  }
+
+  article h5 {
+    margin-top: 22px;
+    font-size: 19px;
+  }
+
+  article h6 {
+    margin-top: 20px;
+    font-size: 16px;
+  }
+
+  article p {
+    max-width: var(--content-max-width);
+
+    margin: 15px auto;
+    padding: 0 30px;
+
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--normal-color);
+    word-break: break-word;
+  }
+
+  article p code, article ul code {
+    padding: 0 4px;
+    border-radius: var(--border-radius);
+    background: rgba(237, 106, 94, 0.3);
+  }
+
+  article pre {
+    max-width: var(--content-max-width) !important;
+    margin: 15px auto !important;
+    font-size: 14px !important;
+    box-sizing: border-box;
+    border-radius: var(--border-radius) !important;
+    tab-size: 2 !important;
+    padding: 0 !important;
+  }
+
+  article pre code {
+    display: block;
+    margin: 20px 30px !important;
+    overflow: auto !important;
+    font-size: inherit !important;
+  }
+
+  article hr {
+    max-width: var(--content-max-width);
+    margin: 40px auto;
+    padding: 0 var(--article-space);
+    border: none;
+  }
+
+  article hr::after{
+    content: '';
+    display: block;
+    height: 1px;
+    background-color:var(--tertiary-color);
+  }
+
+  article blockquote {
+    max-width: var(--content-max-width);
+    padding: 0 var(--article-space);
+    margin: 15px auto;
+    position: relative;
+    font-style: italic;
+    font-size: 16px;
+    color: var(--secondary-color);
+  }
+
+  .table-container {
+    max-width: var(--content-max-width);
+    padding: 0 30px;
+    margin: 15px auto;
+  }
+
+  .table-container table {
+    border-collapse: collapse;
+  }
+
+  .table-container th, .table-container td {
+    font-size: 14px;
+    color: var(--normal-color);
+    border: 1px solid var(--tertiary-color);
+    padding: 10px;
+    text-align: left;
+  }
+
+  .table-container th {
+    font-size: 16px;
+    text-align: left;
+  }
+
+  article blockquote::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 30px;
+    width: 3px;
+    height: 100%;
+    background-color: var(--primary-color);
+  }
+
+  article blockquote p {
+    font-size: 16px;
+    color: inherit;
+    max-width: unset;
+    padding: 0;
+    margin: 0 0 0 30px;
+  }
+
+  article ul,
+  article ol {
+    max-width: var(--content-max-width);
+    padding: 0 30px;
+    margin: 15px auto;
+    color: var(--normal-color);
+    line-height: 1.5;
+  }
+
+  article ol {
+    counter-reset: li-count;
+  }
+  
+  article ul li, article ol li {
+    display: block;
+    margin: 5px 0;
+    position: relative;
+  }
+
+  article ol li {
+    counter-increment: li-count;
+  }
+
+  article ul li::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+
+    margin-right: 10px;
+
+    vertical-align: middle;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+  }
+
+  article ol li::before {
+    content: counter( li-count) '. ';
+    color: var(--primary-color);
+  }
+
+  article figcaption {
+    font-size: 12px;
+    color: var(--secondary-color);
+    text-align: center;
+    margin-top: 5px;
+  }
+
+  .figure-img {
+    max-width: var(--content-max-width);
+    padding: 0 30px;
+    margin: 15px auto;
+  }
+
+  .figure-img img {
+    display: block;
+    max-width: 100%;
+    margin: 0 auto;
+    border-radius: var(--border-radius);
+  }
+  
+  .figure-video {
+    max-width: var(--content-max-width);
+    padding: 0 30px;
+    margin: 15px auto;
+  }
+
+  .figure-video video {
+    display: block;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
+  .figure-iframe {
+    width: 100%;
+    margin: 15px 0;
+  }
+
+  .figure-iframe iframe {
+    display: block;
+    width: 100%;
+    max-width: var(--content-max-width);
+    margin: 0 auto;
+    height: 640px;
+    border: 1px solid var(--tertiary-color);
+    border-radius: var(--border-radius);
+  }
+
+  strong {
+    font-weight: normal;
+    text-decoration: underline;
+  }
+</style>
+
+<section>
+  <p>学习笔记: 空间几何与向量代数、多元函数微分学、重积分</p>
+<!--more-->
+<h3 id="">一、空间几何与向量代数</h3>
+<ul>
+<li>分清八个卦限 （略）</li>
+<li>空间两点距离公式: d = $\sqrt{(x1-x2)^2 + (y1-y2)^2 + (z1-z2)^2}$</li>
+</ul>
+<h5 id="-1">向量</h5>
+<ul>
+<li>向量的长度称为模。向量 $\vec{AB}$ 的模为 $\mid \vec{AB} \mid $ 或 $\mid\vec{\alpha}\mid$</li>
+<li>单位向量：若$\mid\vec{\alpha}\mid$ = 1，则 $\alpha$ 为单位向量</li>
+<li>零向量：若$\mid\vec{\alpha}\mid$ = 0，则 $\alpha$ 为零向量，方向看作任意的 </li>
+<li>向量平行：两个向量不看长度，方向相同或相反。</li>
+<li>向量相等：两个向量的长度和方向都相同。</li>
+</ul>
+<h5 id="-2">向量计算</h5>
+<ul>
+<li>向量加法：参考书中平行四边形</li>
+<li>数量积：两个向量的模与其夹角的余弦值之积 <ul>
+<li>公式：$\alpha \cdot \beta$ = $\mid\alpha\mid \cdot \mid\beta\mid \cos\theta$ </li>
+<li>坐标公示：$\alpha \cdot \beta$ = $\alpha<em>x \cdot \beta</em>x + \alpha<em>y \cdot \beta</em>y + \alpha<em>z \cdot \beta</em>z$</li>
+<li>注意数量积符号是 $\cdot$ 而不是 $\times$  </li>
+<li>向量垂直，数量积为0</li></ul></li>
+</ul>
+<h5 id="-3">平面方程</h5>
+<ul>
+<li>方程：平面过点$(x,y,z)$，其法向量为 $n = {A, B, C}， 则Ax + By + Cz + D = 0$</li>
+<li>变形：过两个点，一个法向量：$A(x-x<em>0) + B(y-y</em>0) + C(z-z_0) + D = 0$ </li>
+<li>点到平面距离 $d = \frac{|Ax + By + Cz + D|}{\sqrt{A^2 + B^2 + C^2}}$</li>
+<li>当D=0时，表示过原点的平面</li>
+<li>当A=0时，表示平行于x轴的平面</li>
+</ul>
+<h5 id="-4">直线方程</h5>
+<ul>
+<li>直线过点 $P<em>0(x</em>0,y<em>0,z</em>0)$ ，方向向量为$n = {A, B, C}$</li>
+<li>对称式方程：$\frac{x-x<em>0}{A} = \frac{y-y</em>0}{B} = \frac{z-z_0}{C}$</li>
+</ul>
+<h5 id="-5">二次曲面</h5>
+<h5 id="-6">习题</h5>
+<ul>
+<li>判断点$(-1,2,-5)$所在卦限</li>
+<li>点$(1,-3,2)$关于x轴对称的点。 （x坐标不变，其余坐标取相反数。(1,3,-2)）</li>
+<li>向量 $\alpha = {3,2,\frac{1}{2} }, \beta = {-1,1,0}$，则 $2\alpha \cdot \beta$ =</li>
+<li>两个向量的标${8,-4,1}、{2,2,1}$，求两个向量的夹角。 （套用两个数量积公式, 1/3）</li>
+<li>点$(2,3,7)$到平面 $2x+2y-z+6=0$ 的距离。（得出法向量{2,2,-1}，套用公式）</li>
+</ul>
+<h3 id="-7">二、多元函数微分学</h3>
+<!-- - 一元函数中，可导必连续。多元函数中，偏导数存在不一定连续
+- 
+- 函数可微 <=> 可导
+- 函数单调性，求函数导数，若 >= 0，单调递增
+- 导数为0的点称为驻点。
+- 分清极大值和最小值不是最大值或者最小值
+- 全微分：多元函数的导数，即偏导数的集合，记为 $\frac{\partial f}{\partial x_1, \partial x_2, \partial x_3, ...}$，其中 $x_1, x_2, x_3, ...$ 为自变量，$f$ 为函数，$\partial$ 为偏导数符号。 -->
+<h5 id="-8">符号含义</h5>
+<ul>
+<li>导数符号 $d$</li>
+<li>偏导数符号 $\partial$</li>
+<li>定义域 D</li>
+</ul>
+<h5 id="-9">二重极限</h5>
+<ul>
+<li>若函数$f$无限接近点$P(x<em>0,y</em>0)$时，值无限接近常数$A$， 即 $\lim\limits<em>{(x,y) \to (x</em>0,y_0)} f(x,y) = A$，则$A$是$f$在点$P$处的二重极限。（极限值常数$A$与函数$f$在点$P$处是否有定义无关，只与该点的邻域有关。）</li>
+<li>重要极限  </li>
+</ul>
+<ol>
+<li>$ lim\frac{sin t}{t} = 1$ </li>
+  2. 
+</ol>
+<h5 id="-10">偏导数</h5>
+<ul>
+<li>说明：若$ \lim\limits<em>{\Delta x \to 0} \frac{f(x</em>0 + \Delta x,y<em>0) - f(x</em>0,y<em>0)}{ \Delta x }$ 存在，此极限值为函数 $f(x,y)$ 在点 $P(x</em>0,y_0)$ 处关于自变量 $x$ 的偏导数。  （反应函数$f$在点$P$处沿$x$轴的变化率）</li>
+<li>个人理解：像物理里的加速度，在于变化率。<ul>
+<li>一辆车要拐弯，形成的曲线，不能是个V, 而是个U，在U中的低谷点偏导数就是0。</li></ul></li>
+<li>写法：<ul>
+<li>函数$z=f(x,y)$关于x轴的偏导数写为 $\frac{\partial z}{\partial x}$ 或 $z_x$ 。</li>
+<li>函数$z=f(x,y)$在点$(x<em>0,y</em>0)$处关于x轴的偏导数：$z<em>x(x</em>0,y<em>0)$ 或 $f</em>x(x<em>0,y</em>0)$ </li></ul></li>
+<li>注意 $\frac{\partial z}{\partial x}$ 应该看作一个整体，分子分母不具有独立的意义。（不同于导数 $\frac{d f}{d x}$ 分子分母有独立的意义）</li>
+<li>例1：$f=x^9+y^2$，求 $f_y(2,1)$。<ul>
+<li>关于$y$的导数，就把$x$看作常数，直接求导。</li>
+<li>$f_y(2,1)=2y=2$ </li></ul></li>
+<li>例2: $f=(y-1)\arctan(x^2+y^3) + x^2y$，求 $f_x(2,1)$<ul>
+<li>如果用例1的方式很麻烦，理解二元函数偏导数的本质是先转为一元函数求导。</li>
+<li>关于$x$的导数，先把$y=1$带入，再求导。</li>
+<li>$f'=2x$，再把$x=2$带入，得到 $f_x(2,1) = 4$</li></ul></li>
+</ul>
+<h5 id="-11">复合函数偏导数</h5>
+<ul>
+<li>例1: 求$u=\sqrt{x^2+y^2+z^2}$的偏导数</li>
+<li>将 $x^2+y^2+z^2$ 看作 $v$，则 $u<em>x = u</em>v \cdot v_x $。</li>
+<li>$ u<em>x = \frac{1}{2\sqrt{x^2+y^2+z^2}} \cdot 2x = \frac{x}{u}$， 同理 $u</em>y = \frac{y}{u}$，$u_z = \frac{z}{u}$</li>
+</ul>
+<h5 id="-12">高阶偏导数</h5>
+<ul>
+<li>关于x的二阶偏导数：$\frac{\partial}{\partial x} \cdot \frac{\partial z}{\partial x}$ ，写作 $\frac{\partial ^2 z}{\partial x^2} $ 或  $f<em>{xx}(x,y)$ 或 $z</em>{xx}$</li>
+<li>偏x偏y：$\frac{\partial ^2 z}{\partial x \partial y}$ 或 $f<em>{xy}(x,y)$ 或 $z</em>{xy}$</li>
+</ul>
+<h6 id="-13">全微分</h6>
+<ul>
+<li>的</li>
+</ul>
+<h5 id="-14">隐函数的偏导数</h5>
+<ul>
+<li>二元函数 $F(x,y)$ 隐函数 $y<em>0=f(x</em>0)$，则有公式：$\frac{d<em>y}{d</em>x} = -\frac{F<em>x}{F</em>y}$</li>
+<li>三元函数 $F(x,y,z)$ 隐函数 $z<em>0=f(x</em>0,y<em>0)$，则有公式：$\frac{\partial z}{\partial x} = -\frac{F</em>x}{F<em>z}$，$\frac{\partial z}{\partial y} = -\frac{F</em>y}{F_z}$</li>
+<li>例1：$x^2+y^2=R^2$,求隐函数的$y=f(x)$确定的导数$\frac{d<em>y}{d</em>x}$</li>
+<li>令$F(x,y)=x^2+y^2-R^2$ 。（这里使用大F)</li>
+<li>$\frac{d<em>y}{d</em>x} = -\frac{F<em>x}{F</em>y} = -\frac{x}{y}  $</li>
+<li>例2: </li>
+</ul>
+<h5 id="-15">多元函数的极值和最值</h5>
+<ul>
+<li><p>极值：极大值和极小值，对应的点叫做极值点。 </p></li>
+<li><p>极值是一个局部性的概念，不一定是最值，极大值不一定比极小值大。</p></li>
+<li><p>极值一定是内点，不是边界点。</p></li>
+<li><p>极值点可能偏导数不存在，举例V。</p></li>
+<li><p>驻点：函数$z$，存在点 $z<em>x=0,z</em>y=0$，称为驻点。</p></li>
+<li><p>驻点不一定偏导数存在，举例V。</p></li>
+<li><p>驻点不一定是极值点，</p></li>
+<li><p>用函数$z=f(x,y)$的驻点找极值点 </p></li>
+<li><p>找驻点，令$z<em>x=0, z</em>y=0$，此时能得到几个驻点坐标</p></li>
+<li><p>二阶偏导，$A=z<em>{xx}$,   $B=z</em>{xy}$,   $C=z_{yy}$</p></li>
+<li><p>根据$\Delta = B^2-AC $，把几个驻点分别带入</p>
+<ul>
+<li>若$\Delta &gt; 0$，不是极值点 </li>
+<li>若$\Delta &lt; 0 且 A &lt; 0$，是极大值点。</li>
+<li>若$\Delta &lt; 0 且 A &gt; 0$，是极小值点。</li></ul></li>
+<li><p>例：求$f(x,y)=x^3-y^3-3x^2+27y$的极值。</p></li>
+<li><p>找驻点。令$f<em>x(x,y)=0$,  $f</em>y(x,y)=0$，</p></li>
+<li><p>计算$f<em>x(x,y)=3x^2-6x = 0, f</em>y(x,y)= -3y^2+27 = 0$</p></li>
+<li><p>得到$x(x-2)=0,(3-y)(3+y)=0$，得到四个驻点：$(0,-3),(0,3),(2,-3),(2,3)$</p></li>
+<li><p>计算二阶偏导数。$A=6x-6$,   $B=0$,   $C=-6y$</p></li>
+<li><p>根据定理：$\Delta = B^2-AC $，分别带入四个驻点列出</p></li>
+<li><p>则$(0,3)$是极大值点，$(2,-3)$是极小值点。</p></li>
+<li><p>例题：</p></li>
+<li><p>$\lim\limits_{x \to 0, y \to 0} \frac{2-\sqrt{xy+4}}{xy}$ , 解析：设$xy=u$, 答案：$-1/4$</p></li>
+</ul>
+<h3 id="-16">三、重积分</h3>
+<h5 id="-17">二重积分</h5>
+<ul>
+<li>定积分符号 $\int$，二重积分符号 $\iint$，西格玛 $\sigma$</li>
+<li>二重积分公式：$\iint\limits_D f(x,y)d\sigma$</li>
+<li>其中D是积分区域， $f(x,y)$叫做被积函数，$x,y$叫做积分变量，$d\sigma$叫面积元素</li>
+<li>二重积分的几何意义是被积区域的面积</li>
+<li>性质：</li>
+</ul>
+<ol>
+<li>常数可以提到积分外。$\iint\limits<em>D k f(x,y)d\sigma = k \iint\limits</em>D f(x,y)d\sigma$</li>
+<li>函数和或差的积分，等于积分的和或差。$\iint\limits<em>D [f(x,y) \pm g(x,y)]d\sigma = \iint\limits</em>D f(x,y)d\sigma \pm \iint\limits_D g(x,y)d\sigma$</li>
+<li>区域可加性。$D=D<em>1+D</em>2$，则$\iint\limits<em>D f(x,y)d\sigma = \iint\limits</em>{D<em>1} f(x,y)d\sigma + \iint\limits</em>{D_2} f(x,y)d\sigma$</li>
+<li>单调性。若 $f(x,y)&gt;g(x,y)$，则$\iint\limits<em>D f(x,y)d\sigma &gt; \iint\limits</em>D g(x,y)d\sigma$</li>
+<li>若$f(x,y)\geq0$, 则$\iint\limits_D f(x,y)d\sigma \geq 0$</li>
+<li>若在$D$上$a&lt;f(x,y)&lt;b$，则 $ a|D| &lt; \iint\limits_D f(x,y)d\sigma &lt; b|D|$， ($|D|$为$D$的面积)</li>
+<li>当$f(x,y)=1$时，$\iint\limits_D 1d\sigma = |D|$</li>
+</ol>
+<h5 id="-18">直角坐标下的二重积分</h5>
+<ul>
+<li>一般计算方式：</li>
+<li>若D可以用不等式 $a \leq x \leq b, \phi<em>1(x) \leq y \leq \phi</em>2(x) $ , 则 $\iint\limits<em>Df(x,y)d</em>xd<em>y = \int</em>a^b d<em>x \int</em>{\phi<em>1(x)}^{\phi</em>2(x)} f(x,y) d_y $，此为X型区域，从下边界到上边界。</li>
+<li>若D可以用不等式 $c \leq y \leq d, \phi<em>1(y) \leq x \leq \phi</em>2(y) $ , 则 $\iint\limits<em>Df(x,y) d</em>x d<em>y = \int</em>c^d d<em>y \int</em>{\phi<em>1(x)}^{\phi</em>2(x)} f(x,y) d_x $，此为Y型区域，从左边界到右边界。</li>
+<li>例：求二重积分$\iint\limits<em>D xy d</em>x d_y$，其中D是 $y=x^2$和$y=x$围成的区域。（1/24）</li>
+<li>奇偶性计算方式</li>
+<li>若被积函数$f(x,y)$是关于$x$的奇函数，对于任何$y$都有$f(-x,y)=-f(x,y)$，则二重积分$\iint\limits_D f(x,y)dxdy = 0$</li>
+<li>若被积函数$f(x,y)$是关于$x$的偶函数，对于任何$y$都有$f(-x,y)=-f(x,y)$，则二重积分$\iint\limits<em>D f(x,y)dxdy = 2\iint\limits</em>{D左} f(x,y)dxdy = 2\iint\limits_{D右} f(x,y)dxdy$</li>
+</ul>
+<h5 id="-19">极坐标下的二重积分</h5>
+<h5 id="-20">三重积分</h5>
+<ul>
+<li>公式：$\iiint\limits_\Omega f(x,y,z)d\nu    $ </li>
+<li>三重积分的几何意义是被积区域的体积</li>
+<li>例：计算三重积分 $ I = \iiint\limits<em>\Omega xd</em>xd<em>yd</em>z    $ ，其中$\Omega$是由三个坐标面及平面$x + 2y + z = 1$围成。 （1/48）*</li>
+</ul>
+</section>
+
+    
+  </article>
+  
+<style>
+  .article-actions {
+    max-width: var(--content-max-width);
+
+    display: flex;
+    align-items: center;
+
+    margin: 40px auto;
+    padding: 0 30px;
+
+    font-family: common_font;
+    color: var(--normal-color);
+  }
+
+  .article-actions_action:not(:last-child)::after {
+    content: '·\00a0';
+  }
+
+  .article-actions_action > a {
+    color: inherit;
+    text-decoration-color: var(--primary-color);
+  }
+
+  @media (max-width: 520px) {
+    .article-actions {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .article-actions_action::before {
+      content: '·';
+    }
+
+    .article-actions_action:not(:last-child)::after {
+      content: '';
+    }
+  }
+</style>
+
+<div class="article-actions">
+  <span class="article-actions_action">
+    使用 <a href="https://github.com/tomatocuke/tomatocuke.github.io/discussions">Discussions</a> 讨论
+  </span>
+  <span class="article-actions_action">
+    在 <a href="https://github.com/tomatocuke/tomatocuke.github.io/edit/main/articles/study-math/index.md">Github</a> 上编辑
+  </span>
+  <span class="article-actions_action">
+    分享到 <a href="https://www.twitter.com/share?text=%E9%AB%98%E6%95%B0%E5%B7%A5%E6%9C%AC%E7%AC%94%E8%AE%B0&amp;url=%2Fstudy-math">Twitter</a>
+  </span>
+</div>
+
+  <style>
+.page-footer {
+  font-size: 12px;
+  max-width: var(--content-max-width);
+  margin: 40px auto;
+  padding: 0 30px;
+  font-family: common_font;
+  color: var(--secondary-color);
+}
+
+.page-footer > a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.page-footer > .author {
+  text-decoration: underline;
+}
+
+.page-footer > a:hover {
+  color: var(--primary-color);
+}
+</style>
+
+<footer class="page-footer">
+  <a href="https://github.com/tomatocuke/tomatocuke.github.io/blob/master/LICENSE">©</a> 2023
+  <a class="author" href="https://beian.miit.gov.cn">浙ICP备2021005082号-3</a>
+</footer>
+
+
+  <script src="https://blog.kikia.cc/39c97c2884c3a2b5e64c8f085b843d4e.js"></script>
+
+
+
+</body></html>

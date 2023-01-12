@@ -53,18 +53,18 @@
 </style>
 
 
-  <title>5分钟无服务器部署markdown博客 - 似水流年</title>
-  <meta name="description" content="### 说明 - 使用Github Pages托管个人博客，不需要服务器，不需要克隆到本地。内容用markdown，方便迁移。 - 代码作者[mebtte](https://github.com/mebtte/animal-photosynthesis) - [Demo](https://tomat......">
-  <meta property="og:description" content="### 说明 - 使用Github Pages托管个人博客，不需要服务器，不需要克隆到本地。内容用markdown，方便迁移。 - 代码作者[mebtte](https://github.com/mebtte/animal-photosynthesis) - [Demo](https://tomat......">
+  <title>我和ChatGPT掰扯GoGC这件事 - 似水流年</title>
+  <meta name="description" content="最近`ChatGPT`很火，我也在尝鲜，探求它能解决那些问题，以及它的局限性。  我发现它在小段特定功能代码的生成是很出色的，但是它不能预测，不能对复杂问题有效把握重点。甚至有时候像小学生一样嘴犟。   <!--more-->   以下是我们的对话：  ![在这里插入图片描述](https://im......">
+  <meta property="og:description" content="最近`ChatGPT`很火，我也在尝鲜，探求它能解决那些问题，以及它的局限性。  我发现它在小段特定功能代码的生成是很出色的，但是它不能预测，不能对复杂问题有效把握重点。甚至有时候像小学生一样嘴犟。   <!--more-->   以下是我们的对话：  ![在这里插入图片描述](https://im......">
 
-  <link rel="preload" href="https://blog.kikia.cc/e692a84ce3f40b569d1dd4341094430d.ttf" as="font" crossorigin="anonymous">
+  <link rel="preload" href="https://blog.kikia.cc/5a3da4990ec69f9bb1ea619fe802cce6.ttf" as="font" crossorigin="anonymous">
   <style>
     @font-face {
-      font-family: article_font_blog;
-      src: url(https://blog.kikia.cc/e692a84ce3f40b569d1dd4341094430d.ttf);
+      font-family: article_font_chatgpt-gogc;
+      src: url(https://blog.kikia.cc/5a3da4990ec69f9bb1ea619fe802cce6.ttf);
     }
     article {
-      font-family: article_font_blog;
+      font-family: article_font_chatgpt-gogc;
     }
   </style>
   
@@ -156,9 +156,9 @@
 
 <section class="article-header">
   <h1 class="article-title">
-    <a href="https://blog.kikia.cc/blog">5分钟无服务器部署markdown博客</a>
+    <a href="https://blog.kikia.cc/chatgpt-gogc">我和ChatGPT掰扯GoGC这件事</a>
   </h1>
-  <time class="article-publish-time">2023-01-03</time>
+  <time class="article-publish-time">2022-12-08</time>
 </section>
 
     <style>
@@ -403,49 +403,48 @@
 </style>
 
 <section>
-  <h3 id="">说明</h3>
-<ul>
-<li>使用Github Pages托管个人博客，不需要服务器，不需要克隆到本地。内容用markdown，方便迁移。</li>
-<li>代码作者<a href="https://github.com/mebtte/animal-photosynthesis">mebtte</a></li>
-<li><a href="https://tomatocuke.github.io">Demo</a></li>
-</ul>
-<h3 id="-1">快速部署</h3>
-<ul>
-<li>拷贝项目。可直接 fork <a href="https://github.com/tomatocuke/tomatocuke.github.io">此项目</a>到你自己的仓库，更改为你自己的<code>&lt;username&gt;.github.io</code>，否则无法使用。</li>
-<li>随便更改一下<code>article</code>里的文件并提交(加个句号之类)，以触发<code>.github/workflows/gh_pages.yml</code>，在<code>Actions</code>中查看进度。</li>
-<li>查看是否多出一个分支<code>gh-pages</code>，如果没有，再更改一下文件提交。（没搞懂为什么第一次不会触发，之后就OK了)</li>
-<li>进入 <code>Settings</code> &gt; <code>Pages</code>，更改<code>Branch</code>为<code>gh-pages</code>分支并保存. 此时可以看到你的网站地址 <code>https://&lt;username&gt;.github.io</code> (默认是markdown内容，等一会刷新)</li>
-</ul>
-<h3 id="-2">自定义域名(可选)</h3>
-<ul>
-<li>github的用户名及其难起，托管域名也就不好记，所以改为自定义域名。</li>
-<li>在云平台解析你所拥有的域名，记录类型为CNAME，记录值为你的托管域名<code>&lt;username&gt;.github.io</code>。</li>
-<li>进入 <code>Settings</code> &gt; <code>Pages</code>，更改<code>Custom domain</code> 为你所解析的域名，系统自动检查DNS解析。</li>
-<li>等待片刻后可以访问。若不成功有其他问题请参考<a href="https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site">官方文档</a></li>
-</ul>
-<h3 id="-3">配置与内容</h3>
-<ul>
-<li>配置。修改文件<code>script/config.js</code></li>
-<li>博客。以单独目录形式放在<code>article</code>目录下，直接添加文件<code>目录名/index.md</code>。</li>
-<li>写法。markdown博客的<a href="https://github.com/tomatocuke/tomatocuke.github.io/edit/main/articles/blog/index.md">前置写法参考</a>。如果之前已有markdown文章，字段不匹配，修改<code>scripts/utils/parse_article.js</code>底部。</li>
-<li>下方Discussions 在 Settings 里开通。 小蓝鸟如果不想要在<code>src/template/article/article_action.ejs</code>里注释掉</li>
-</ul>
+  <p>最近<code>ChatGPT</code>很火，我也在尝鲜，探求它能解决那些问题，以及它的局限性。</p>
+<p>我发现它在小段特定功能代码的生成是很出色的，但是它不能预测，不能对复杂问题有效把握重点。甚至有时候像小学生一样嘴犟。</p>
+<!--more-->
+<p>以下是我们的对话：</p>
+
+      <figure class="figure-img">
+        <a href="https://img-blog.csdnimg.cn/c9939ac859de4104b5cde66409524e53.png" target="_blank">
+          <img src="https://img-blog.csdnimg.cn/c9939ac859de4104b5cde66409524e53.png" alt="在这里插入图片描述" title="在这里插入图片描述" loading="lazy">
+        </a>
+        <figcaption>在这里插入图片描述</figcaption>
+      </figure>
+    
+
+      <figure class="figure-img">
+        <a href="https://img-blog.csdnimg.cn/87eb9aa3ce184666bf6aa7ad9f3dea36.png" target="_blank">
+          <img src="https://img-blog.csdnimg.cn/87eb9aa3ce184666bf6aa7ad9f3dea36.png" alt="在这里插入图片描述" title="在这里插入图片描述" loading="lazy">
+        </a>
+        <figcaption>在这里插入图片描述</figcaption>
+      </figure>
+    
+
+      <figure class="figure-img">
+        <a href="https://img-blog.csdnimg.cn/6434add08e0543eb9d2dc6db8a54d09d.png" target="_blank">
+          <img src="https://img-blog.csdnimg.cn/6434add08e0543eb9d2dc6db8a54d09d.png" alt="在这里插入图片描述" title="在这里插入图片描述" loading="lazy">
+        </a>
+        <figcaption>在这里插入图片描述</figcaption>
+      </figure>
+    
+
+      <figure class="figure-img">
+        <a href="https://img-blog.csdnimg.cn/478770d13c03494aa671b98e79f8639f.png" target="_blank">
+          <img src="https://img-blog.csdnimg.cn/478770d13c03494aa671b98e79f8639f.png" alt="在这里插入图片描述" title="在这里插入图片描述" loading="lazy">
+        </a>
+        <figcaption>在这里插入图片描述</figcaption>
+      </figure>
+    
+<p>事实上我也搞错了，go在1.5版本就使用三色标记法了，而不是1.15版本。按理说它学习的东西不至于如此过时，况且现在全网都是说三色标记法。</p>
+<p>你去纠正它，我理解它不屈服，防止被带坏，但是它仍然坚持自己的观点，是不是有些过于自信了呢？</p>
+<p>最后说一下，现在go的GC是使用三色标记法+混合写屏障。</p>
 </section>
 
-    <section>
-  <h2>更新记录</h2>
-  <div class="table-container">
-    <table>
-      
-        <tbody><tr>
-          <td></td>
-          <td></td>
-        </tr>
-       
-    </tbody></table>
-  </div>
-</section>
-
+    
   </article>
   
 <style>
@@ -492,10 +491,10 @@
     使用 <a href="https://github.com/tomatocuke/tomatocuke.github.io/discussions">Discussions</a> 讨论
   </span>
   <span class="article-actions_action">
-    在 <a href="https://github.com/tomatocuke/tomatocuke.github.io/edit/main/articles/blog/index.md">Github</a> 上编辑
+    在 <a href="https://github.com/tomatocuke/tomatocuke.github.io/edit/main/articles/chatgpt-gogc/index.md">Github</a> 上编辑
   </span>
   <span class="article-actions_action">
-    分享到 <a href="https://www.twitter.com/share?text=5%E5%88%86%E9%92%9F%E6%97%A0%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2markdown%E5%8D%9A%E5%AE%A2&amp;url=%2Fblog">Twitter</a>
+    分享到 <a href="https://www.twitter.com/share?text=%E6%88%91%E5%92%8CChatGPT%E6%8E%B0%E6%89%AFGoGC%E8%BF%99%E4%BB%B6%E4%BA%8B&amp;url=%2Fchatgpt-gogc">Twitter</a>
   </span>
 </div>
 
