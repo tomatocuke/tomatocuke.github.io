@@ -1,8 +1,8 @@
 ---
-title: "5分钟无服务器部署个人博客"
+title: "5分钟无服务器部署markdown博客"
 date: "2023-01-03"
-updates: []
-hidden: false
+updates: ["2023-01-10"]
+draft: false
 ---
 
 ### 说明
@@ -23,7 +23,8 @@ hidden: false
 - 等待片刻后可以访问。若不成功有其他问题请参考[官方文档](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site)
 
 ### 配置与内容
-- 修改配置文件`script/config.js`
-- 写博客。以单独目录形式放在`article`目录下。 markdown博客的[前置写法参考](https://github.com/tomatocuke/tomatocuke.github.io/edit/main/articles/blog/index.md)。如果之前已有markdown文章，字段不匹配，修改`scripts/utils/parse_article.js`底部
+- 配置。修改文件`script/config.js`
+- 博客。以单独目录形式放在`article`目录下，直接添加文件`目录名/index.md`。
+- 写法。markdown博客的[前置写法参考](https://github.com/tomatocuke/tomatocuke.github.io/edit/main/articles/blog/index.md)。如果之前已有markdown文章，字段不匹配，修改`scripts/utils/parse_article.js`底部。
 - 下方Discussions 在 Settings 里开通。 小蓝鸟如果不想要在`src/template/article/article_action.ejs`里注释掉
 
