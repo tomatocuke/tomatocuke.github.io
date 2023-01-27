@@ -13,7 +13,7 @@
       <![CDATA[]]>
     </description>
     <link>https://blog.kikia.cc</link>
-    <lastBuildDate>2023-01-27T01:48:57.173Z</lastBuildDate>
+    <lastBuildDate>2023-01-27T03:07:12.652Z</lastBuildDate>
     
       <item>
         <title>
@@ -53,6 +53,18 @@
     
       <item>
         <title>
+          <![CDATA[Go测试chan是否会被自动GC]]>
+        </title>
+        <description>
+          <![CDATA[代码为内部技术群大佬写的  ```go package main  import (  &#34;runtime&#34;  &#34;unsafe&#34; )  type markBits struct {  bytep *uint8  mask  uint8  index uintptr }  //go:linkname i...]]>
+        </description>
+        <link>https://blog.kikia.cc/go-changc</link>
+        <guid isPermaLink="false">go-changc</guid>
+        <pubDate>2022-12-03T00:00:00.000Z</pubDate>
+      </item>
+    
+      <item>
+        <title>
           <![CDATA[go+redis分布式锁]]>
         </title>
         <description>
@@ -61,6 +73,18 @@
         <link>https://blog.kikia.cc/go-redislock</link>
         <guid isPermaLink="false">go-redislock</guid>
         <pubDate>2022-11-23T00:00:00.000Z</pubDate>
+      </item>
+    
+      <item>
+        <title>
+          <![CDATA[Go中一些工具函数封装]]>
+        </title>
+        <description>
+          <![CDATA[### 类型转换 - `int`和`string` ```go func Int2String(i int) string {   return strconv.Itoa(i) }  func String2Int(s string) int {   i, err := strconv.Itoa(s...]]>
+        </description>
+        <link>https://blog.kikia.cc/go-util</link>
+        <guid isPermaLink="false">go-util</guid>
+        <pubDate>2022-07-13T00:00:00.000Z</pubDate>
       </item>
     
       <item>

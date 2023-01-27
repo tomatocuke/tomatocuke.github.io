@@ -53,18 +53,18 @@
 </style>
 
 
-  <title>5分钟无服务器部署markdown博客 - 似水流年</title>
-  <meta name="description" content="### 说明 - 使用Github Pages托管个人博客，不需要服务器，不需要克隆到本地。内容用markdown，方便迁移。 - 代码作者[mebtte](https://github.com/mebtte/animal-photosynthesis) - [Demo](https://tomat......">
-  <meta property="og:description" content="### 说明 - 使用Github Pages托管个人博客，不需要服务器，不需要克隆到本地。内容用markdown，方便迁移。 - 代码作者[mebtte](https://github.com/mebtte/animal-photosynthesis) - [Demo](https://tomat......">
+  <title>Go中一些工具函数封装 - 似水流年</title>
+  <meta name="description" content="### 类型转换 - `int`和`string` ```go func Int2String(i int) string {   return strconv.Itoa(i) }  func String2Int(s string) int {   i, err := strconv.Itoa(s......">
+  <meta property="og:description" content="### 类型转换 - `int`和`string` ```go func Int2String(i int) string {   return strconv.Itoa(i) }  func String2Int(s string) int {   i, err := strconv.Itoa(s......">
 
-  <link rel="preload" href="https://blog.kikia.cc/e692a84ce3f40b569d1dd4341094430d.ttf" as="font" crossorigin="anonymous">
+  <link rel="preload" href="https://blog.kikia.cc/65e785469ca3e6418a1e4c59b10e55fb.ttf" as="font" crossorigin="anonymous">
   <style>
     @font-face {
-      font-family: article_font_blog;
-      src: url(https://blog.kikia.cc/e692a84ce3f40b569d1dd4341094430d.ttf);
+      font-family: article_font_go-util;
+      src: url(https://blog.kikia.cc/65e785469ca3e6418a1e4c59b10e55fb.ttf);
     }
     article {
-      font-family: article_font_blog;
+      font-family: article_font_go-util;
     }
   </style>
   
@@ -159,9 +159,9 @@
 
 <section class="article-header">
   <h1 class="article-title">
-    <a href="https://blog.kikia.cc/blog">5分钟无服务器部署markdown博客</a>
+    <a href="https://blog.kikia.cc/go-util">Go中一些工具函数封装</a>
   </h1>
-  <time class="article-publish-time">2023-01-03</time>
+  <time class="article-publish-time">2022-07-13</time>
 </section>
 
     <style>
@@ -406,33 +406,315 @@
 </style>
 
 <section>
-  <h3 id="">说明</h3>
+  <h3 id="">类型转换</h3>
 <ul>
-<li>使用Github Pages托管个人博客，不需要服务器，不需要克隆到本地。内容用markdown，方便迁移。</li>
-<li>代码作者<a href="https://github.com/mebtte/animal-photosynthesis">mebtte</a></li>
-<li><a href="https://tomatocuke.github.io">Demo</a></li>
+<li><code>int</code>和<code>string</code></li>
 </ul>
-<h3 id="-1">快速部署</h3>
+<pre><code class="go language-go">func Int2String(i int) string {
+  return strconv.Itoa(i)
+}
+
+func String2Int(s string) int {
+  i, err := strconv.Itoa(s)
+  if err != nil {
+    fmt.Println(err)
+  }
+  return i
+}
+</code></pre>
 <ul>
-<li>拷贝项目。可直接 fork <a href="https://github.com/tomatocuke/tomatocuke.github.io">此项目</a>到你自己的仓库，更改为你自己的<code>&lt;username&gt;.github.io</code>，否则无法使用。</li>
-<li>随便更改一下<code>article</code>里的文件并提交(加个句号之类)，以触发<code>.github/workflows/gh_pages.yml</code>，在<code>Actions</code>中查看进度。</li>
-<li>查看是否多出一个分支<code>gh-pages</code>，如果没有，再更改一下文件提交。（没搞懂为什么第一次不会触发，之后就OK了)</li>
-<li>进入 <code>Settings</code> &gt; <code>Pages</code>，更改<code>Branch</code>为<code>gh-pages</code>分支并保存. 此时可以看到你的网站地址 <code>https://&lt;username&gt;.github.io</code> (默认是markdown内容，等一会刷新)</li>
+<li><code>string</code>和<code>[]byte</code>。利用指针直接构造的方式，可以避免拷贝开销，对大字符串有很好的效果。</li>
 </ul>
-<h3 id="-2">自定义域名(可选)</h3>
+<pre><code class="go language-go">// 小于1.20
+func String2Bytes(s string) []byte {
+    bs := struct {
+        string
+        Cap int
+    }{s, len(s)}
+    return *(*[]byte)(unsafe.Pointer(&amp;bs))
+}
+
+func Bytes2String(bs []byte) string {
+    return *(*string)(unsafe.Pointer(&amp;bs))
+}
+
+// 1.20
+func String2Bytes(s string) []byte {
+    return unsafe.Slice(unsafe.StringData(s), len(s))
+}
+
+func Bytes2String(bs []byte) string {
+    return unsafe.String(&amp;bs[0], len(bs))
+}
+</code></pre>
 <ul>
-<li>github的用户名及其难起，托管域名也就不好记，所以改为自定义域名。</li>
-<li>在云平台解析你所拥有的域名，记录类型为CNAME，记录值为你的托管域名<code>&lt;username&gt;.github.io</code>。</li>
-<li>进入 <code>Settings</code> &gt; <code>Pages</code>，更改<code>Custom domain</code> 为你所解析的域名，系统自动检查DNS解析。</li>
-<li>等待片刻后可以访问。若不成功有其他问题请参考<a href="https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site">官方文档</a></li>
+<li><code>string</code>和<code>float</code></li>
 </ul>
-<h3 id="-3">配置与内容</h3>
+<pre><code class="go language-go">func Float2String(f float64) string {
+    return strconv.FormatFloat(f, 'f', -1, 64)
+}
+
+func String2Float(s string) float64 {
+    f, err := strconv.ParseFloat(s, 64)
+  if err != nil {
+    fmt.Println(err)
+  }
+  return f
+}
+</code></pre>
 <ul>
-<li>配置。修改文件<code>script/config.js</code></li>
-<li>博客。以单独目录形式放在<code>article</code>目录下，直接添加文件<code>目录名/index.md</code>。</li>
-<li>写法。markdown博客的<a href="https://github.com/tomatocuke/tomatocuke.github.io/edit/main/articles/blog/index.md">前置写法参考</a>。如果之前已有markdown文章，字段不匹配，修改<code>scripts/utils/parse_article.js</code>底部。</li>
-<li>下方Discussions 在 Settings 里开通。 小蓝鸟如果不想要在<code>src/template/article/article_action.ejs</code>里注释掉</li>
+<li>IPV4地址转<code>int</code>，IPV4其实本来就是4字节长度，便于查看才有点分十进制的展示形式，为了节省空间，数据库存储最后还是使用<code>int</code></li>
 </ul>
+<pre><code class="go language-go">func Ip2Int(ip string) int {
+    i := big.NewInt(0).SetBytes(net.ParseIP(ip).To4()).Int64()
+    return int(i)
+}
+
+func Int2Ip(ip int) string {
+    return net.IPv4(byte(ip&gt;&gt;24), byte(ip&gt;&gt;16), byte(ip&gt;&gt;8), byte(ip)).String()
+}
+</code></pre>
+<ul>
+<li><p>结构体转<code>map</code>，在刚开始写go的时候会有这种需求，是认识不足的表现，这是没必要且低效的，并不建议使用。不够可以参考这个看看反射。
+```go 
+// @structPtr 结构体指针
+// @ignoreNil 是否忽略空指针字段
+func Struct2Map(structPtr interface{}, ignoreNil bool) map[string]interface{} {
+obj := reflect.ValueOf(structPtr)
+// 不是结构体指针直接返回
+if obj.Kind() != reflect.Ptr || obj.Elem().Kind() != reflect.Struct {
+    return nil
+}
+v := obj.Elem()
+t := v.Type()
+n := v.NumField()</p>
+<p>myMap := make(map[string]interface{})
+for i := 0; i &lt; n; i++ {
+    itemVal := v.Field(i)
+    isPtr := itemVal.Kind() == reflect.Ptr
+    // 忽略空指针
+    if ignoreNil &amp;&amp; isPtr &amp;&amp; itemVal.IsNil() {
+        continue
+    }
+    // 需要有json标签
+    key := t.Field(i).Tag.Get("json")
+    if key == "" || key == "-" {
+        continue
+    }</p>
+<pre><code>myMap[key] = itemVal.Interface()
+</code></pre>
+<p>}
+return myMap
+}</p></li>
+</ul>
+<pre><code>### 随机数
+</code></pre>
+<p>go
+// 预定义字符集
+const (
+    Number      = "0123456789"
+    LowerLetter = "abcdefghijklmnopqrstuvwxyz"
+    UpperLetter = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+)</p>
+<p>// 随机种子。这种方式为在初始化时固定随机种子
+func init() {
+    rand.Seed(time.Now().UnixNano())
+}</p>
+<p>// 随机数
+func RandInt(max int) int {
+    return rand.Intn(max)
+}</p>
+<p>// 随机字符串：数字+大写字母
+func RandString(length int) string {
+    return RandStringWithCharset(length, Number+UpperLetter)
+}</p>
+<p>// 随机字符串：用户自定义字符集
+func RandStringWithCharset(length int, letter string) string {
+    b := make([]byte, length)
+    r := rand.New(rand.NewSource(time.Now().UnixNano()))
+    n := len(letter)
+    for i := range b {
+        b[i] = letter[r.Intn(n)]
+    }
+    return <em>(</em>string)(unsafe.Pointer(&amp;b))
+}</p>
+<pre><code>### 时间
+</code></pre>
+<p>go 
+// go1.20新增以下三个常量
+const (
+    DateTime = "2006-01-02 15:04:05"
+    DateOnly = "2006-01-02"
+    TimeOnly = "15:04:05"
+)</p>
+<p>func Now() string {
+    return time.Now().Format(DateTime)
+}</p>
+<p>func DayStart(add int) time.Time {
+    y, m, d := time.Now().Date()
+    return time.Date(y, m, d+add, 0, 0, 0, 0, time.Local)
+}</p>
+<p>func DayEnd(add int) time.Time {
+    y, m, d := time.Now().Date()
+    return time.Date(y, m, d+add, 23, 59, 59, 0, time.Local)
+}</p>
+<p>func MonthStart(add int) time.Time {
+    y, m, _ := time.Now().Date()
+    return time.Date(y, m+time.Month(add), 1, 0, 0, 0, 0, time.Local)
+}</p>
+<p>func MonthEnd(add int) time.Time {
+    y, m, _ := time.Now().Date()
+    return time.Date(y, m+time.Month(add)+1, 1, 0, 0, 0, 0, time.Local).Add(-1 * time.Second)
+}</p>
+<pre><code>### 文件
+</code></pre>
+<p>go 
+// 判断文件是否存在
+func IsFileExist(name string) bool {
+    _, err := os.Stat(name)
+    return err == nil || !os.IsNotExist(err)
+}</p>
+<p>// 打开文件追加写。（自动创建目录和文件）
+func OpenFile(name string) (*os.File, error) {
+    if !IsFileExist(name) {
+        dir := filepath.Dir(name)
+        if !IsFileExist(dir) {
+            err := os.MkdirAll(dir, os.ModePerm)
+            if err != nil {
+                return nil, err
+            }
+        }
+    }
+    f, err := os.OpenFile(name, os.O<em>RDWR|os.O</em>APPEND|os.O_CREATE, os.ModePerm)
+    return f, err
+}</p>
+<pre><code>### http
+</code></pre>
+<p>go </p>
+<p>var (
+    // 默认超时时间
+    defaultTimeout = time.Second * 3
+)</p>
+<p>type Http struct {
+    request
+    response
+}</p>
+<p>type request struct {
+    Url     string            <code>json:"url"</code>
+    Method  string            <code>json:"method"</code>
+    Timeout time.Duration     <code>json:"-"</code>
+    Header  map[string]string <code>json:"-"</code>
+    Params  string            <code>json:"params"</code>
+    Body    []byte            <code>json:"-"</code>
+}</p>
+<p>type response struct {
+    Cost   uint8           <code>json:"cost,omitempty"</code>
+    Err    error           <code>json:"error,omitempty"</code>
+    Status int             <code>json:"status"</code>
+    Body   json.RawMessage <code>json:"body"</code>
+}</p>
+<p>// Demo: pkg.HttpGet("http://xxx.com/yy", map[string]string{"a": "1"}).Do()
+func HttpGet(url string, params map[string]string) *Http {
+    var h Http
+    h.Method = http.MethodGet
+    if len(params) &gt; 0 {
+        h.Url = url + "?" + string(h.buildQuery(params))
+    } else {
+        h.Url = url
+    }
+    return &amp;h
+}</p>
+<p>func HttpPostJson(url string, bodyData interface{}) *Http {
+    var h Http
+    h.Method = http.MethodPost
+    h.Url = url
+    h.Header = map[string]string{"Content-Type": "application/json"}
+    h.request.Body, _ = json.Marshal(bodyData)
+    return &amp;h
+}</p>
+<p>func HttpPostForm(url string, bodyData map[string]string) *Http {
+    var h Http
+    h.Method = http.MethodPost
+    h.Url = url
+    h.Header = map[string]string{"Content-Type": "application/x-www-form-urlencoded"}
+    h.request.Body = h.buildQuery(bodyData)
+    return &amp;h
+}</p>
+<p>func (h *Http) SetTimeout(timeout time.Duration) *Http {
+    h.Timeout = timeout
+    return h
+}</p>
+<p>func (h *Http) AddHeader(key, val string) *Http {
+    if len(h.Header) == 0 {
+        h.Header = make(map[string]string)
+    }
+    h.Header[key] = val
+    return h
+}</p>
+<p>func (h *Http) Do() ([]byte, error) {
+    var (
+        req    *http.Request
+        client *http.Client
+        resp   *http.Response
+    )
+    defer h.printLog(time.Now())</p>
+<pre><code>req, h.Err = http.NewRequest(h.Method, h.Url, bytes.NewReader(h.request.Body))
+if h.Err != nil {
+    return nil, h.Err
+}
+
+for k, v := range h.Header {
+    req.Header.Set(k, v)
+}
+if h.Timeout == 0 {
+    h.Timeout = defaultTimeout
+}
+
+// 发送请求
+client = &amp;http.Client{Timeout: h.Timeout}
+resp, h.Err = client.Do(req)
+if h.Err != nil {
+    return nil, h.Err
+}
+defer resp.Body.Close()
+
+h.response.Status = resp.StatusCode
+if resp.StatusCode != http.StatusOK {
+    return nil, errors.New("")
+}
+
+h.response.Body, _ = io.ReadAll(resp.Body)
+return h.response.Body, h.Err
+</code></pre>
+<p>}</p>
+<p>func (h *Http) IsOK() bool {
+    return h.Status == http.StatusOK
+}</p>
+<p>func (h *Http) buildQuery(params map[string]string) []byte {
+    if len(params) == 0 {
+        return nil
+    }</p>
+<pre><code>buffer := &amp;bytes.Buffer{}
+var i int
+for k := range params {
+    buffer.WriteString(k)
+    buffer.WriteByte('=')
+    buffer.WriteString(params[k])
+    if i != len(params)-1 {
+        buffer.WriteByte('&amp;')
+    }
+    i++
+}
+
+return buffer.Bytes()
+</code></pre>
+<p>}</p>
+<p>func (h *Http) printLog(start time.Time) {
+    h.Cost = uint8(time.Since(start).Seconds())
+    bs, _ := json.Marshal(h)
+    log.Writer().Write(bs)
+}
+```</p>
 </section>
 
     
@@ -482,10 +764,10 @@
     使用 <a href="https://github.com/tomatocuke/tomatocuke.github.io/discussions">Discussions</a> 讨论
   </span>
   <span class="article-actions_action">
-    在 <a href="https://github.com/tomatocuke/tomatocuke.github.io/edit/main/articles/blog/index.md">Github</a> 上编辑
+    在 <a href="https://github.com/tomatocuke/tomatocuke.github.io/edit/main/articles/go-util/index.md">Github</a> 上编辑
   </span>
   <span class="article-actions_action">
-    分享到 <a href="https://www.twitter.com/share?text=5%E5%88%86%E9%92%9F%E6%97%A0%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2markdown%E5%8D%9A%E5%AE%A2&amp;url=%2Fblog">Twitter</a>
+    分享到 <a href="https://www.twitter.com/share?text=Go%E4%B8%AD%E4%B8%80%E4%BA%9B%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0%E5%B0%81%E8%A3%85&amp;url=%2Fgo-util">Twitter</a>
   </span>
 </div>
 

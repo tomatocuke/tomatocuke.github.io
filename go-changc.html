@@ -53,18 +53,18 @@
 </style>
 
 
-  <title>5分钟无服务器部署markdown博客 - 似水流年</title>
-  <meta name="description" content="### 说明 - 使用Github Pages托管个人博客，不需要服务器，不需要克隆到本地。内容用markdown，方便迁移。 - 代码作者[mebtte](https://github.com/mebtte/animal-photosynthesis) - [Demo](https://tomat......">
-  <meta property="og:description" content="### 说明 - 使用Github Pages托管个人博客，不需要服务器，不需要克隆到本地。内容用markdown，方便迁移。 - 代码作者[mebtte](https://github.com/mebtte/animal-photosynthesis) - [Demo](https://tomat......">
+  <title>Go测试chan是否会被自动GC - 似水流年</title>
+  <meta name="description" content="代码为内部技术群大佬写的  ```go package main  import (  &quot;runtime&quot;  &quot;unsafe&quot; )  type markBits struct {  bytep *uint8  mask  uint8  index uintptr }  //go:linkname i......">
+  <meta property="og:description" content="代码为内部技术群大佬写的  ```go package main  import (  &quot;runtime&quot;  &quot;unsafe&quot; )  type markBits struct {  bytep *uint8  mask  uint8  index uintptr }  //go:linkname i......">
 
-  <link rel="preload" href="https://blog.kikia.cc/e692a84ce3f40b569d1dd4341094430d.ttf" as="font" crossorigin="anonymous">
+  <link rel="preload" href="https://blog.kikia.cc/718951708b6710f0bdfff1147cbbbaf7.ttf" as="font" crossorigin="anonymous">
   <style>
     @font-face {
-      font-family: article_font_blog;
-      src: url(https://blog.kikia.cc/e692a84ce3f40b569d1dd4341094430d.ttf);
+      font-family: article_font_go-changc;
+      src: url(https://blog.kikia.cc/718951708b6710f0bdfff1147cbbbaf7.ttf);
     }
     article {
-      font-family: article_font_blog;
+      font-family: article_font_go-changc;
     }
   </style>
   
@@ -159,9 +159,9 @@
 
 <section class="article-header">
   <h1 class="article-title">
-    <a href="https://blog.kikia.cc/blog">5分钟无服务器部署markdown博客</a>
+    <a href="https://blog.kikia.cc/go-changc">Go测试chan是否会被自动GC</a>
   </h1>
-  <time class="article-publish-time">2023-01-03</time>
+  <time class="article-publish-time">2022-12-03</time>
 </section>
 
     <style>
@@ -406,33 +406,66 @@
 </style>
 
 <section>
-  <h3 id="">说明</h3>
-<ul>
-<li>使用Github Pages托管个人博客，不需要服务器，不需要克隆到本地。内容用markdown，方便迁移。</li>
-<li>代码作者<a href="https://github.com/mebtte/animal-photosynthesis">mebtte</a></li>
-<li><a href="https://tomatocuke.github.io">Demo</a></li>
-</ul>
-<h3 id="-1">快速部署</h3>
-<ul>
-<li>拷贝项目。可直接 fork <a href="https://github.com/tomatocuke/tomatocuke.github.io">此项目</a>到你自己的仓库，更改为你自己的<code>&lt;username&gt;.github.io</code>，否则无法使用。</li>
-<li>随便更改一下<code>article</code>里的文件并提交(加个句号之类)，以触发<code>.github/workflows/gh_pages.yml</code>，在<code>Actions</code>中查看进度。</li>
-<li>查看是否多出一个分支<code>gh-pages</code>，如果没有，再更改一下文件提交。（没搞懂为什么第一次不会触发，之后就OK了)</li>
-<li>进入 <code>Settings</code> &gt; <code>Pages</code>，更改<code>Branch</code>为<code>gh-pages</code>分支并保存. 此时可以看到你的网站地址 <code>https://&lt;username&gt;.github.io</code> (默认是markdown内容，等一会刷新)</li>
-</ul>
-<h3 id="-2">自定义域名(可选)</h3>
-<ul>
-<li>github的用户名及其难起，托管域名也就不好记，所以改为自定义域名。</li>
-<li>在云平台解析你所拥有的域名，记录类型为CNAME，记录值为你的托管域名<code>&lt;username&gt;.github.io</code>。</li>
-<li>进入 <code>Settings</code> &gt; <code>Pages</code>，更改<code>Custom domain</code> 为你所解析的域名，系统自动检查DNS解析。</li>
-<li>等待片刻后可以访问。若不成功有其他问题请参考<a href="https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site">官方文档</a></li>
-</ul>
-<h3 id="-3">配置与内容</h3>
-<ul>
-<li>配置。修改文件<code>script/config.js</code></li>
-<li>博客。以单独目录形式放在<code>article</code>目录下，直接添加文件<code>目录名/index.md</code>。</li>
-<li>写法。markdown博客的<a href="https://github.com/tomatocuke/tomatocuke.github.io/edit/main/articles/blog/index.md">前置写法参考</a>。如果之前已有markdown文章，字段不匹配，修改<code>scripts/utils/parse_article.js</code>底部。</li>
-<li>下方Discussions 在 Settings 里开通。 小蓝鸟如果不想要在<code>src/template/article/article_action.ejs</code>里注释掉</li>
-</ul>
+  <p>代码为内部技术群大佬写的</p>
+<pre><code class="go language-go">package main
+
+import (
+    "runtime"
+    "unsafe"
+)
+
+type markBits struct {
+    bytep *uint8
+    mask  uint8
+    index uintptr
+}
+
+//go:linkname isMarked runtime.markBits.isMarked
+func isMarked(m markBits) bool
+
+//go:linkname spanOf runtime.spanOf
+func spanOf(p uintptr) unsafe.Pointer
+
+//go:linkname objIndex runtime.(*mspan).objIndex
+func objIndex(s unsafe.Pointer, p uintptr) uintptr
+
+//go:linkname allocBitsForIndex runtime.(*mspan).allocBitsForIndex
+func allocBitsForIndex(s unsafe.Pointer, allocBitIndex uintptr) markBits
+
+func allocBitsForAddr(p uintptr) markBits {
+    s := spanOf(p)
+    objIndex := objIndex(s, p)
+    return allocBitsForIndex(s, objIndex)
+}
+
+var ca [10]chan int
+var pa [10]uintptr
+
+func main() {
+    for i := 0; i &lt; len(pa); i++ {
+        c := make(chan int, 10)
+        p := *(*uintptr)(unsafe.Pointer(&amp;c))
+        c &lt;- 1
+        c &lt;- 2
+        c &lt;- 3
+        ca[i] = c
+        pa[i] = p
+    }
+
+    for i := 0; i &lt; len(pa); i++ {
+        if i%2 == 0 {
+            continue
+        }
+        ca[i] = nil
+    }
+
+    runtime.GC()
+
+    for i := 0; i &lt; len(pa); i++ {
+        println(isMarked(allocBitsForAddr(pa[i])))
+    }
+}
+</code></pre>
 </section>
 
     
@@ -482,10 +515,10 @@
     使用 <a href="https://github.com/tomatocuke/tomatocuke.github.io/discussions">Discussions</a> 讨论
   </span>
   <span class="article-actions_action">
-    在 <a href="https://github.com/tomatocuke/tomatocuke.github.io/edit/main/articles/blog/index.md">Github</a> 上编辑
+    在 <a href="https://github.com/tomatocuke/tomatocuke.github.io/edit/main/articles/go-changc/index.md">Github</a> 上编辑
   </span>
   <span class="article-actions_action">
-    分享到 <a href="https://www.twitter.com/share?text=5%E5%88%86%E9%92%9F%E6%97%A0%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2markdown%E5%8D%9A%E5%AE%A2&amp;url=%2Fblog">Twitter</a>
+    分享到 <a href="https://www.twitter.com/share?text=Go%E6%B5%8B%E8%AF%95chan%E6%98%AF%E5%90%A6%E4%BC%9A%E8%A2%AB%E8%87%AA%E5%8A%A8GC&amp;url=%2Fgo-changc">Twitter</a>
   </span>
 </div>
 
