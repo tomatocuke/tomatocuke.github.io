@@ -1,7 +1,6 @@
 ---
 title: "5分钟无服务器部署markdown博客"
 date: "2023-01-03"
-updates: ["2023-01-10"]
 draft: false
 ---
 

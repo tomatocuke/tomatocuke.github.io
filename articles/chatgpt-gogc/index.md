@@ -1,10 +1,7 @@
 ---
 title: "我和ChatGPT掰扯GoGC这件事"
 date: "2022-12-08"
-categories:
-  - Golang
-
-toc: true
+draft: true
 ---
 
 最近`ChatGPT`很火，我也在尝鲜，探求它能解决那些问题，以及它的局限性。

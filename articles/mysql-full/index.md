@@ -88,20 +88,19 @@ date: "2022-12-24"
 
 
 ### 扩展概念（InnoDB)
-- [Buffer Pool](https://dev.mysql.com/doc/refman/8.0/en/innodb-buffer-pool.html)缓冲池。内存空间，专用服务器通常将80%的内存给缓冲池。查找数据时先将磁盘页读取到内存，在内存中查找或者更改，使用LRU算法。
-- [Change Buffer](https://dev.mysql.com/doc/refman/8.0/en/innodb-change-buffer.html)更改缓冲区。内存空间。当要修改的数据不在缓冲池时，减少读盘，先把修改记录在更改缓冲区中，稍后再刷盘
-- binlog。server层二进制文件，用作主从复制和数据恢复。
-- [Redo Log](https://dev.mysql.com/doc/refman/8.0/en/innodb-redo-log.html)重做日志。文件，满了后擦出前一部分循环写。记录对数据的更改，当程序突然崩溃，缓冲池数据未同步到磁盘丢失，依据重做日志恢复。（redo log减少写操作，不管磁盘页是否在缓冲池，都记录。 change buffer只在磁盘页不在缓冲池时记录。前者减少写盘，后者减少读盘)
-- [Undo Log](https://dev.mysql.com/doc/refman/8.0/en/innodb-undo-logs.html)撤销日志。是文件，记录旧版本行数据，应用在MVCC和事务回滚。
-- [binlog、redolog、undolog对比](https://kikia.cc/mysql-log)
-
-- [row format](https://dev.mysql.com/doc/refman/8.0/en/innodb-row-format.html)行格式，大于等于5.7版本的默认行格式都是Dynamic，主要是针对`varchar`和`text`，当字段数据过长，影响存储性能，设计溢出页，数据中存储指向溢出页的指针。（所以真的不要随便select *，会有额外的操作)
+1. [Buffer Pool](https://dev.mysql.com/doc/refman/8.0/en/innodb-buffer-pool.html)缓冲池。内存空间，专用服务器通常将80%的内存给缓冲池。查找数据时先将磁盘页读取到内存，在内存中查找或者更改，使用LRU算法。
+2. [Change Buffer](https://dev.mysql.com/doc/refman/8.0/en/innodb-change-buffer.html)更改缓冲区。内存空间。当要修改的数据不在缓冲池时，减少读盘，先把修改记录在更改缓冲区中，稍后再刷盘
+3. binlog。server层二进制文件，用作主从复制和数据恢复。
+4. [Redo Log](https://dev.mysql.com/doc/refman/8.0/en/innodb-redo-log.html)重做日志。文件，满了后擦出前一部分循环写。记录对数据的更改，当程序突然崩溃，缓冲池数据未同步到磁盘丢失，依据重做日志恢复。（redo log减少写操作，不管磁盘页是否在缓冲池，都记录。 change buffer只在磁盘页不在缓冲池时记录。前者减少写盘，后者减少读盘)
+5. Undo Log](https://dev.mysql.com/doc/refman/8.0/en/innodb-undo-logs.html)撤销日志。是文件，记录旧版本行数据，应用在MVCC和事务回滚。
+6. [binlog、redolog、undolog对比](https://kikia.cc/mysql-log)
+7. [row format](https://dev.mysql.com/doc/refman/8.0/en/innodb-row-format.html)行格式，大于等于5.7版本的默认行格式都是Dynamic，主要是针对`varchar`和`text`，当字段数据过长，影响存储性能，设计溢出页，数据中存储指向溢出页的指针。（所以真的不要随便select *，会有额外的操作)
   
-- 每行数据的[隐藏字段](https://dev.mysql.com/doc/refman/8.0/en/innodb-multi-versioning.html)
+8. 每行数据的[隐藏字段](https://dev.mysql.com/doc/refman/8.0/en/innodb-multi-versioning.html)
   1. 事务ID。6字节,该记录最新的创建或修改的事务ID，与MVCC有关。(执行删除时，其中一个特殊位标记为删除)
   2. 回滚指针。7字节,指向undo log中这条记录的上一个版本
   3. _rowid。6字节,如果有主键，其值为主键的值(或唯一索引的值)，否则自动生成，可直接select查看到
 
-- 数据读取方式
+9. 数据读取方式
   1. 快照读: 普通select都是快照读，读取数据的快照版本，基于MVCC和undo log，没有锁。
   2. 当前读: insert、update、delete 是当前读，读取数据的最新记录，可能发生等待。临键锁(行锁+间隙锁)实现
