@@ -25,15 +25,15 @@
     </url>
   
     <url>
-      <loc>https://blog.kikia.cc/go-util</loc>
-    </url>
-  
-    <url>
       <loc>https://blog.kikia.cc/go-shutdown</loc>
     </url>
   
     <url>
       <loc>https://blog.kikia.cc/go-jsonraw</loc>
+    </url>
+  
+    <url>
+      <loc>https://blog.kikia.cc/go-util</loc>
     </url>
   
     <url>

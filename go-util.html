@@ -57,11 +57,11 @@
   <meta name="description" content="### 类型转换 - `int`和`string` ```go func Int2String(i int) string {   return strconv.Itoa(i) }  func String2Int(s string) int {   i, err := strconv.Itoa(s......">
   <meta property="og:description" content="### 类型转换 - `int`和`string` ```go func Int2String(i int) string {   return strconv.Itoa(i) }  func String2Int(s string) int {   i, err := strconv.Itoa(s......">
 
-  <link rel="preload" href="https://blog.kikia.cc/65e785469ca3e6418a1e4c59b10e55fb.ttf" as="font" crossorigin="anonymous">
+  <link rel="preload" href="https://blog.kikia.cc/c9a36055765bb094b06a9dd272394f1d.ttf" as="font" crossorigin="anonymous">
   <style>
     @font-face {
       font-family: article_font_go-util;
-      src: url(https://blog.kikia.cc/65e785469ca3e6418a1e4c59b10e55fb.ttf);
+      src: url(https://blog.kikia.cc/c9a36055765bb094b06a9dd272394f1d.ttf);
     }
     article {
       font-family: article_font_go-util;
@@ -161,7 +161,7 @@
   <h1 class="article-title">
     <a href="https://blog.kikia.cc/go-util">Go中一些工具函数封装</a>
   </h1>
-  <time class="article-publish-time">2022-07-13</time>
+  <time class="article-publish-time">2022-03-13</time>
 </section>
 
     <style>
@@ -474,61 +474,30 @@ func Int2Ip(ip int) string {
     return net.IPv4(byte(ip&gt;&gt;24), byte(ip&gt;&gt;16), byte(ip&gt;&gt;8), byte(ip)).String()
 }
 </code></pre>
-<ul>
-<li><p>结构体转<code>map</code>，在刚开始写go的时候会有这种需求，是认识不足的表现，这是没必要且低效的，并不建议使用。不够可以参考这个看看反射。
-```go 
-// @structPtr 结构体指针
-// @ignoreNil 是否忽略空指针字段
-func Struct2Map(structPtr interface{}, ignoreNil bool) map[string]interface{} {
-obj := reflect.ValueOf(structPtr)
-// 不是结构体指针直接返回
-if obj.Kind() != reflect.Ptr || obj.Elem().Kind() != reflect.Struct {
-    return nil
-}
-v := obj.Elem()
-t := v.Type()
-n := v.NumField()</p>
-<p>myMap := make(map[string]interface{})
-for i := 0; i &lt; n; i++ {
-    itemVal := v.Field(i)
-    isPtr := itemVal.Kind() == reflect.Ptr
-    // 忽略空指针
-    if ignoreNil &amp;&amp; isPtr &amp;&amp; itemVal.IsNil() {
-        continue
-    }
-    // 需要有json标签
-    key := t.Field(i).Tag.Get("json")
-    if key == "" || key == "-" {
-        continue
-    }</p>
-<pre><code>myMap[key] = itemVal.Interface()
-</code></pre>
-<p>}
-return myMap
-}</p></li>
-</ul>
-<pre><code>### 随机数
-</code></pre>
-<p>go
-// 预定义字符集
+<h3 id="-1">随机数</h3>
+<pre><code class="go language-go">// 预定义字符集
 const (
     Number      = "0123456789"
     LowerLetter = "abcdefghijklmnopqrstuvwxyz"
     UpperLetter = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-)</p>
-<p>// 随机种子。这种方式为在初始化时固定随机种子
+)
+
+// 随机种子。这种方式为在初始化时固定随机种子
 func init() {
     rand.Seed(time.Now().UnixNano())
-}</p>
-<p>// 随机数
+}
+
+// 随机数
 func RandInt(max int) int {
     return rand.Intn(max)
-}</p>
-<p>// 随机字符串：数字+大写字母
+}
+
+// 随机字符串：数字+大写字母
 func RandString(length int) string {
     return RandStringWithCharset(length, Number+UpperLetter)
-}</p>
-<p>// 随机字符串：用户自定义字符集
+}
+
+// 随机字符串：用户自定义字符集
 func RandStringWithCharset(length int, letter string) string {
     b := make([]byte, length)
     r := rand.New(rand.NewSource(time.Now().UnixNano()))
@@ -536,45 +505,49 @@ func RandStringWithCharset(length int, letter string) string {
     for i := range b {
         b[i] = letter[r.Intn(n)]
     }
-    return <em>(</em>string)(unsafe.Pointer(&amp;b))
-}</p>
-<pre><code>### 时间
+    return *(*string)(unsafe.Pointer(&amp;b))
+}
 </code></pre>
-<p>go 
-// go1.20新增以下三个常量
+<h3 id="-2">时间</h3>
+<pre><code class="go language-go">// go1.20新增以下三个常量
 const (
     DateTime = "2006-01-02 15:04:05"
     DateOnly = "2006-01-02"
     TimeOnly = "15:04:05"
-)</p>
-<p>func Now() string {
+)
+
+func Now() string {
     return time.Now().Format(DateTime)
-}</p>
-<p>func DayStart(add int) time.Time {
+}
+
+func DayStart(add int) time.Time {
     y, m, d := time.Now().Date()
     return time.Date(y, m, d+add, 0, 0, 0, 0, time.Local)
-}</p>
-<p>func DayEnd(add int) time.Time {
+}
+
+func DayEnd(add int) time.Time {
     y, m, d := time.Now().Date()
     return time.Date(y, m, d+add, 23, 59, 59, 0, time.Local)
-}</p>
-<p>func MonthStart(add int) time.Time {
+}
+
+func MonthStart(add int) time.Time {
     y, m, _ := time.Now().Date()
     return time.Date(y, m+time.Month(add), 1, 0, 0, 0, 0, time.Local)
-}</p>
-<p>func MonthEnd(add int) time.Time {
+}
+
+func MonthEnd(add int) time.Time {
     y, m, _ := time.Now().Date()
     return time.Date(y, m+time.Month(add)+1, 1, 0, 0, 0, 0, time.Local).Add(-1 * time.Second)
-}</p>
-<pre><code>### 文件
+}
 </code></pre>
-<p>go 
-// 判断文件是否存在
+<h3 id="-3">文件</h3>
+<pre><code class="go language-go">// 判断文件是否存在
 func IsFileExist(name string) bool {
     _, err := os.Stat(name)
     return err == nil || !os.IsNotExist(err)
-}</p>
-<p>// 打开文件追加写。（自动创建目录和文件）
+}
+
+// 打开文件追加写。（自动创建目录和文件）
 func OpenFile(name string) (*os.File, error) {
     if !IsFileExist(name) {
         dir := filepath.Dir(name)
@@ -585,35 +558,38 @@ func OpenFile(name string) (*os.File, error) {
             }
         }
     }
-    f, err := os.OpenFile(name, os.O<em>RDWR|os.O</em>APPEND|os.O_CREATE, os.ModePerm)
+    f, err := os.OpenFile(name, os.O_RDWR|os.O_APPEND|os.O_CREATE, os.ModePerm)
     return f, err
-}</p>
-<pre><code>### http
+}
 </code></pre>
-<p>go </p>
-<p>var (
+<h3 id="http">http</h3>
+<pre><code class="go language-go">var (
     // 默认超时时间
     defaultTimeout = time.Second * 3
-)</p>
-<p>type Http struct {
+)
+
+type Http struct {
     request
     response
-}</p>
-<p>type request struct {
-    Url     string            <code>json:"url"</code>
-    Method  string            <code>json:"method"</code>
-    Timeout time.Duration     <code>json:"-"</code>
-    Header  map[string]string <code>json:"-"</code>
-    Params  string            <code>json:"params"</code>
-    Body    []byte            <code>json:"-"</code>
-}</p>
-<p>type response struct {
-    Cost   uint8           <code>json:"cost,omitempty"</code>
-    Err    error           <code>json:"error,omitempty"</code>
-    Status int             <code>json:"status"</code>
-    Body   json.RawMessage <code>json:"body"</code>
-}</p>
-<p>// Demo: pkg.HttpGet("http://xxx.com/yy", map[string]string{"a": "1"}).Do()
+}
+
+type request struct {
+    Url     string            `json:"url"`
+    Method  string            `json:"method"`
+    Timeout time.Duration     `json:"-"`
+    Header  map[string]string `json:"-"`
+    Params  string            `json:"params"`
+    Body    []byte            `json:"-"`
+}
+
+type response struct {
+    Cost   uint8           `json:"cost,omitempty"`
+    Err    error           `json:"error,omitempty"`
+    Status int             `json:"status"`
+    Body   json.RawMessage `json:"body"`
+}
+
+// Demo: pkg.HttpGet("http://xxx.com/yy", map[string]string{"a": "1"}).Do()
 func HttpGet(url string, params map[string]string) *Http {
     var h Http
     h.Method = http.MethodGet
@@ -623,98 +599,106 @@ func HttpGet(url string, params map[string]string) *Http {
         h.Url = url
     }
     return &amp;h
-}</p>
-<p>func HttpPostJson(url string, bodyData interface{}) *Http {
+}
+
+func HttpPostJson(url string, bodyData interface{}) *Http {
     var h Http
     h.Method = http.MethodPost
     h.Url = url
     h.Header = map[string]string{"Content-Type": "application/json"}
     h.request.Body, _ = json.Marshal(bodyData)
     return &amp;h
-}</p>
-<p>func HttpPostForm(url string, bodyData map[string]string) *Http {
+}
+
+func HttpPostForm(url string, bodyData map[string]string) *Http {
     var h Http
     h.Method = http.MethodPost
     h.Url = url
     h.Header = map[string]string{"Content-Type": "application/x-www-form-urlencoded"}
     h.request.Body = h.buildQuery(bodyData)
     return &amp;h
-}</p>
-<p>func (h *Http) SetTimeout(timeout time.Duration) *Http {
+}
+
+func (h *Http) SetTimeout(timeout time.Duration) *Http {
     h.Timeout = timeout
     return h
-}</p>
-<p>func (h *Http) AddHeader(key, val string) *Http {
+}
+
+func (h *Http) AddHeader(key, val string) *Http {
     if len(h.Header) == 0 {
         h.Header = make(map[string]string)
     }
     h.Header[key] = val
     return h
-}</p>
-<p>func (h *Http) Do() ([]byte, error) {
+}
+
+func (h *Http) Do() ([]byte, error) {
     var (
         req    *http.Request
         client *http.Client
         resp   *http.Response
     )
-    defer h.printLog(time.Now())</p>
-<pre><code>req, h.Err = http.NewRequest(h.Method, h.Url, bytes.NewReader(h.request.Body))
-if h.Err != nil {
-    return nil, h.Err
+    defer h.printLog(time.Now())
+
+    req, h.Err = http.NewRequest(h.Method, h.Url, bytes.NewReader(h.request.Body))
+    if h.Err != nil {
+        return nil, h.Err
+    }
+
+    for k, v := range h.Header {
+        req.Header.Set(k, v)
+    }
+    if h.Timeout == 0 {
+        h.Timeout = defaultTimeout
+    }
+
+    // 发送请求
+    client = &amp;http.Client{Timeout: h.Timeout}
+    resp, h.Err = client.Do(req)
+    if h.Err != nil {
+        return nil, h.Err
+    }
+    defer resp.Body.Close()
+
+    h.response.Status = resp.StatusCode
+    if resp.StatusCode != http.StatusOK {
+        return nil, errors.New("")
+    }
+
+    h.response.Body, _ = io.ReadAll(resp.Body)
+    return h.response.Body, h.Err
 }
 
-for k, v := range h.Header {
-    req.Header.Set(k, v)
-}
-if h.Timeout == 0 {
-    h.Timeout = defaultTimeout
-}
-
-// 发送请求
-client = &amp;http.Client{Timeout: h.Timeout}
-resp, h.Err = client.Do(req)
-if h.Err != nil {
-    return nil, h.Err
-}
-defer resp.Body.Close()
-
-h.response.Status = resp.StatusCode
-if resp.StatusCode != http.StatusOK {
-    return nil, errors.New("")
-}
-
-h.response.Body, _ = io.ReadAll(resp.Body)
-return h.response.Body, h.Err
-</code></pre>
-<p>}</p>
-<p>func (h *Http) IsOK() bool {
+func (h *Http) IsOK() bool {
     return h.Status == http.StatusOK
-}</p>
-<p>func (h *Http) buildQuery(params map[string]string) []byte {
+}
+
+func (h *Http) buildQuery(params map[string]string) []byte {
     if len(params) == 0 {
         return nil
-    }</p>
-<pre><code>buffer := &amp;bytes.Buffer{}
-var i int
-for k := range params {
-    buffer.WriteString(k)
-    buffer.WriteByte('=')
-    buffer.WriteString(params[k])
-    if i != len(params)-1 {
-        buffer.WriteByte('&amp;')
     }
-    i++
+
+    buffer := &amp;bytes.Buffer{}
+    var i int
+    for k := range params {
+        buffer.WriteString(k)
+        buffer.WriteByte('=')
+        buffer.WriteString(params[k])
+        if i != len(params)-1 {
+            buffer.WriteByte('&amp;')
+        }
+        i++
+    }
+
+    return buffer.Bytes()
 }
 
-return buffer.Bytes()
-</code></pre>
-<p>}</p>
-<p>func (h *Http) printLog(start time.Time) {
+func (h *Http) printLog(start time.Time) {
     h.Cost = uint8(time.Since(start).Seconds())
     bs, _ := json.Marshal(h)
     log.Writer().Write(bs)
 }
-```</p>
+</code></pre>
 </section>
 
     
