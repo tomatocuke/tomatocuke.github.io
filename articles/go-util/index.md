@@ -1,6 +1,6 @@
 ---
 title: "Go中一些工具函数封装"
-date: "2022-07-13"
+date: "2022-03-13"
 ---
 
 ### 类型转换
@@ -72,40 +72,6 @@ func Int2Ip(ip int) string {
 }
 ```
 
-- 结构体转`map`，在刚开始写go的时候会有这种需求，是认识不足的表现，这是没必要且低效的，并不建议使用。不够可以参考这个看看反射。
-```go 
-// @structPtr 结构体指针
-// @ignoreNil 是否忽略空指针字段
-func Struct2Map(structPtr interface{}, ignoreNil bool) map[string]interface{} {
-	obj := reflect.ValueOf(structPtr)
-	// 不是结构体指针直接返回
-	if obj.Kind() != reflect.Ptr || obj.Elem().Kind() != reflect.Struct {
-		return nil
-	}
-	v := obj.Elem()
-	t := v.Type()
-	n := v.NumField()
-
-	myMap := make(map[string]interface{})
-	for i := 0; i < n; i++ {
-		itemVal := v.Field(i)
-		isPtr := itemVal.Kind() == reflect.Ptr
-		// 忽略空指针
-		if ignoreNil && isPtr && itemVal.IsNil() {
-			continue
-		}
-		// 需要有json标签
-		key := t.Field(i).Tag.Get("json")
-		if key == "" || key == "-" {
-			continue
-		}
-
-		myMap[key] = itemVal.Interface()
-	}
-	return myMap
-}
-```
-
 
 ### 随机数
 
@@ -146,7 +112,7 @@ func RandStringWithCharset(length int, letter string) string {
 
 
 ### 时间
-```go 
+```go
 // go1.20新增以下三个常量
 const (
 	DateTime = "2006-01-02 15:04:05"
@@ -182,7 +148,7 @@ func MonthEnd(add int) time.Time {
 
 
 ### 文件
-```go 
+```go
 // 判断文件是否存在
 func IsFileExist(name string) bool {
 	_, err := os.Stat(name)
@@ -207,8 +173,7 @@ func OpenFile(name string) (*os.File, error) {
 ```
 
 ### http
-```go 
-
+```go
 var (
 	// 默认超时时间
 	defaultTimeout = time.Second * 3
