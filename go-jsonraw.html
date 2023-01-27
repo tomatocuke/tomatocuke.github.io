@@ -415,6 +415,7 @@
 }
 </code></pre>
 <p>情境一：不解析。查看18岁及以上的人，行程里是否去过北京。那么对于<code>Age &lt; 18</code> 岁的人就不必解析<code>Journey</code>
+<br>
 情景二：解析到异构。国家要统一行程数据，但是之前各省都开发了自己的软件，字段不统一。那汇总的时候<code>Journey</code>应该是根据<code>Source</code>来源去分别解析到几个不同的结构体上去判别，而那些不需要的字段，不必从里边解析出来。</p>
 <h4 id="-1">二、源码</h4>
 <pre><code class="go language-go">// RawMessage is a raw encoded JSON value.

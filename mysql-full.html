@@ -515,27 +515,21 @@
 <li>以<code>varchar(10)</code>举例，它实际占用的大小可能在10-40字节(全是英文或全是emoji)，但是该字段索引长度为43(4*10+2字节长度+1字节是否null)</li>
 </ol>
 <h3 id="innodb">扩展概念（InnoDB)</h3>
-<ul>
+<ol>
 <li><p><a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-buffer-pool.html">Buffer Pool</a>缓冲池。内存空间，专用服务器通常将80%的内存给缓冲池。查找数据时先将磁盘页读取到内存，在内存中查找或者更改，使用LRU算法。</p></li>
 <li><p><a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-change-buffer.html">Change Buffer</a>更改缓冲区。内存空间。当要修改的数据不在缓冲池时，减少读盘，先把修改记录在更改缓冲区中，稍后再刷盘</p></li>
 <li><p>binlog。server层二进制文件，用作主从复制和数据恢复。</p></li>
 <li><p><a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-redo-log.html">Redo Log</a>重做日志。文件，满了后擦出前一部分循环写。记录对数据的更改，当程序突然崩溃，缓冲池数据未同步到磁盘丢失，依据重做日志恢复。（redo log减少写操作，不管磁盘页是否在缓冲池，都记录。 change buffer只在磁盘页不在缓冲池时记录。前者减少写盘，后者减少读盘)</p></li>
-<li><p><a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-undo-logs.html">Undo Log</a>撤销日志。是文件，记录旧版本行数据，应用在MVCC和事务回滚。</p></li>
+<li><p>Undo Log](https://dev.mysql.com/doc/refman/8.0/en/innodb-undo-logs.html)撤销日志。是文件，记录旧版本行数据，应用在MVCC和事务回滚。</p></li>
 <li><p><a href="https://kikia.cc/mysql-log">binlog、redolog、undolog对比</a></p></li>
 <li><p><a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-row-format.html">row format</a>行格式，大于等于5.7版本的默认行格式都是Dynamic，主要是针对<code>varchar</code>和<code>text</code>，当字段数据过长，影响存储性能，设计溢出页，数据中存储指向溢出页的指针。（所以真的不要随便select *，会有额外的操作)</p></li>
 <li><p>每行数据的<a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-multi-versioning.html">隐藏字段</a></p></li>
-</ul>
-<ol>
-<li>事务ID。6字节,该记录最新的创建或修改的事务ID，与MVCC有关。(执行删除时，其中一个特殊位标记为删除)</li>
-<li>回滚指针。7字节,指向undo log中这条记录的上一个版本</li>
-<li>_rowid。6字节,如果有主键，其值为主键的值(或唯一索引的值)，否则自动生成，可直接select查看到</li>
-</ol>
-<ul>
-<li>数据读取方式</li>
-</ul>
-<ol>
-<li>快照读: 普通select都是快照读，读取数据的快照版本，基于MVCC和undo log，没有锁。</li>
-<li>当前读: insert、update、delete 是当前读，读取数据的最新记录，可能发生等待。临键锁(行锁+间隙锁)实现</li>
+<li><p>事务ID。6字节,该记录最新的创建或修改的事务ID，与MVCC有关。(执行删除时，其中一个特殊位标记为删除)</p></li>
+<li><p>回滚指针。7字节,指向undo log中这条记录的上一个版本</p></li>
+<li><p>_rowid。6字节,如果有主键，其值为主键的值(或唯一索引的值)，否则自动生成，可直接select查看到</p></li>
+<li><p>数据读取方式</p></li>
+<li><p>快照读: 普通select都是快照读，读取数据的快照版本，基于MVCC和undo log，没有锁。</p></li>
+<li><p>当前读: insert、update、delete 是当前读，读取数据的最新记录，可能发生等待。临键锁(行锁+间隙锁)实现</p></li>
 </ol>
 </section>
 

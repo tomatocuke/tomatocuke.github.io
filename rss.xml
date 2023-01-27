@@ -13,7 +13,7 @@
       <![CDATA[]]>
     </description>
     <link>https://blog.kikia.cc</link>
-    <lastBuildDate>2023-01-12T06:58:02.901Z</lastBuildDate>
+    <lastBuildDate>2023-01-27T01:48:57.173Z</lastBuildDate>
     
       <item>
         <title>
@@ -49,18 +49,6 @@
         <link>https://blog.kikia.cc/chatgpt-item</link>
         <guid isPermaLink="false">chatgpt-item</guid>
         <pubDate>2022-12-10T00:00:00.000Z</pubDate>
-      </item>
-    
-      <item>
-        <title>
-          <![CDATA[我和ChatGPT掰扯GoGC这件事]]>
-        </title>
-        <description>
-          <![CDATA[最近`ChatGPT`很火，我也在尝鲜，探求它能解决那些问题，以及它的局限性。  我发现它在小段特定功能代码的生成是很出色的，但是它不能预测，不能对复杂问题有效把握重点。甚至有时候像小学生一样嘴犟。   &lt;!--more--&gt;   以下是我们的对话：  ![在这里插入图片描述](https://im...]]>
-        </description>
-        <link>https://blog.kikia.cc/chatgpt-gogc</link>
-        <guid isPermaLink="false">chatgpt-gogc</guid>
-        <pubDate>2022-12-08T00:00:00.000Z</pubDate>
       </item>
     
       <item>
@@ -149,18 +137,6 @@
     
       <item>
         <title>
-          <![CDATA[树莓派(一): 联网、固定ip、改为64位、内网穿透]]>
-        </title>
-        <description>
-          <![CDATA[折腾一下，云服务器和nas都偏贵.  买的4B版 4G内存树莓派，包括主板、电源、外壳、散热片。自己外接鼠标、键盘、HDMI线（它这个是小头，最好买机器的时候直接附带买了）  &lt;!--more--&gt;  #####  一、WIFI联网 1. 树莓派连接显示器直接连接 2. 树莓派网线连接电脑登录 ``...]]>
-        </description>
-        <link>https://blog.kikia.cc/pi-1</link>
-        <guid isPermaLink="false">pi-1</guid>
-        <pubDate>2021-02-06T00:00:00.000Z</pubDate>
-      </item>
-    
-      <item>
-        <title>
           <![CDATA[树莓派(二): 扩展SD卡剩余空间]]>
         </title>
         <description>
@@ -168,6 +144,18 @@
         </description>
         <link>https://blog.kikia.cc/pi-2</link>
         <guid isPermaLink="false">pi-2</guid>
+        <pubDate>2021-02-07T00:00:00.000Z</pubDate>
+      </item>
+    
+      <item>
+        <title>
+          <![CDATA[树莓派(一): 联网、固定ip、改为64位、内网穿透]]>
+        </title>
+        <description>
+          <![CDATA[折腾一下，云服务器和nas都偏贵.  买的4B版 4G内存树莓派，包括主板、电源、外壳、散热片。自己外接鼠标、键盘、HDMI线（它这个是小头，最好买机器的时候直接附带买了）  &lt;!--more--&gt;  #####  一、WIFI联网 1. 树莓派连接显示器直接连接 2. 树莓派网线连接电脑登录 ``...]]>
+        </description>
+        <link>https://blog.kikia.cc/pi-1</link>
+        <guid isPermaLink="false">pi-1</guid>
         <pubDate>2021-02-06T00:00:00.000Z</pubDate>
       </item>
     
