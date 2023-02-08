@@ -12,6 +12,6 @@ draft: true
 定了解。
 - Redis。掌握各基础类型的应用，用作缓存、分布式锁等，懂持久化机制、缓存穿透雪崩问题。
 - Vue。前端技术也挺不错的，写过后台管理系统。
-- Docker。搭建的服务：[自写OpenAI公众号](https://github.com/tomatocuke/chatgpt)、[我的树莓派仪表盘](https://kikia.cc/pi/)、[开源云盘](https://pan.viavia.fun) (账号:demo，密码:123456) 、[开源showdoc文档](https://www.viavia.fun/doc/web/#/1/2)
+- Docker。搭建的服务：[自己写的基于OpenAI-GPT-3的公众号自动回复](https://github.com/tomatocuke/openai)、[我的树莓派仪表盘](https://kikia.cc/pi/)、[开源云盘](https://pan.viavia.fun) (账号:demo，密码:123456) 、[开源showdoc文档](https://www.viavia.fun/doc/web/#/1/2)
 - Linux。 部署项目、维护、排查都是没问题的， 用过Ubuntu、CentOS、树莓派系统。
 - 其他。 阿里云服务器、OSS、公众号、小程序。
